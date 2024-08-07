@@ -5,21 +5,21 @@ import * as patientApi from "@/api/core/patient";
 import { message } from "@/utils/message";
 import type { FormInstance } from "element-plus";
 import { cloneDeep } from "@pureadmin/utils";
-const checkRoleCode = (rule: any, value: any, callback: any) => {
-  if (value === "") {
-    callback(new Error("请输入角色编码"));
-  } else {
-    const id = pageData.formData.id;
-    patientApi.checkCode(value, id).then((res: any) => {
-      if (res.success) {
-        if (res.result) {
-          callback(new Error("编码重复"));
-        }
-      }
-    });
-    callback();
-  }
-};
+// const checkRoleCode = (rule: any, value: any, callback: any) => {
+//   if (value === "") {
+//     callback(new Error("请输入角色编码"));
+//   } else {
+//     const id = pageData.formData.id;
+//     patientApi.checkCode(value, id).then((res: any) => {
+//       if (res.success) {
+//         if (res.result) {
+//           callback(new Error("编码重复"));
+//         }
+//       }
+//     });
+//     callback();
+//   }
+// };
 const formRef = ref<FormInstance>();
 const pageData: any = reactive({
   dialogVisible: false,
@@ -34,8 +34,8 @@ const pageData: any = reactive({
   },
   formRules: {
     roleCode: [
-      { required: true, message: "请输入角色编码", trigger: "blur" },
-      { validator: checkRoleCode, trigger: "blur" }
+      { required: true, message: "请输入角色编码", trigger: "blur" }
+      // { validator: checkRoleCode, trigger: "blur" }
     ],
     roleName: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
     enabled: [{ required: true, message: "请选择状态", trigger: "change" }]
@@ -75,7 +75,7 @@ const _save = () => {
   pageData.formLoading = true;
   const _data = cloneDeep(pageData.formData);
   patientApi
-    .roleSave(_data)
+    .patientSave(_data)
     .then((res: any) => {
       if (res.success) {
         _confirm();
@@ -91,7 +91,7 @@ const _update = () => {
   pageData.formLoading = true;
   const _data = cloneDeep(pageData.formData);
   patientApi
-    .roleUpdate(pageData.formData.id, _data)
+    .patientUpdate(pageData.formData.id, _data)
     .then((res: any) => {
       if (res.success) {
         _confirm();
