@@ -33,10 +33,10 @@ const expandedFormData = reactive<{ [key: number]: any }>({});
 const pageData: any = reactive({
   permission: {
     query: [],
-    add: ["role:save"],
-    update: ["role:update"],
-    delete: ["role:del"],
-    permission: ["role:permission"]
+    add: ["patient:save"],
+    update: ["patient:update"],
+    delete: ["patient:del"],
+    general_update: ["general:update"]
   },
   searchState: true,
   searchField: [
@@ -80,7 +80,7 @@ const pageData: any = reactive({
         type: "primary",
         icon: "ep:plus",
         state: true,
-        permission: ["org:save"]
+        permission: ["patient:save"]
       }
     ],
     right: [
@@ -402,7 +402,7 @@ const mainFormColumns: PlusColumn[] = [
     label: "BMI指数",
     prop: "bmi",
     valueType: "input-number",
-    fieldProps: { precision: 2, step: 2 }
+    fieldProps: { precision: 2, step: 1 }
   }
 ];
 
@@ -554,9 +554,9 @@ const handleBtnClick = (action: string) => {
   }
 };
 
-// const handleEdit = (data: any) => {
-//   patientEditRef.value?.open(data, "修改患者信息");
-// };
+const handleEdit = (data: any) => {
+  patientEditRef.value?.open(data, "修改患者信息");
+};
 
 const handleFormChange = (
   values: FieldValues,
@@ -702,7 +702,7 @@ const handleExpand = (row: any, expanded: boolean) => {
   if (expanded) {
     if (!expandedFormData[row.id]) {
       expandedFormData[row.id] = {
-        main: { ...row, sex: row.sex === 0 ? "女" : "男" },
+        main: { ...row },
         general: {},
         medical: {}
       };
@@ -726,13 +726,21 @@ const editState = reactive({
 });
 
 // 权限检查函数（示例）
-const checkEditPermission = (type: string) => {
-  // 这里应该实现实际的权限检查逻辑
-  return true; // 假设用户有权限
+const checkEditPermission = (type: string): boolean => {
+  // 检查当前用户是否有 general_update 权限
+  if (type === "general") {
+    return hasAuth(pageData.permission.general_update);
+  } else {
+    // 其他类型的权限检查逻辑
+    return true; // 假设用户有权限
+  }
 };
 
 // 处理编辑按钮点击
-const handleEdit = (rowId: number, type: "general" | "medical") => {
+const handleGeneralEdit = (
+  rowId: number,
+  type: "general" | "medical"
+): void => {
   if (checkEditPermission(type)) {
     editState[type][rowId] = !editState[type][rowId];
   } else {
@@ -782,14 +790,56 @@ const someApiCall = async (values: FieldValues) => {
 
 // 主表单处理函数
 const handleMainFormSubmit = async (values: FieldValues): Promise<void> => {
-  try {
-    console.log("主表单提交:", values);
-    await someApiCall(values);
-    ElMessage.success("主表单提交成功");
-  } catch (error) {
-    console.error("主表单提交失败", error);
-    ElMessage.error("主表单提交失败，请重试");
-  }
+  // try {
+  //   console.log("主表单提交:", values);
+  //   await someApiCall(values);
+  //   ElMessage.success("主表单提交成功");
+  // } catch (error) {
+  //   console.error("主表单提交失败", error);
+  //   ElMessage.error("主表单提交失败，请重试");
+  // }
+  // pageData.formParam.loading = true;
+  // patientApi
+  //   .patientUpdate(values.id, values)
+  //   .then(res => {
+  //     if (res.success) {
+  //       ElMessage.success("主表单提交成功");
+  //     } else {
+  //       console.error("主表单提交失败", res.message);
+  //       ElMessage.error("主表单提交失败，请重试");
+  //     }
+  //   })
+  //   .finally(() => {
+  //     pageData.formParam.loading = false;
+  //   });
+  pageData.tableParams.loading = true;
+
+  // 将 id 转换为字符串
+  const id = String(values.id);
+  console.log(id);
+  // 创建一个新的对象，排除 id 字段
+  const { id: _, ...updateData } = values;
+
+  patientApi
+    .patientUpdate(id, updateData)
+    .then(res => {
+      if (res.success) {
+        ElMessage.success("主表单提交成功");
+        // 更新本地数据
+        expandedFormData[id].main = { ...values };
+        // 可能需要重新加载表格数据
+        loadTableData();
+      } else {
+        throw new Error(res.message || "未知错误");
+      }
+    })
+    .catch(error => {
+      console.error("主表单提交失败", error);
+      ElMessage.error(`主表单提交失败：${error.message || "请重试"}`);
+    })
+    .finally(() => {
+      pageData.tableParams.loading = false;
+    });
 };
 
 // 修改主表单重置函数
@@ -975,7 +1025,7 @@ onMounted(() => {
                   <div class="form-header">
                     <h3>一般资料</h3>
                     <el-button
-                      @click="handleEdit(row.id, 'general')"
+                      @click="handleGeneralEdit(row.id, 'general')"
                       type="primary"
                       size="small"
                     >
@@ -1020,7 +1070,7 @@ onMounted(() => {
                   <div class="form-header">
                     <h3>病历资料</h3>
                     <el-button
-                      @click="handleEdit(row.id, 'medical')"
+                      @click="handleGeneralEdit(row.id, 'medical')"
                       type="primary"
                       size="small"
                     >
