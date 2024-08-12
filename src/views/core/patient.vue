@@ -15,6 +15,7 @@ import { enableConvert, enabledBooleanConvert } from "@/constants/convert";
 import { enableOptions } from "@/constants/constants";
 import * as patientApi from "@/api/core/patient";
 import * as generalApi from "@/api/core/general";
+import * as caseApi from "@/api/core/case";
 import "plus-pro-components/es/components/form/style/css";
 import { ElMessage } from "element-plus";
 
@@ -25,7 +26,7 @@ const patientEditRef = ref();
 // const currentRowId = ref(null);
 const rowActiveNames = ref<{ [key: number]: CollapseModelValue }>({});
 const rowDataLoading = ref<{
-  [key: number]: { general: boolean; medical: boolean };
+  [key: number]: { general: boolean; case: boolean };
 }>({});
 const expandedFormData = reactive<{ [key: number]: any }>({});
 
@@ -176,7 +177,7 @@ const mockData = [
     address: "北京市朝阳区",
     inputStatus: "已完成",
     general: {},
-    medical: {}
+    case: {}
   },
   {
     id: 2,
@@ -188,7 +189,7 @@ const mockData = [
     address: "上海市浦东新区",
     inputStatus: "进行中",
     general: {},
-    medical: {}
+    case: {}
   },
   {
     id: 3,
@@ -287,20 +288,20 @@ const mockData = [
 // ];
 
 // 病历资料模拟数据
-const mockMedicalData = [
-  {
-    id: 3,
-    admissionUltrasound: "未做",
-    uSize: "",
-    uBloodSignal: null
-  },
-  {
-    id: 1,
-    admissionUltrasound: "左",
-    uSize: "10",
-    uBloodSignal: "true"
-  }
-];
+// const mockCaseData = [
+//   {
+//     id: 3,
+//     admissionUltrasound: "未做",
+//     uSize: "",
+//     uBloodSignal: null
+//   },
+//   {
+//     id: 1,
+//     admissionUltrasound: "左",
+//     uSize: "10",
+//     uBloodSignal: "true"
+//   }
+// ];
 
 // 表单验证规则
 const rules = {
@@ -432,65 +433,571 @@ const generalFormColumns: PlusColumn[] = [
 ];
 
 // 生成病历资料表单列
-const generateMedicalColumns = (rowId: number): PlusColumn[] => {
+// const generateCaseColumns = (rowId: number): PlusColumn[] => {
+//   const row = expandedFormData[rowId];
+//   const isDisabled =
+//     !row ||
+//     !row.case?.admissionUltrasound ||
+//     row.case.admissionUltrasound === "未做";
+
+//   return [
+//     {
+//       label: "入院超声",
+//       width: 120,
+//       prop: "admissionUltrasound",
+//       valueType: "select",
+//       colProps: { span: 12 },
+//       fieldProps: {
+//         placeholder: "请选择状态"
+//       },
+//       options: [
+//         { label: "未做", value: "未做", color: "red" },
+//         { label: "左", value: "左", color: "blue" },
+//         { label: "右", value: "右", color: "yellow" },
+//         { label: "双侧", value: "双侧", color: "green" }
+//       ]
+//     },
+//     {
+//       label: "大小/cm",
+//       width: 120,
+//       prop: "uSize",
+//       valueType: "copy",
+//       colProps: { span: 12 },
+//       fieldProps: {
+//         placeholder: "请输入大小",
+//         disabled: isDisabled
+//       }
+//     },
+//     {
+//       label: "血流信号",
+//       width: 120,
+//       prop: "uBloodSignal",
+//       valueType: "select",
+//       colProps: { span: 12 },
+//       fieldProps: {
+//         placeholder: "请选择",
+//         disabled: isDisabled
+//       },
+//       options: [
+//         { label: "有", value: "true", color: "red" },
+//         { label: "无", value: "false", color: "blue" }
+//       ]
+//     },
+//     {
+//       label: "BIRADS",
+//       width: 120,
+//       prop: "uBirads",
+//       valueType: "copy",
+//       colProps: { span: 12 },
+//       fieldProps: {
+//         placeholder: "请输入类别",
+//         disabled: isDisabled
+//       }
+//     }
+//   ] as PlusColumn[];
+// };
+const generateCaseColumns = (rowId: number): PlusColumn[] => {
   const row = expandedFormData[rowId];
-  const isDisabled =
-    !row ||
-    !row.medical?.admissionUltrasound ||
-    row.medical.admissionUltrasound === "未做";
+
+  const isUltrasoundDisabled =
+    !row || !row.case?.ultrasoundStatus || row.case.ultrasoundStatus === 0;
+
+  const isMammographyDisabled =
+    !row || !row.case?.mammographyStatus || row.case.mammographyStatus === 0;
+
+  const isMriDisabled =
+    !row || !row.case?.mriStatus || row.case.mriStatus === 0;
+
+  const isBreastCoreNeedleDisabled =
+    !row || !row.case?.breastCoreNeedle || row.case.breastCoreNeedle === 0;
+
+  const isAxillaryCoreNeedleDisabled =
+    !row || !row.case?.axillaryCoreNeedle || row.case.axillaryCoreNeedle === 0;
+
+  const isAxillaryFineNeedleDisabled =
+    !row || !row.case?.axillaryFineNeedle || row.case.axillaryFineNeedle === 0;
+
+  const isIhcDisabled =
+    !row || !row.case?.ihcResult || row.case.ihcResult === 0;
 
   return [
+    // 入院超声检查
     {
-      label: "入院超声",
+      label: "入院超声状态",
       width: 120,
-      prop: "admissionUltrasound",
+      prop: "ultrasoundStatus",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择状态"
       },
       options: [
-        { label: "未做", value: "未做", color: "red" },
-        { label: "左", value: "左", color: "blue" },
-        { label: "右", value: "右", color: "yellow" },
-        { label: "双侧", value: "双侧", color: "green" }
+        { label: "未做", value: 0, color: "red" },
+        { label: "左", value: 1, color: "blue" },
+        { label: "右", value: 2, color: "yellow" },
+        { label: "双侧", value: 3, color: "green" }
       ]
     },
     {
-      label: "大小/cm",
+      label: "超声大小/cm",
       width: 120,
-      prop: "uSize",
+      prop: "ultrasoundSize",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入大小",
-        disabled: isDisabled
+        disabled: isUltrasoundDisabled
       }
     },
     {
       label: "血流信号",
       width: 120,
-      prop: "uBloodSignal",
+      prop: "ultrasoundBloodFlow",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择",
-        disabled: isDisabled
+        disabled: isUltrasoundDisabled
       },
       options: [
-        { label: "有", value: "true", color: "red" },
-        { label: "无", value: "false", color: "blue" }
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
       ]
     },
     {
       label: "BIRADS",
       width: 120,
-      prop: "uBirads",
+      prop: "ultrasoundBirads",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入类别",
-        disabled: isDisabled
+        disabled: isUltrasoundDisabled
+      }
+    },
+
+    // 入院钼靶检查
+    {
+      label: "入院钼靶状态",
+      width: 120,
+      prop: "mammographyStatus",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择状态"
+      },
+      options: [
+        { label: "未做", value: 0, color: "red" },
+        { label: "左", value: 1, color: "blue" },
+        { label: "右", value: 2, color: "yellow" },
+        { label: "双侧", value: 3, color: "green" }
+      ]
+    },
+    {
+      label: "钼靶大小/cm",
+      width: 120,
+      prop: "mammographySize",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入大小",
+        disabled: isMammographyDisabled
+      }
+    },
+    {
+      label: "细小钙化影",
+      width: 120,
+      prop: "mammographyAggregation",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMammographyDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "BIRADS",
+      width: 120,
+      prop: "mammographyBirads",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入类别",
+        disabled: isMammographyDisabled
+      }
+    },
+
+    // 入院乳腺核磁检查
+    {
+      label: "入院乳腺核磁状态",
+      width: 120,
+      prop: "mriStatus",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择状态"
+      },
+      options: [
+        { label: "未做", value: 0, color: "red" },
+        { label: "左", value: 1, color: "blue" },
+        { label: "右", value: 2, color: "yellow" },
+        { label: "双侧", value: 3, color: "green" }
+      ]
+    },
+    {
+      label: "乳腺大小/cm",
+      width: 120,
+      prop: "mriSize",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入大小",
+        disabled: isMriDisabled
+      }
+    },
+    {
+      label: "增强信号",
+      width: 120,
+      prop: "mriBloodFlow",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMriDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "BIRADS",
+      width: 120,
+      prop: "mriBirads",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入类别",
+        disabled: isMriDisabled
+      }
+    },
+
+    // 血常规检查
+    {
+      label: "白细胞计数",
+      width: 120,
+      prop: "wbc",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入白细胞计数"
+      }
+    },
+    {
+      label: "红细胞计数",
+      width: 120,
+      prop: "rbc",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入红细胞计数"
+      }
+    },
+    {
+      label: "血小板计数",
+      width: 120,
+      prop: "platelets",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入血小板计数"
+      }
+    },
+
+    // 肝功能检查
+    {
+      label: "谷丙转氨酶",
+      width: 120,
+      prop: "alt",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入谷丙转氨酶"
+      }
+    },
+    {
+      label: "谷草转氨酶",
+      width: 120,
+      prop: "ast",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入谷草转氨酶"
+      }
+    },
+    {
+      label: "碱性磷酸酶",
+      width: 120,
+      prop: "alkalinePhosphatase",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入碱性磷酸酶"
+      }
+    },
+
+    // 肾功能检查
+    {
+      label: "血肌酐",
+      width: 120,
+      prop: "creatinine",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入血肌酐"
+      }
+    },
+    {
+      label: "血清尿素",
+      width: 120,
+      prop: "urea",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入血清尿素"
+      }
+    },
+    {
+      label: "尿酸",
+      width: 120,
+      prop: "uricAcid",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入尿酸"
+      }
+    },
+
+    // 入院乳腺核心针检查
+    {
+      label: "入院乳腺核心针",
+      width: 120,
+      prop: "breastCoreNeedle",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择是否进行"
+      },
+      options: [
+        { label: "未做", value: 0, color: "red" },
+        { label: "做了", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "乳腺核心针大小/cm",
+      width: 120,
+      prop: "breastCoreNeedleSize",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入大小",
+        disabled: isBreastCoreNeedleDisabled
+      }
+    },
+    {
+      label: "乳腺核心针组织学",
+      width: 120,
+      prop: "breastCoreNeedleHistology",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入组织学结果",
+        disabled: isBreastCoreNeedleDisabled
+      }
+    },
+    {
+      label: "乳腺核心针IHC",
+      width: 120,
+      prop: "breastCoreNeedleIhc",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入IHC结果",
+        disabled: isBreastCoreNeedleDisabled
+      }
+    },
+
+    // 入院腋窝核心针检查
+    {
+      label: "入院腋窝核心针",
+      width: 120,
+      prop: "axillaryCoreNeedle",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择是否进行"
+      },
+      options: [
+        { label: "未做", value: 0, color: "red" },
+        { label: "做了", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "腋窝核心针大小/cm",
+      width: 120,
+      prop: "axillaryCoreNeedleSize",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入大小",
+        disabled: isAxillaryCoreNeedleDisabled
+      }
+    },
+    {
+      label: "腋窝核心针组织学",
+      width: 120,
+      prop: "axillaryCoreNeedleHistology",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入组织学结果",
+        disabled: isAxillaryCoreNeedleDisabled
+      }
+    },
+    {
+      label: "腋窝核心针IHC",
+      width: 120,
+      prop: "axillaryCoreNeedleIhc",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入IHC结果",
+        disabled: isAxillaryCoreNeedleDisabled
+      }
+    },
+
+    // 入院腋窝细针穿刺检查
+    {
+      label: "入院腋窝细针穿刺",
+      width: 120,
+      prop: "axillaryFineNeedle",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择是否进行"
+      },
+      options: [
+        { label: "未做", value: 0, color: "red" },
+        { label: "做了", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "腋窝细针穿刺大小/cm",
+      width: 120,
+      prop: "axillaryFineNeedleSize",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入大小",
+        disabled: isAxillaryFineNeedleDisabled
+      }
+    },
+    {
+      label: "腋窝细针穿刺组织学",
+      width: 120,
+      prop: "axillaryFineNeedleHistology",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入组织学结果",
+        disabled: isAxillaryFineNeedleDisabled
+      }
+    },
+    {
+      label: "腋窝细针穿刺IHC",
+      width: 120,
+      prop: "axillaryFineNeedleIhc",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入IHC结果",
+        disabled: isAxillaryFineNeedleDisabled
+      }
+    },
+
+    // 入院IHC检查
+    {
+      label: "入院IHC检查",
+      width: 120,
+      prop: "ihcResult",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择是否进行"
+      },
+      options: [
+        { label: "未做", value: 0, color: "red" },
+        { label: "做了", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "IHC ER状态",
+      width: 120,
+      prop: "ihcErStatus",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择ER状态",
+        disabled: isIhcDisabled
+      },
+      options: [
+        { label: "阴性", value: 0, color: "red" },
+        { label: "阳性", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "IHC PR状态",
+      width: 120,
+      prop: "ihcPrStatus",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择PR状态",
+        disabled: isIhcDisabled
+      },
+      options: [
+        { label: "阴性", value: 0, color: "red" },
+        { label: "阳性", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "IHC HER2状态",
+      width: 120,
+      prop: "ihcHer2Status",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择HER2状态",
+        disabled: isIhcDisabled
+      },
+      options: [
+        { label: "阴性", value: 0, color: "red" },
+        { label: "阳性", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "IHC KI67状态",
+      width: 120,
+      prop: "ihcKi67Status",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入KI67状态",
+        disabled: isIhcDisabled
       }
     }
   ] as PlusColumn[];
@@ -554,8 +1061,17 @@ const handleBtnClick = (action: string) => {
   }
 };
 
-const handleEdit = (data: any) => {
-  patientEditRef.value?.open(data, "修改患者信息");
+const handleEdit = (row: any, type: "general" | "case" | "main") => {
+  if (hasAuth(pageData.permission.update) && row.isSystem !== 1) {
+    editState[type][String(row.id)] = !editState[type][String(row.id)];
+    // 更新表单项的禁用状态
+    expandedFormData[row.id][type] = {
+      ...expandedFormData[row.id][type],
+      disabled: !editState[type][String(row.id)]
+    };
+  } else {
+    ElMessage.error("您没有编辑权限");
+  }
 };
 
 const handleFormChange = (
@@ -565,14 +1081,14 @@ const handleFormChange = (
 ) => {
   console.log(values, column, "change");
   if (column.prop === "admissionUltrasound") {
-    const medicalData = expandedFormData[rowId].medical;
+    const caseData = expandedFormData[rowId].case;
     if (
-      !medicalData.admissionUltrasound ||
-      medicalData.admissionUltrasound === "未做"
+      !caseData.admissionUltrasound ||
+      caseData.admissionUltrasound === "未做"
     ) {
-      medicalData.uSize = "";
-      medicalData.uBloodSignal = "";
-      medicalData.uBirads = "";
+      caseData.uSize = "";
+      caseData.uBloodSignal = "";
+      caseData.uBirads = "";
     }
     expandedFormData[rowId] = { ...expandedFormData[rowId] };
   }
@@ -591,14 +1107,14 @@ const handleFormChange = (
 //   console.log("handleReset for row:", rowId);
 //   // 重置当前行的数据，但保留 id
 //   const id = expandedFormData[rowId].id;
-//   expandedFormData[rowId] = { id, general: {}, medical: {} };
+//   expandedFormData[rowId] = { id, general: {}, case: {} };
 //   // 重新加载一般资料和病历资料
 //   loadGeneralData(rowId);
-//   loadMedicalData(rowId);
+//   loadCaseData(rowId);
 // };
 
 // 处理重置
-// const handleReset = (rowId: number, type: "general" | "medical"): void => {
+// const handleReset = (rowId: number, type: "general" | "case"): void => {
 //   if (!editState[type][rowId]) {
 //     ElMessage.warning("当前不处于编辑状态，无法重置");
 //     return;
@@ -607,10 +1123,10 @@ const handleFormChange = (
 //   console.log("handleReset for row:", rowId);
 //   // 重置当前行的数据，但保留 id
 //   const id = expandedFormData[rowId].id;
-//   expandedFormData[rowId] = { id, general: {}, medical: {} };
+//   expandedFormData[rowId] = { id, general: {}, case: {} };
 //   // 重新加载一般资料和病历资料
 //   loadGeneralData(rowId);
-//   loadMedicalData(rowId);
+//   loadCaseData(rowId);
 // };
 
 // 处理折叠面板变化
@@ -622,9 +1138,9 @@ const handleCollapseChange = (val: CollapseModelValue, rowId: number) => {
     }
     if (
       val.includes("2") &&
-      !expandedFormData[rowId].medical.admissionUltrasound
+      !expandedFormData[rowId].case.admissionUltrasound
     ) {
-      loadMedicalData(rowId);
+      loadCaseData(rowId);
     }
   }
 };
@@ -632,7 +1148,7 @@ const handleCollapseChange = (val: CollapseModelValue, rowId: number) => {
 // 加载一般资料
 const loadGeneralData = (id: number) => {
   if (!rowDataLoading.value[id]) {
-    rowDataLoading.value[id] = { general: false, medical: false };
+    rowDataLoading.value[id] = { general: false, case: false };
   }
   rowDataLoading.value[id].general = true;
 
@@ -681,20 +1197,136 @@ const loadGeneralData = (id: number) => {
 };
 
 // 加载病历资料
-const loadMedicalData = (id: number) => {
+const loadCaseData = (id: number) => {
   if (!rowDataLoading.value[id]) {
-    rowDataLoading.value[id] = { general: false, medical: false };
+    rowDataLoading.value[id] = { general: false, case: false };
   }
-  rowDataLoading.value[id].medical = true;
-  // 使用 setTimeout 模拟异步加载
-  setTimeout(() => {
-    const medicalData = mockMedicalData.find(item => item.id === id) || {};
-    expandedFormData[id] = {
-      ...expandedFormData[id],
-      medical: { ...medicalData }
-    };
-    rowDataLoading.value[id].medical = false;
-  }, 1000);
+  rowDataLoading.value[id].case = true;
+
+  const query = { patientId: id };
+
+  caseApi
+    .caseQueryList(query)
+    .then((res: any) => {
+      if (res.success && res.result.length > 0) {
+        const caseData = res.result[0]; // 假设我们只需要第一条记录
+
+        // 创建一个新的对象来存储一般资料，而不是直接修改 expandedFormData
+        const newCaseData = {
+          // 基础信息
+          id: caseData.id,
+          patientId: caseData.patientId,
+
+          // 入院超声检查
+          ultrasoundStatus: caseData.ultrasoundStatus,
+          ultrasoundSize: caseData.ultrasoundSize,
+          ultrasoundBloodFlow: caseData.ultrasoundBloodFlow,
+          ultrasoundBirads: caseData.ultrasoundBirads,
+
+          // 入院钼靶检查
+          mammographyStatus: caseData.mammographyStatus,
+          mammographySize: caseData.mammographySize,
+          mammographyAggregation: caseData.mammographyAggregation,
+          mammographyBirads: caseData.mammographyBirads,
+
+          // 入院乳腺核磁检查
+          mriStatus: caseData.mriStatus,
+          mriSize: caseData.mriSize,
+          mriBloodFlow: caseData.mriBloodFlow,
+          mriBirads: caseData.mriBirads,
+
+          // 血常规检查
+          wbc: caseData.wbc,
+          rbc: caseData.rbc,
+          platelets: caseData.platelets,
+
+          // 肝功能检查
+          alt: caseData.alt,
+          ast: caseData.ast,
+          alkalinePhosphatase: caseData.alkalinePhosphatase,
+
+          // 肾功能检查
+          creatinine: caseData.creatinine,
+          bun: caseData.bun,
+          uricAcid: caseData.uricAcid,
+
+          // 血脂检查
+          triglycerides: caseData.triglycerides,
+          ldl: caseData.ldl,
+
+          // D-二聚体检查
+          dimer: caseData.dimer,
+
+          // 肿瘤标志物检查
+          cea: caseData.cea,
+          ca153: caseData.ca153,
+          ca125: caseData.ca125,
+
+          // 乳腺粗针穿刺病理结果
+          breastCoreNeedle: caseData.breastCoreNeedle,
+          breastCoreNeedleResult: caseData.breastCoreNeedleResult,
+
+          // 腋窝粗针穿刺病理结果
+          axillaryCoreNeedle: caseData.axillaryCoreNeedle,
+          axillaryCoreNeedleResult: caseData.axillaryCoreNeedleResult,
+
+          // 腋窝细针穿刺病理结果
+          axillaryFineNeedle: caseData.axillaryFineNeedle,
+          axillaryFineNeedleResult: caseData.axillaryFineNeedleResult,
+
+          // 免疫组化结果
+          ihcResult: caseData.ihcResult,
+          erPct: caseData.erPct,
+          prPct: caseData.prPct,
+          her2: caseData.her2,
+          ki67Pct: caseData.ki67Pct,
+          arPct: caseData.arPct,
+          fishTest: caseData.fishTest,
+
+          // TNM分期
+          tnm: caseData.tnm,
+          stage: caseData.stage,
+
+          // 亚型分型
+          subtype: caseData.subtype,
+
+          // 入录信息
+          inputStatus: caseData.inputStatus,
+          createdBy: caseData.createdBy,
+          created: caseData.created,
+          modifiedBy: caseData.modifiedBy,
+          modified: caseData.modified,
+          isEnable: caseData.isEnable,
+          isDel: caseData.isDel
+        };
+
+        // 更新 expandedFormData，但保持原始数据不变
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          case: { ...newCaseData },
+          originalCase: { ...newCaseData } // 保存原始数据
+        };
+      } else {
+        // 如果没有数据，设置为空对象
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          case: {},
+          originalCase: {}
+        };
+      }
+    })
+    .catch(error => {
+      console.error("Failed to load case data:", error);
+      // 出错时也设置为空对象
+      expandedFormData[id] = {
+        ...expandedFormData[id],
+        case: {},
+        originalGeneral: {}
+      };
+    })
+    .finally(() => {
+      rowDataLoading.value[id].case = false;
+    });
 };
 
 // 处理展开/折叠
@@ -702,27 +1334,28 @@ const handleExpand = (row: any, expanded: boolean) => {
   if (expanded) {
     if (!expandedFormData[row.id]) {
       expandedFormData[row.id] = {
-        main: { ...row },
+        main: { ...row, disabled: true },
         general: {},
-        medical: {}
+        case: {}
       };
     }
     if (!rowActiveNames.value[row.id]) {
       rowActiveNames.value[row.id] = [];
     }
     if (!rowDataLoading.value[row.id]) {
-      rowDataLoading.value[row.id] = { general: false, medical: false };
+      rowDataLoading.value[row.id] = { general: false, case: false };
     }
     // 当展开行时，立即加载数据
     loadGeneralData(row.id);
-    loadMedicalData(row.id);
+    loadCaseData(row.id);
   }
 };
 
 // 编辑状态
-const editState = reactive({
-  general: {} as { [key: number]: boolean },
-  medical: {} as { [key: number]: boolean }
+const editState: { [key: string]: { [key: string]: boolean } } = reactive({
+  general: {},
+  case: {},
+  main: {}
 });
 
 // 权限检查函数（示例）
@@ -737,10 +1370,7 @@ const checkEditPermission = (type: string): boolean => {
 };
 
 // 处理编辑按钮点击
-const handleGeneralEdit = (
-  rowId: number,
-  type: "general" | "medical"
-): void => {
+const handleGeneralEdit = (rowId: number, type: "general" | "case"): void => {
   if (checkEditPermission(type)) {
     editState[type][rowId] = !editState[type][rowId];
   } else {
@@ -764,8 +1394,8 @@ const someApiCall = async (values: FieldValues) => {
 //       Object.keys(editState.general).find(
 //         id => editState.general[Number(id)]
 //       ) ||
-//       Object.keys(editState.medical).find(id => editState.medical[Number(id)]);
-//     const type = editState.general[Number(rowId)] ? "general" : "medical";
+//       Object.keys(editState.case).find(id => editState.case[Number(id)]);
+//     const type = editState.general[Number(rowId)] ? "general" : "case";
 
 //     if (!rowId || !type) {
 //       throw new Error("无法确定当前编辑的行或类型");
@@ -789,7 +1419,7 @@ const someApiCall = async (values: FieldValues) => {
 // };
 
 // 主表单处理函数
-const handleMainFormSubmit = async (values: FieldValues): Promise<void> => {
+const handleMainFormSubmit = (values: FieldValues): Promise<void> => {
   // try {
   //   console.log("主表单提交:", values);
   //   await someApiCall(values);
@@ -812,50 +1442,87 @@ const handleMainFormSubmit = async (values: FieldValues): Promise<void> => {
   //   .finally(() => {
   //     pageData.formParam.loading = false;
   //   });
-  pageData.tableParams.loading = true;
+  // pageData.tableParams.loading = true;
 
-  // 将 id 转换为字符串
-  const id = String(values.id);
-  console.log(id);
-  // 创建一个新的对象，排除 id 字段
-  const { id: _, ...updateData } = values;
+  // // 将 id 转换为字符串
+  // const id = String(values.id);
+  // console.log(id);
+  // // 创建一个新的对象，排除 id 字段
+  // const { id: _, ...updateData } = values;
 
-  patientApi
-    .patientUpdate(id, updateData)
-    .then(res => {
-      if (res.success) {
-        ElMessage.success("主表单提交成功");
-        // 更新本地数据
-        expandedFormData[id].main = { ...values };
-        // 可能需要重新加载表格数据
-        loadTableData();
-      } else {
-        throw new Error(res.message || "未知错误");
-      }
-    })
-    .catch(error => {
-      console.error("主表单提交失败", error);
-      ElMessage.error(`主表单提交失败：${error.message || "请重试"}`);
-    })
-    .finally(() => {
-      pageData.tableParams.loading = false;
-    });
+  // patientApi
+  //   .patientUpdate(id, updateData)
+  //   .then(res => {
+  //     if (res.success) {
+  //       ElMessage.success("主表单提交成功");
+  //       // 更新本地数据
+  //       expandedFormData[id].main = { ...values };
+  //       // 可能需要重新加载表格数据
+  //       loadTableData();
+  //     } else {
+  //       throw new Error(res.message || "未知错误");
+  //     }
+  //   })
+  //   .catch(error => {
+  //     console.error("主表单提交失败", error);
+  //     ElMessage.error(`主表单提交失败：${error.message || "请重试"}`);
+  //   })
+  //   .finally(() => {
+  //     pageData.tableParams.loading = false;
+  //   });
+
+  try {
+    pageData.tableParams.loading = true;
+    // 获取当前行的编辑状态
+    const rowId = String(values.id);
+    if (!editState.main[rowId]) {
+      ElMessage.warning("当前行不处于编辑状态,无法提交");
+      return;
+    }
+
+    console.log("主表单提交:", values);
+
+    const { id: _, ...updateData } = values;
+
+    patientApi
+      .patientUpdate(rowId, updateData)
+      .then(res => {
+        if (res.success) {
+          ElMessage.success("主表单提交成功");
+          // 更新本地数据
+          expandedFormData[rowId].main = { ...values };
+          // 可能需要重新加载表格数据
+          // loadTableData();
+        } else {
+          throw new Error(res.message || "未知错误");
+        }
+      })
+      .catch(error => {
+        console.error("主表单提交失败", error);
+        ElMessage.error(`主表单提交失败：${error.message || "请重试"}`);
+      })
+      .finally(() => {
+        // 退出编辑状态
+        editState.main[rowId] = false;
+        // 恢复表单项的禁用状态
+        expandedFormData[rowId].main.disabled = true;
+        pageData.tableParams.loading = false;
+      });
+    // await someApiCall(values);
+    // ElMessage.success("主表单提交成功");
+
+    // 更新本地数据
+    // expandedFormData[rowId].main = { ...values };
+  } catch (error) {
+    console.error("主表单提交失败", error);
+    ElMessage.error("主表单提交失败,请重试");
+  }
 };
 
 // 修改主表单重置函数
-const handleMainFormReset = (rowId: number): void => {
-  console.log("重置主表单，行ID:", rowId);
-  const originalData = mockData.find(item => item.id === rowId) || {};
-
-  // 保存当前的子表单数据
-  const currentGeneral = expandedFormData[rowId]?.general || {};
-  const currentMedical = expandedFormData[rowId]?.medical || {};
-
-  console.log(originalData);
-  console.log(currentGeneral);
-  console.log(currentMedical);
-
+const handleMainFormReset = (rowId: string): void => {
   // 重置主表单相关的字段
+  const originalData = mockData.find(item => item.id === Number(rowId)) || {};
   const mainFormFields = [
     "name",
     "sex",
@@ -868,22 +1535,19 @@ const handleMainFormReset = (rowId: number): void => {
     "bmi"
   ];
 
-  // 创建一个新的对象来存储重置后的数据
   const resetData = {
-    id: rowId,
+    id: Number(rowId),
     ...Object.fromEntries(
       mainFormFields.map(field => [field, originalData[field] || ""])
     ),
-    general: currentGeneral,
-    medical: currentMedical
+    general: expandedFormData[rowId].general,
+    case: expandedFormData[rowId].case,
+    disabled: true // 设置表单项为禁用状态
   };
 
-  // 更新 expandedFormData
   expandedFormData[rowId] = resetData;
-
-  // 强制更新视图
-  expandedFormData[rowId] = { ...resetData };
-  console.log(expandedFormData[rowId]);
+  // 退出编辑状态
+  editState.main[rowId] = false;
 };
 
 // 一般资料表单处理函数
@@ -917,14 +1581,14 @@ const handleGeneralFormReset = (rowId: number): void => {
 };
 
 // 病历资料表单处理函数
-const handleMedicalFormSubmit = async (
+const handleCaseFormSubmit = async (
   values: FieldValues,
   rowId: number
 ): Promise<void> => {
   try {
     console.log("病历资料表单提交:", values);
     await someApiCall(values);
-    editState.medical[rowId] = false;
+    editState.case[rowId] = false;
     ElMessage.success("病历资料提交成功");
   } catch (error) {
     console.error("病历资料提交失败", error);
@@ -933,14 +1597,14 @@ const handleMedicalFormSubmit = async (
 };
 
 // 修改病历资料表单重置函数
-const handleMedicalFormReset = (rowId: number): void => {
-  if (!editState.medical[rowId]) {
+const handleCaseFormReset = (rowId: number): void => {
+  if (!editState.case[rowId]) {
     ElMessage.warning("当前不处于编辑状态，无法重置");
     return;
   }
   console.log("重置病历资料表单，行ID:", rowId);
   // 直接重置病历资料相关的字段
-  expandedFormData[rowId].medical = {
+  expandedFormData[rowId].case = {
     admissionUltrasound: "",
     uSize: "",
     uBloodSignal: null,
@@ -994,6 +1658,7 @@ onMounted(() => {
             <PlusForm
               :key="row.id"
               v-model="expandedFormData[row.id].main"
+              :disabled="expandedFormData[row.id].main.disabled"
               class="w-[80%] max-w-[1000px] m-auto"
               :columns="mainFormColumns"
               :rules="rules"
@@ -1063,41 +1728,273 @@ onMounted(() => {
               </el-collapse-item>
 
               <el-collapse-item title="病历资料" name="2" style="width: 100%">
-                <template v-if="rowDataLoading[row.id]?.medical">
+                <template v-if="rowDataLoading[row.id]?.case">
                   <el-skeleton :rows="3" animated />
                 </template>
                 <template v-else>
                   <div class="form-header">
                     <h3>病历资料</h3>
                     <el-button
-                      @click="handleGeneralEdit(row.id, 'medical')"
+                      @click="handleGeneralEdit(row.id, 'case')"
                       type="primary"
                       size="small"
                     >
-                      {{ editState.medical[row.id] ? "取消编辑" : "编辑" }}
+                      {{ editState.case[row.id] ? "取消编辑" : "编辑" }}
                     </el-button>
                   </div>
                   <PlusForm
                     v-if="
-                      expandedFormData[row.id] &&
-                      expandedFormData[row.id].medical
+                      expandedFormData[row.id] && expandedFormData[row.id].case
                     "
-                    :key="`medical-${row.id}`"
-                    v-model="expandedFormData[row.id].medical"
+                    :key="`case-${row.id}`"
+                    v-model="expandedFormData[row.id].case"
                     class="w-[80%] max-w-[1000px] m-auto"
-                    :columns="generateMedicalColumns(row.id)"
+                    :columns="generateCaseColumns(row.id)"
                     :rules="rules"
                     label-position="right"
                     @change="
                       (values, column) =>
                         handleFormChange(values, column, row.id)
                     "
-                    :disabled="!editState.medical[row.id]"
+                    :disabled="!editState.case[row.id]"
                     lazy
-                    @submit="values => handleMedicalFormSubmit(values, row.id)"
-                    @reset="() => handleMedicalFormReset(row.id)"
+                    @submit="values => handleCaseFormSubmit(values, row.id)"
+                    @reset="() => handleCaseFormReset(row.id)"
                     submitText="提交病历资料"
                     resetText="重置病历资料"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                    "
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="手术相关" name="3" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.general">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <div class="form-header">
+                    <h3>一般资料</h3>
+                    <el-button
+                      @click="handleGeneralEdit(row.id, 'general')"
+                      type="primary"
+                      size="small"
+                    >
+                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
+                    </el-button>
+                  </div>
+                  <PlusForm
+                    v-if="
+                      expandedFormData[row.id] &&
+                      expandedFormData[row.id].general
+                    "
+                    :key="`general-${row.id}`"
+                    v-model="expandedFormData[row.id].general"
+                    class="w-[80%] max-w-[1000px] m-auto"
+                    :columns="generalFormColumns"
+                    :rules="rules"
+                    label-position="right"
+                    @change="
+                      (values, column) =>
+                        handleFormChange(values, column, row.id)
+                    "
+                    :disabled="!editState.general[row.id]"
+                    lazy
+                    @submit="values => handleGeneralFormSubmit(values, row.id)"
+                    @reset="() => handleGeneralFormReset(row.id)"
+                    submitText="提交一般资料"
+                    resetText="重置一般资料"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                    "
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item
+                title="新辅助治疗相关"
+                name="4"
+                style="width: 100%"
+              >
+                <template v-if="rowDataLoading[row.id]?.general">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <div class="form-header">
+                    <h3>一般资料</h3>
+                    <el-button
+                      @click="handleGeneralEdit(row.id, 'general')"
+                      type="primary"
+                      size="small"
+                    >
+                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
+                    </el-button>
+                  </div>
+                  <PlusForm
+                    v-if="
+                      expandedFormData[row.id] &&
+                      expandedFormData[row.id].general
+                    "
+                    :key="`general-${row.id}`"
+                    v-model="expandedFormData[row.id].general"
+                    class="w-[80%] max-w-[1000px] m-auto"
+                    :columns="generalFormColumns"
+                    :rules="rules"
+                    label-position="right"
+                    @change="
+                      (values, column) =>
+                        handleFormChange(values, column, row.id)
+                    "
+                    :disabled="!editState.general[row.id]"
+                    lazy
+                    @submit="values => handleGeneralFormSubmit(values, row.id)"
+                    @reset="() => handleGeneralFormReset(row.id)"
+                    submitText="提交一般资料"
+                    resetText="重置一般资料"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                    "
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="辅助治疗" name="5" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.general">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <div class="form-header">
+                    <h3>一般资料</h3>
+                    <el-button
+                      @click="handleGeneralEdit(row.id, 'general')"
+                      type="primary"
+                      size="small"
+                    >
+                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
+                    </el-button>
+                  </div>
+                  <PlusForm
+                    v-if="
+                      expandedFormData[row.id] &&
+                      expandedFormData[row.id].general
+                    "
+                    :key="`general-${row.id}`"
+                    v-model="expandedFormData[row.id].general"
+                    class="w-[80%] max-w-[1000px] m-auto"
+                    :columns="generalFormColumns"
+                    :rules="rules"
+                    label-position="right"
+                    @change="
+                      (values, column) =>
+                        handleFormChange(values, column, row.id)
+                    "
+                    :disabled="!editState.general[row.id]"
+                    lazy
+                    @submit="values => handleGeneralFormSubmit(values, row.id)"
+                    @reset="() => handleGeneralFormReset(row.id)"
+                    submitText="提交一般资料"
+                    resetText="重置一般资料"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                    "
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="内分泌治疗" name="6" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.general">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <div class="form-header">
+                    <h3>一般资料</h3>
+                    <el-button
+                      @click="handleGeneralEdit(row.id, 'general')"
+                      type="primary"
+                      size="small"
+                    >
+                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
+                    </el-button>
+                  </div>
+                  <PlusForm
+                    v-if="
+                      expandedFormData[row.id] &&
+                      expandedFormData[row.id].general
+                    "
+                    :key="`general-${row.id}`"
+                    v-model="expandedFormData[row.id].general"
+                    class="w-[80%] max-w-[1000px] m-auto"
+                    :columns="generalFormColumns"
+                    :rules="rules"
+                    label-position="right"
+                    @change="
+                      (values, column) =>
+                        handleFormChange(values, column, row.id)
+                    "
+                    :disabled="!editState.general[row.id]"
+                    lazy
+                    @submit="values => handleGeneralFormSubmit(values, row.id)"
+                    @reset="() => handleGeneralFormReset(row.id)"
+                    submitText="提交一般资料"
+                    resetText="重置一般资料"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                    "
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item
+                title="放射治疗相关"
+                name="7"
+                style="width: 100%"
+              >
+                <template v-if="rowDataLoading[row.id]?.general">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <div class="form-header">
+                    <h3>一般资料</h3>
+                    <el-button
+                      @click="handleGeneralEdit(row.id, 'general')"
+                      type="primary"
+                      size="small"
+                    >
+                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
+                    </el-button>
+                  </div>
+                  <PlusForm
+                    v-if="
+                      expandedFormData[row.id] &&
+                      expandedFormData[row.id].general
+                    "
+                    :key="`general-${row.id}`"
+                    v-model="expandedFormData[row.id].general"
+                    class="w-[80%] max-w-[1000px] m-auto"
+                    :columns="generalFormColumns"
+                    :rules="rules"
+                    label-position="right"
+                    @change="
+                      (values, column) =>
+                        handleFormChange(values, column, row.id)
+                    "
+                    :disabled="!editState.general[row.id]"
+                    lazy
+                    @submit="values => handleGeneralFormSubmit(values, row.id)"
+                    @reset="() => handleGeneralFormReset(row.id)"
+                    submitText="提交一般资料"
+                    resetText="重置一般资料"
                     style="
                       display: flex;
                       flex-direction: column;
@@ -1129,9 +2026,9 @@ onMounted(() => {
           <el-link
             v-show="hasAuth(pageData.permission.update) && row.isSystem !== 1"
             type="primary"
-            @click="handleEdit(row)"
+            @click="handleEdit(row, 'main')"
           >
-            编辑
+            {{ editState.main[row.id] ? "退出编辑" : "编辑" }}
           </el-link>
           <el-divider
             v-show="hasAuth(pageData.permission.delete) && row.isSystem !== 1"
@@ -1153,7 +2050,7 @@ onMounted(() => {
 
 <style scoped>
 ::v-deep .el-form-item__label {
-  width: 91px !important;
+  width: 160px !important;
 }
 
 ::v-deep .el-row {
