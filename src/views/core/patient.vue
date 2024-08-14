@@ -165,147 +165,33 @@ const tableColumns: TableColumnList = [
   }
 ];
 
-// 模拟数据
-const mockData = [
-  {
-    id: 1,
-    name: "张三",
-    sex: "男",
-    age: 35,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "北京市朝阳区",
-    inputStatus: "已完成",
-    general: {},
-    case: {}
-  },
-  {
-    id: 2,
-    name: "李四",
-    sex: "女",
-    age: 28,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "上海市浦东新区",
-    inputStatus: "进行中",
-    general: {},
-    case: {}
-  },
-  {
-    id: 3,
-    name: "王五",
-    sex: "男",
-    age: 42,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "广州市天河区",
-    inputStatus: "已完成"
-  },
-  {
-    id: 4,
-    name: "赵六",
-    sex: "女",
-    age: 31,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "深圳市南山区",
-    inputStatus: "未开始"
-  },
-  {
-    id: 5,
-    name: "孙七",
-    sex: "男",
-    age: 50,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "成都市武侯区",
-    inputStatus: "已完成"
-  },
-  {
-    id: 6,
-    name: "周八",
-    sex: "女",
-    age: 25,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "武汉市江汉区",
-    inputStatus: "进行中"
-  },
-  {
-    id: 7,
-    name: "吴九",
-    sex: "男",
-    age: 38,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "西安市雁塔区",
-    inputStatus: "已完成"
-  },
-  {
-    id: 8,
-    name: "郑十",
-    sex: "女",
-    age: 45,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "杭州市西湖区",
-    inputStatus: "未开始"
-  },
-  {
-    id: 9,
-    name: "刘十一",
-    sex: "男",
-    age: 33,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "南京市玄武区",
-    inputStatus: "进行中"
-  },
-  {
-    id: 10,
-    name: "陈十二",
-    sex: "女",
-    age: 29,
-    phone: "18888888888",
-    contactPhone: "18555555555",
-    address: "重庆市渝中区",
-    inputStatus: "已完成"
+const checkSurgicalNum = (rule: any, value: any, callback: any, id: number) => {
+  if (value === "") {
+    callback(new Error("请输入手术编号"));
+  } else {
+    generalApi
+      .checkCode(value, String(id))
+      .then((res: any) => {
+        if (res.success) {
+          if (res.result) {
+            callback(new Error("手术编号重复"));
+          } else {
+            callback();
+          }
+        } else {
+          callback(new Error("验证失败,请重试"));
+        }
+      })
+      .catch(() => {
+        callback(new Error("验证失败,请重试"));
+      });
   }
-];
-
-// 一般资料模拟数据
-// const mockGeneralData = [
-//   {
-//     id: 1,
-//     surgicalNum: "A2024050501",
-//     caseNo: "4110222555003"
-//   },
-//   {
-//     id: 3,
-//     surgicalNum: "A2024050501",
-//     caseNo: "4110222555003"
-//   }
-// ];
-
-// 病历资料模拟数据
-// const mockCaseData = [
-//   {
-//     id: 3,
-//     admissionUltrasound: "未做",
-//     uSize: "",
-//     uBloodSignal: null
-//   },
-//   {
-//     id: 1,
-//     admissionUltrasound: "左",
-//     uSize: "10",
-//     uBloodSignal: "true"
-//   }
-// ];
+};
 
 // 表单验证规则
 const rules = {
-  name: [{ required: true, message: "请输入名称" }]
+  name: [{ required: true, message: "请输入名称" }],
+  surgicalNum: [{ required: true, message: "请输入手术编号", trigger: "blur" }]
 };
 
 // 主表单列定义
@@ -408,94 +294,46 @@ const mainFormColumns: PlusColumn[] = [
 ];
 
 // 一般资料表单列定义
-const generalFormColumns: PlusColumn[] = [
-  {
-    label: "手术编号",
-    width: 120,
-    prop: "surgicalNum",
-    valueType: "copy",
-    tooltip: "A + 手术日期 + 数字",
-    colProps: { span: 12 },
-    fieldProps: {
-      placeholder: "请输入手术编号" // 直接设置placeholder
+const generateGeneralFormColumns = (rowId: number): PlusColumn[] => {
+  return [
+    {
+      label: "手术编号",
+      width: 120,
+      prop: "surgicalNum",
+      valueType: "copy",
+      tooltip: "A + 手术日期 + 数字",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入手术编号" // 直接设置placeholder
+      },
+      rules: [
+        { required: true, message: "请输入手术编号", trigger: "blur" },
+        {
+          validator: (rule, value, callback) =>
+            checkSurgicalNum(
+              rule,
+              value,
+              callback,
+              expandedFormData[rowId]?.general?.id
+            ),
+          trigger: "blur"
+        }
+      ]
+    },
+    {
+      label: "病案号",
+      width: 120,
+      prop: "caseNo",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入病案号"
+      }
     }
-  },
-  {
-    label: "病案号",
-    width: 120,
-    prop: "caseNo",
-    valueType: "copy",
-    colProps: { span: 12 },
-    fieldProps: {
-      placeholder: "请输入病案号"
-    }
-  }
-];
+  ];
+};
 
 // 生成病历资料表单列
-// const generateCaseColumns = (rowId: number): PlusColumn[] => {
-//   const row = expandedFormData[rowId];
-//   const isDisabled =
-//     !row ||
-//     !row.case?.admissionUltrasound ||
-//     row.case.admissionUltrasound === "未做";
-
-//   return [
-//     {
-//       label: "入院超声",
-//       width: 120,
-//       prop: "admissionUltrasound",
-//       valueType: "select",
-//       colProps: { span: 12 },
-//       fieldProps: {
-//         placeholder: "请选择状态"
-//       },
-//       options: [
-//         { label: "未做", value: "未做", color: "red" },
-//         { label: "左", value: "左", color: "blue" },
-//         { label: "右", value: "右", color: "yellow" },
-//         { label: "双侧", value: "双侧", color: "green" }
-//       ]
-//     },
-//     {
-//       label: "大小/cm",
-//       width: 120,
-//       prop: "uSize",
-//       valueType: "copy",
-//       colProps: { span: 12 },
-//       fieldProps: {
-//         placeholder: "请输入大小",
-//         disabled: isDisabled
-//       }
-//     },
-//     {
-//       label: "血流信号",
-//       width: 120,
-//       prop: "uBloodSignal",
-//       valueType: "select",
-//       colProps: { span: 12 },
-//       fieldProps: {
-//         placeholder: "请选择",
-//         disabled: isDisabled
-//       },
-//       options: [
-//         { label: "有", value: "true", color: "red" },
-//         { label: "无", value: "false", color: "blue" }
-//       ]
-//     },
-//     {
-//       label: "BIRADS",
-//       width: 120,
-//       prop: "uBirads",
-//       valueType: "copy",
-//       colProps: { span: 12 },
-//       fieldProps: {
-//         placeholder: "请输入类别",
-//         disabled: isDisabled
-//       }
-//     }
-//   ] as PlusColumn[];
-// };
 const generateCaseColumns = (rowId: number): PlusColumn[] => {
   const row = expandedFormData[rowId];
 
@@ -508,17 +346,14 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
   const isMriDisabled =
     !row || !row.case?.mriStatus || row.case.mriStatus === 0;
 
-  const isBreastCoreNeedleDisabled =
-    !row || !row.case?.breastCoreNeedle || row.case.breastCoreNeedle === 0;
-
-  const isAxillaryCoreNeedleDisabled =
-    !row || !row.case?.axillaryCoreNeedle || row.case.axillaryCoreNeedle === 0;
-
-  const isAxillaryFineNeedleDisabled =
-    !row || !row.case?.axillaryFineNeedle || row.case.axillaryFineNeedle === 0;
-
   const isIhcDisabled =
     !row || !row.case?.ihcResult || row.case.ihcResult === 0;
+
+  if (isUltrasoundDisabled && row && row.case) {
+    row.case.ultrasoundSize = null;
+    row.case.ultrasoundBloodFlow = null;
+    row.case.ultrasoundBirads = null;
+  }
 
   return [
     // 入院超声检查
@@ -546,7 +381,8 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入大小",
-        disabled: isUltrasoundDisabled
+        disabled: isUltrasoundDisabled,
+        value: isUltrasoundDisabled ? null : row?.case?.ultrasoundSize
       }
     },
     {
@@ -557,7 +393,8 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择",
-        disabled: isUltrasoundDisabled
+        disabled: isUltrasoundDisabled,
+        value: isUltrasoundDisabled ? null : row?.case?.ultrasoundBloodFlow
       },
       options: [
         { label: "有", value: 1, color: "red" },
@@ -572,7 +409,8 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入类别",
-        disabled: isUltrasoundDisabled
+        disabled: isUltrasoundDisabled,
+        value: isUltrasoundDisabled ? null : row?.case?.ultrasoundBirads
       }
     },
 
@@ -781,10 +619,69 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
         placeholder: "请输入尿酸"
       }
     },
-
+    {
+      label: "甘油三酯",
+      width: 120,
+      prop: "triglycerides",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入甘油三酯"
+      }
+    },
+    {
+      label: "低密度脂蛋白",
+      width: 120,
+      prop: "ldl",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入低密度脂蛋白"
+      }
+    },
+    {
+      label: "D-二聚体",
+      width: 120,
+      prop: "dimer",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入D-二聚体"
+      }
+    },
+    {
+      label: "癌胚抗原（CEA）",
+      width: 120,
+      prop: "cea",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入CEA"
+      }
+    },
+    {
+      label: "癌抗原153（CA153）",
+      width: 120,
+      prop: "ca153",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入CA153"
+      }
+    },
+    {
+      label: "癌抗原125（CA125）",
+      width: 120,
+      prop: "ca125",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入CA125"
+      }
+    },
     // 入院乳腺核心针检查
     {
-      label: "入院乳腺核心针",
+      label: "有无乳腺粗针穿刺",
       width: 120,
       prop: "breastCoreNeedle",
       valueType: "select",
@@ -793,47 +690,23 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
         placeholder: "请选择是否进行"
       },
       options: [
-        { label: "未做", value: 0, color: "red" },
-        { label: "做了", value: 1, color: "green" }
+        { label: "无", value: 0, color: "red" },
+        { label: "有", value: 1, color: "green" }
       ]
     },
     {
-      label: "乳腺核心针大小/cm",
+      label: "乳腺粗针穿刺病理结果",
       width: 120,
-      prop: "breastCoreNeedleSize",
+      prop: "breastCoreNeedleResult",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入大小",
-        disabled: isBreastCoreNeedleDisabled
+        placeholder: "请输入乳腺粗针穿刺病理结果"
       }
     },
-    {
-      label: "乳腺核心针组织学",
-      width: 120,
-      prop: "breastCoreNeedleHistology",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入组织学结果",
-        disabled: isBreastCoreNeedleDisabled
-      }
-    },
-    {
-      label: "乳腺核心针IHC",
-      width: 120,
-      prop: "breastCoreNeedleIhc",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入IHC结果",
-        disabled: isBreastCoreNeedleDisabled
-      }
-    },
-
     // 入院腋窝核心针检查
     {
-      label: "入院腋窝核心针",
+      label: "有无腋窝粗针穿刺",
       width: 120,
       prop: "axillaryCoreNeedle",
       valueType: "select",
@@ -842,47 +715,23 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
         placeholder: "请选择是否进行"
       },
       options: [
-        { label: "未做", value: 0, color: "red" },
-        { label: "做了", value: 1, color: "green" }
+        { label: "无", value: 0, color: "red" },
+        { label: "有", value: 1, color: "green" }
       ]
     },
     {
-      label: "腋窝核心针大小/cm",
+      label: "腋窝粗针穿刺病理结果",
       width: 120,
-      prop: "axillaryCoreNeedleSize",
+      prop: "axillaryCoreNeedleResult",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入大小",
-        disabled: isAxillaryCoreNeedleDisabled
+        placeholder: "请输入腋窝粗针穿刺病理结果"
       }
     },
-    {
-      label: "腋窝核心针组织学",
-      width: 120,
-      prop: "axillaryCoreNeedleHistology",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入组织学结果",
-        disabled: isAxillaryCoreNeedleDisabled
-      }
-    },
-    {
-      label: "腋窝核心针IHC",
-      width: 120,
-      prop: "axillaryCoreNeedleIhc",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入IHC结果",
-        disabled: isAxillaryCoreNeedleDisabled
-      }
-    },
-
     // 入院腋窝细针穿刺检查
     {
-      label: "入院腋窝细针穿刺",
+      label: "有无腋窝细针穿刺",
       width: 120,
       prop: "axillaryFineNeedle",
       valueType: "select",
@@ -891,93 +740,59 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
         placeholder: "请选择是否进行"
       },
       options: [
-        { label: "未做", value: 0, color: "red" },
-        { label: "做了", value: 1, color: "green" }
+        { label: "无", value: 0, color: "red" },
+        { label: "有", value: 1, color: "green" }
       ]
     },
     {
-      label: "腋窝细针穿刺大小/cm",
+      label: "腋窝细针穿刺病理结果",
       width: 120,
-      prop: "axillaryFineNeedleSize",
+      prop: "axillaryFineNeedleResult",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入大小",
-        disabled: isAxillaryFineNeedleDisabled
+        placeholder: "请输入腋窝细针穿刺病理结果"
       }
     },
-    {
-      label: "腋窝细针穿刺组织学",
-      width: 120,
-      prop: "axillaryFineNeedleHistology",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入组织学结果",
-        disabled: isAxillaryFineNeedleDisabled
-      }
-    },
-    {
-      label: "腋窝细针穿刺IHC",
-      width: 120,
-      prop: "axillaryFineNeedleIhc",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入IHC结果",
-        disabled: isAxillaryFineNeedleDisabled
-      }
-    },
-
     // 入院IHC检查
     {
-      label: "入院IHC检查",
+      label: "有无免疫组化结果",
       width: 120,
       prop: "ihcResult",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择是否进行"
+        placeholder: "请选择有无免疫组化结果"
       },
       options: [
-        { label: "未做", value: 0, color: "red" },
-        { label: "做了", value: 1, color: "green" }
+        { label: "无", value: 0, color: "red" },
+        { label: "有", value: 1, color: "green" }
       ]
     },
     {
-      label: "IHC ER状态",
+      label: "IHC ER%",
       width: 120,
-      prop: "ihcErStatus",
-      valueType: "select",
+      prop: "erPct",
+      valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择ER状态",
-        disabled: isIhcDisabled
-      },
-      options: [
-        { label: "阴性", value: 0, color: "red" },
-        { label: "阳性", value: 1, color: "green" }
-      ]
+        placeholder: "请输入ER%"
+      }
     },
     {
-      label: "IHC PR状态",
+      label: "IHC PR%",
       width: 120,
-      prop: "ihcPrStatus",
-      valueType: "select",
+      prop: "prPct",
+      valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择PR状态",
-        disabled: isIhcDisabled
-      },
-      options: [
-        { label: "阴性", value: 0, color: "red" },
-        { label: "阳性", value: 1, color: "green" }
-      ]
+        placeholder: "请输入PR%"
+      }
     },
     {
-      label: "IHC HER2状态",
+      label: "HER2",
       width: 120,
-      prop: "ihcHer2Status",
+      prop: "her2",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
@@ -985,20 +800,90 @@ const generateCaseColumns = (rowId: number): PlusColumn[] => {
         disabled: isIhcDisabled
       },
       options: [
-        { label: "阴性", value: 0, color: "red" },
-        { label: "阳性", value: 1, color: "green" }
+        { label: "0", value: "0" },
+        { label: "1+", value: "1+" },
+        { label: "2+", value: "2+" },
+        { label: "3+", value: "3+" }
       ]
     },
     {
-      label: "IHC KI67状态",
+      label: "Ki-67标志物百分比",
       width: 120,
-      prop: "ihcKi67Status",
+      prop: "ki67Pct",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入KI67状态",
+        placeholder: "请输入Ki-67百分比",
         disabled: isIhcDisabled
       }
+    },
+    {
+      label: "AR%",
+      width: 120,
+      prop: "arPct",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入AR百分比",
+        disabled: isIhcDisabled
+      }
+    },
+    {
+      label: "FISH检测",
+      width: 120,
+      prop: "fishTest",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择FISH检测结果",
+        disabled: isIhcDisabled
+      },
+      options: [
+        { label: "阴性", value: "阴性" },
+        { label: "阳性", value: "阳性" }
+      ]
+    },
+    {
+      label: "TNM分期",
+      width: 120,
+      prop: "tnm",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入TNM分期"
+      }
+    },
+    {
+      label: "分期",
+      width: 120,
+      prop: "stage",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择分期"
+      },
+      options: [
+        { label: "无", value: "无" },
+        { label: "I", value: "I" },
+        { label: "II", value: "II" },
+        { label: "III", value: "III" }
+      ]
+    },
+    {
+      label: "分型",
+      width: 120,
+      prop: "subtype",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择分型"
+      },
+      options: [
+        { label: "三阴性", value: "三阴性" },
+        { label: "Luminal A", value: "Luminal A" },
+        { label: "Luminal B HER2阴性型", value: "Luminal B HER2阴性型" },
+        { label: "Luminal B HER2阳性型", value: "Luminal B HER2阳性型" }
+      ]
     }
   ] as PlusColumn[];
 };
@@ -1026,6 +911,7 @@ const handlePageChange = (current: number, size: number) => {
   loadTableData();
 };
 
+//表格数据加载函数
 const loadTableData = () => {
   pageData.tableParams.loading = true;
   const query = {
@@ -1047,6 +933,7 @@ const loadTableData = () => {
     });
 };
 
+//按钮跳转
 const handleBtnClick = (action: string) => {
   switch (action) {
     case "add":
@@ -1061,6 +948,7 @@ const handleBtnClick = (action: string) => {
   }
 };
 
+//编辑函数
 const handleEdit = (row: any, type: "general" | "case" | "main") => {
   if (hasAuth(pageData.permission.update) && row.isSystem !== 1) {
     editState[type][String(row.id)] = !editState[type][String(row.id)];
@@ -1074,6 +962,7 @@ const handleEdit = (row: any, type: "general" | "case" | "main") => {
   }
 };
 
+//需要删除
 const handleFormChange = (
   values: FieldValues,
   column: PlusColumn,
@@ -1163,7 +1052,9 @@ const loadGeneralData = (id: number) => {
         // 创建一个新的对象来存储一般资料，而不是直接修改 expandedFormData
         const newGeneralData = {
           surgicalNum: generalData.surgicalNum,
-          caseNo: generalData.caseNo
+          caseNo: generalData.caseNo,
+          patientId: generalData.patientId,
+          id: generalData.id
           // 可以根据需要添加其他字段
         };
 
@@ -1379,98 +1270,8 @@ const handleGeneralEdit = (rowId: number, type: "general" | "case"): void => {
   }
 };
 
-// 模拟API调用
-const someApiCall = async (values: FieldValues) => {
-  // 这里应该是实际的API调用
-  console.log("API call with values:", values);
-  return new Promise(resolve => setTimeout(resolve, 1000));
-};
-
-// 处理提交
-// const handleSubmit = async (values: FieldValues): Promise<void> => {
-//   try {
-//     // 获取当前编辑的行ID和类型
-//     const rowId =
-//       Object.keys(editState.general).find(
-//         id => editState.general[Number(id)]
-//       ) ||
-//       Object.keys(editState.case).find(id => editState.case[Number(id)]);
-//     const type = editState.general[Number(rowId)] ? "general" : "case";
-
-//     if (!rowId || !type) {
-//       throw new Error("无法确定当前编辑的行或类型");
-//     }
-
-//     if (!editState[type][Number(rowId)]) {
-//       ElMessage.warning("当前不处于编辑状态，无法提交");
-//       return;
-//     }
-
-//     console.log(values, "Submit");
-//     // 尝试提交
-//     await someApiCall(values);
-//     // 提交成功后，退出编辑状态
-//     editState[type][Number(rowId)] = false;
-//     ElMessage.success("提交成功");
-//   } catch (error) {
-//     console.error("提交失败", error);
-//     ElMessage.error("提交失败，请重试");
-//   }
-// };
-
 // 主表单处理函数
 const handleMainFormSubmit = (values: FieldValues): Promise<void> => {
-  // try {
-  //   console.log("主表单提交:", values);
-  //   await someApiCall(values);
-  //   ElMessage.success("主表单提交成功");
-  // } catch (error) {
-  //   console.error("主表单提交失败", error);
-  //   ElMessage.error("主表单提交失败，请重试");
-  // }
-  // pageData.formParam.loading = true;
-  // patientApi
-  //   .patientUpdate(values.id, values)
-  //   .then(res => {
-  //     if (res.success) {
-  //       ElMessage.success("主表单提交成功");
-  //     } else {
-  //       console.error("主表单提交失败", res.message);
-  //       ElMessage.error("主表单提交失败，请重试");
-  //     }
-  //   })
-  //   .finally(() => {
-  //     pageData.formParam.loading = false;
-  //   });
-  // pageData.tableParams.loading = true;
-
-  // // 将 id 转换为字符串
-  // const id = String(values.id);
-  // console.log(id);
-  // // 创建一个新的对象，排除 id 字段
-  // const { id: _, ...updateData } = values;
-
-  // patientApi
-  //   .patientUpdate(id, updateData)
-  //   .then(res => {
-  //     if (res.success) {
-  //       ElMessage.success("主表单提交成功");
-  //       // 更新本地数据
-  //       expandedFormData[id].main = { ...values };
-  //       // 可能需要重新加载表格数据
-  //       loadTableData();
-  //     } else {
-  //       throw new Error(res.message || "未知错误");
-  //     }
-  //   })
-  //   .catch(error => {
-  //     console.error("主表单提交失败", error);
-  //     ElMessage.error(`主表单提交失败：${error.message || "请重试"}`);
-  //   })
-  //   .finally(() => {
-  //     pageData.tableParams.loading = false;
-  //   });
-
   try {
     pageData.tableParams.loading = true;
     // 获取当前行的编辑状态
@@ -1521,8 +1322,11 @@ const handleMainFormSubmit = (values: FieldValues): Promise<void> => {
 
 // 修改主表单重置函数
 const handleMainFormReset = (rowId: string): void => {
-  // 重置主表单相关的字段
-  const originalData = mockData.find(item => item.id === Number(rowId)) || {};
+  // 获取原始数据
+  const originalData =
+    pageData.tableParams.list.find(item => item.id === Number(rowId)) || {};
+
+  // 定义主表单的字段
   const mainFormFields = [
     "name",
     "sex",
@@ -1535,17 +1339,19 @@ const handleMainFormReset = (rowId: string): void => {
     "bmi"
   ];
 
+  // 只重置主表单的字段
   const resetData = {
-    id: Number(rowId),
+    ...expandedFormData[rowId], // 保留现有的其他数据
     ...Object.fromEntries(
       mainFormFields.map(field => [field, originalData[field] || ""])
     ),
-    general: expandedFormData[rowId].general,
-    case: expandedFormData[rowId].case,
-    disabled: true // 设置表单项为禁用状态
+    id: Number(rowId),
+    disabled: true // 重置后设置为禁用状态
   };
 
+  // 更新 expandedFormData
   expandedFormData[rowId] = resetData;
+
   // 退出编辑状态
   editState.main[rowId] = false;
 };
@@ -1556,10 +1362,39 @@ const handleGeneralFormSubmit = async (
   rowId: number
 ): Promise<void> => {
   try {
+    pageData.tableParams.loading = true;
     console.log("一般资料表单提交:", values);
-    await someApiCall(values);
-    editState.general[rowId] = false;
-    ElMessage.success("一般资料提交成功");
+    // await someApiCall(values);
+    // editState.general[rowId] = false;
+    console.log(String(values.patientId));
+    console.log(values.patientId);
+    if (!editState.general[String(values.patientId)]) {
+      ElMessage.warning("当前行不处于编辑状态,无法提交");
+      return;
+    }
+
+    const { id: _, ...updateData } = values;
+    generalApi
+      .generalUpdate(String(rowId), updateData)
+      .then(res => {
+        if (res.success) {
+          ElMessage.success("一般资料提交成功");
+          expandedFormData[String(values.patientId)].general = { ...values };
+        } else {
+          throw new Error(res.message || "未知错误");
+        }
+      })
+      .catch(error => {
+        console.error("一般资料提交失败", error);
+        ElMessage.error(`一般资料提交失败：${error.message || "请重试"}`);
+      })
+      .finally(() => {
+        // 退出编辑状态
+        editState.general[String(values.patientId)] = false;
+        // 恢复表单项的禁用状态
+        expandedFormData[String(values.patientId)].general.disabled = true;
+        pageData.tableParams.loading = false;
+      });
   } catch (error) {
     console.error("一般资料提交失败", error);
     ElMessage.error("一般资料提交失败，请重试");
@@ -1586,10 +1421,40 @@ const handleCaseFormSubmit = async (
   rowId: number
 ): Promise<void> => {
   try {
+    pageData.tableParams.loading = true;
     console.log("病历资料表单提交:", values);
-    await someApiCall(values);
-    editState.case[rowId] = false;
-    ElMessage.success("病历资料提交成功");
+    console.log("病历资料表单提交:", rowId);
+    // await someApiCall(values);
+    // editState.case[rowId] = false;
+    console.log(String(values.patientId));
+    console.log(values.patientId);
+    if (!editState.case[String(values.patientId)]) {
+      ElMessage.warning("当前行不处于编辑状态,无法提交");
+      return;
+    }
+
+    const { id: _, ...updateData } = values;
+    caseApi
+      .caseUpdate(String(rowId), updateData)
+      .then(res => {
+        if (res.success) {
+          ElMessage.success("病历资料提交成功");
+          expandedFormData[String(values.patientId)].case = { ...values };
+        } else {
+          throw new Error(res.message || "未知错误");
+        }
+      })
+      .catch(error => {
+        console.error("病历资料提交失败", error);
+        ElMessage.error(`病历资料提交失败：${error.message || "请重试"}`);
+      })
+      .finally(() => {
+        // 退出编辑状态
+        editState.case[String(values.patientId)] = false;
+        // 恢复表单项的禁用状态
+        expandedFormData[String(values.patientId)].case.disabled = true;
+        pageData.tableParams.loading = false;
+      });
   } catch (error) {
     console.error("病历资料提交失败", error);
     ElMessage.error("病历资料提交失败，请重试");
@@ -1705,7 +1570,7 @@ onMounted(() => {
                     :key="`general-${row.id}`"
                     v-model="expandedFormData[row.id].general"
                     class="w-[80%] max-w-[1000px] m-auto"
-                    :columns="generalFormColumns"
+                    :columns="generateGeneralFormColumns(row.id)"
                     :rules="rules"
                     label-position="right"
                     @change="
@@ -1714,7 +1579,13 @@ onMounted(() => {
                     "
                     :disabled="!editState.general[row.id]"
                     lazy
-                    @submit="values => handleGeneralFormSubmit(values, row.id)"
+                    @submit="
+                      values =>
+                        handleGeneralFormSubmit(
+                          values,
+                          expandedFormData[row.id].general.id
+                        )
+                    "
                     @reset="() => handleGeneralFormReset(row.id)"
                     submitText="提交一般资料"
                     resetText="重置一般资料"
@@ -1758,7 +1629,13 @@ onMounted(() => {
                     "
                     :disabled="!editState.case[row.id]"
                     lazy
-                    @submit="values => handleCaseFormSubmit(values, row.id)"
+                    @submit="
+                      values =>
+                        handleCaseFormSubmit(
+                          values,
+                          expandedFormData[row.id].case.id
+                        )
+                    "
                     @reset="() => handleCaseFormReset(row.id)"
                     submitText="提交病历资料"
                     resetText="重置病历资料"
@@ -1794,195 +1671,7 @@ onMounted(() => {
                     :key="`general-${row.id}`"
                     v-model="expandedFormData[row.id].general"
                     class="w-[80%] max-w-[1000px] m-auto"
-                    :columns="generalFormColumns"
-                    :rules="rules"
-                    label-position="right"
-                    @change="
-                      (values, column) =>
-                        handleFormChange(values, column, row.id)
-                    "
-                    :disabled="!editState.general[row.id]"
-                    lazy
-                    @submit="values => handleGeneralFormSubmit(values, row.id)"
-                    @reset="() => handleGeneralFormReset(row.id)"
-                    submitText="提交一般资料"
-                    resetText="重置一般资料"
-                    style="
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                    "
-                  />
-                </template>
-              </el-collapse-item>
-
-              <el-collapse-item
-                title="新辅助治疗相关"
-                name="4"
-                style="width: 100%"
-              >
-                <template v-if="rowDataLoading[row.id]?.general">
-                  <el-skeleton :rows="3" animated />
-                </template>
-                <template v-else>
-                  <div class="form-header">
-                    <h3>一般资料</h3>
-                    <el-button
-                      @click="handleGeneralEdit(row.id, 'general')"
-                      type="primary"
-                      size="small"
-                    >
-                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
-                    </el-button>
-                  </div>
-                  <PlusForm
-                    v-if="
-                      expandedFormData[row.id] &&
-                      expandedFormData[row.id].general
-                    "
-                    :key="`general-${row.id}`"
-                    v-model="expandedFormData[row.id].general"
-                    class="w-[80%] max-w-[1000px] m-auto"
-                    :columns="generalFormColumns"
-                    :rules="rules"
-                    label-position="right"
-                    @change="
-                      (values, column) =>
-                        handleFormChange(values, column, row.id)
-                    "
-                    :disabled="!editState.general[row.id]"
-                    lazy
-                    @submit="values => handleGeneralFormSubmit(values, row.id)"
-                    @reset="() => handleGeneralFormReset(row.id)"
-                    submitText="提交一般资料"
-                    resetText="重置一般资料"
-                    style="
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                    "
-                  />
-                </template>
-              </el-collapse-item>
-
-              <el-collapse-item title="辅助治疗" name="5" style="width: 100%">
-                <template v-if="rowDataLoading[row.id]?.general">
-                  <el-skeleton :rows="3" animated />
-                </template>
-                <template v-else>
-                  <div class="form-header">
-                    <h3>一般资料</h3>
-                    <el-button
-                      @click="handleGeneralEdit(row.id, 'general')"
-                      type="primary"
-                      size="small"
-                    >
-                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
-                    </el-button>
-                  </div>
-                  <PlusForm
-                    v-if="
-                      expandedFormData[row.id] &&
-                      expandedFormData[row.id].general
-                    "
-                    :key="`general-${row.id}`"
-                    v-model="expandedFormData[row.id].general"
-                    class="w-[80%] max-w-[1000px] m-auto"
-                    :columns="generalFormColumns"
-                    :rules="rules"
-                    label-position="right"
-                    @change="
-                      (values, column) =>
-                        handleFormChange(values, column, row.id)
-                    "
-                    :disabled="!editState.general[row.id]"
-                    lazy
-                    @submit="values => handleGeneralFormSubmit(values, row.id)"
-                    @reset="() => handleGeneralFormReset(row.id)"
-                    submitText="提交一般资料"
-                    resetText="重置一般资料"
-                    style="
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                    "
-                  />
-                </template>
-              </el-collapse-item>
-
-              <el-collapse-item title="内分泌治疗" name="6" style="width: 100%">
-                <template v-if="rowDataLoading[row.id]?.general">
-                  <el-skeleton :rows="3" animated />
-                </template>
-                <template v-else>
-                  <div class="form-header">
-                    <h3>一般资料</h3>
-                    <el-button
-                      @click="handleGeneralEdit(row.id, 'general')"
-                      type="primary"
-                      size="small"
-                    >
-                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
-                    </el-button>
-                  </div>
-                  <PlusForm
-                    v-if="
-                      expandedFormData[row.id] &&
-                      expandedFormData[row.id].general
-                    "
-                    :key="`general-${row.id}`"
-                    v-model="expandedFormData[row.id].general"
-                    class="w-[80%] max-w-[1000px] m-auto"
-                    :columns="generalFormColumns"
-                    :rules="rules"
-                    label-position="right"
-                    @change="
-                      (values, column) =>
-                        handleFormChange(values, column, row.id)
-                    "
-                    :disabled="!editState.general[row.id]"
-                    lazy
-                    @submit="values => handleGeneralFormSubmit(values, row.id)"
-                    @reset="() => handleGeneralFormReset(row.id)"
-                    submitText="提交一般资料"
-                    resetText="重置一般资料"
-                    style="
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                    "
-                  />
-                </template>
-              </el-collapse-item>
-
-              <el-collapse-item
-                title="放射治疗相关"
-                name="7"
-                style="width: 100%"
-              >
-                <template v-if="rowDataLoading[row.id]?.general">
-                  <el-skeleton :rows="3" animated />
-                </template>
-                <template v-else>
-                  <div class="form-header">
-                    <h3>一般资料</h3>
-                    <el-button
-                      @click="handleGeneralEdit(row.id, 'general')"
-                      type="primary"
-                      size="small"
-                    >
-                      {{ editState.general[row.id] ? "取消编辑" : "编辑" }}
-                    </el-button>
-                  </div>
-                  <PlusForm
-                    v-if="
-                      expandedFormData[row.id] &&
-                      expandedFormData[row.id].general
-                    "
-                    :key="`general-${row.id}`"
-                    v-model="expandedFormData[row.id].general"
-                    class="w-[80%] max-w-[1000px] m-auto"
-                    :columns="generalFormColumns"
+                    :columns="generateGeneralFormColumns(row.id)"
                     :rules="rules"
                     label-position="right"
                     @change="

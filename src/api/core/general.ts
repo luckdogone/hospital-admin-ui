@@ -17,6 +17,19 @@ export function generalQueryList<T>(query?: any): Promise<Result<T>> {
   return get("/core/general/query/list", query);
 }
 /**
+ *  检查code是否重复
+ * @param code code
+ * @param id 需要排查的ID
+ * @returns .
+ */
+export function checkCode<T>(code: string, id?: string): Promise<Result<T>> {
+  const _data: any = { code: code };
+  if (id) {
+    _data.id = id;
+  }
+  return get("/core/general/check/code", _data);
+}
+/**
  *  保存基础信息数据
  * @param data .
  * @returns  .
