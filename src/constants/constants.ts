@@ -25,6 +25,10 @@ export const MenuTypeMap: SelectOptionMap<string> = {
 /**
  * 状态
  */
+export const sexOptions: SelectOption<number>[] = [
+  { label: "男", value: 1 },
+  { label: "女", value: 0 }
+];
 export const enableOptions: SelectOption<number>[] = [
   { label: "启用", value: 1 },
   { label: "禁用", value: 0 }
