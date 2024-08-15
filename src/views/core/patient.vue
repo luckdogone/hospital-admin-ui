@@ -18,6 +18,7 @@ import * as generalApi from "@/api/core/general";
 import * as caseApi from "@/api/core/case";
 import "plus-pro-components/es/components/form/style/css";
 import { ElMessage } from "element-plus";
+import message from "@/utils/message";
 
 defineOptions({ name: "corePatient" });
 
@@ -911,6 +912,33 @@ const handlePageChange = (current: number, size: number) => {
   loadTableData();
 };
 
+/**
+ * 删除
+ */
+const handleDel = (record: any) => {
+  message.confirm("确认删除当前数据").then(() => {
+    _delete([record.id]);
+  });
+};
+const _delete = (ids: any[]) => {
+  if (ids && ids.length > 0) {
+    pageData.tableParams.loading = true;
+    patientApi
+      .patientDel(ids)
+      .then(res => {
+        if (res.success) {
+          message.success("删除成功");
+          loadTableData();
+        } else {
+          message.warning(res.message);
+        }
+      })
+      .finally(() => {
+        pageData.tableParams.loading = false;
+      });
+  }
+};
+
 //表格数据加载函数
 const loadTableData = () => {
   pageData.tableParams.loading = true;
@@ -1726,6 +1754,7 @@ onMounted(() => {
           <el-link
             v-show="hasAuth(pageData.permission.delete) && row.isSystem !== 1"
             type="primary"
+            @click="handleDel(row)"
           >
             删除
           </el-link>
