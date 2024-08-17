@@ -84,6 +84,7 @@ const _save = () => {
     .then((res: any) => {
       if (res.success) {
         _confirm();
+        message("新增成功", { type: "success" });
       } else {
         message(res.message, { type: "warning" });
       }
@@ -100,6 +101,7 @@ const _update = () => {
     .then((res: any) => {
       if (res.success) {
         _confirm();
+        message("修改成功", { type: "success" });
       } else {
         message(res.message, { type: "warning" });
       }
