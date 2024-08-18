@@ -16,11 +16,21 @@ import { enableOptions } from "@/constants/constants";
 import * as patientApi from "@/api/core/patient";
 import * as generalApi from "@/api/core/general";
 import * as caseApi from "@/api/core/case";
+import * as surgicalApi from "@/api/core/surgical";
+import * as neoadjuvantApi from "@/api/core/neoadjuvant";
+import * as adjuvantApi from "@/api/core/adjuvant";
+import * as endocrineApi from "@/api/core/endocrine";
+import * as radiationApi from "@/api/core/radiation";
 import "plus-pro-components/es/components/form/style/css";
 import { ElMessage } from "element-plus";
 import message from "@/utils/message";
 import GeneralInfo from "./modules/general-expand.vue";
 import CaseInfo from "./modules/case-expand.vue";
+import SurgeryInfo from "./modules/surgical-expand.vue";
+import NeoadjuvantInfo from "./modules/neoadjuvant-expand.vue";
+import AdjuvantInfo from "./modules/adjuvant-expand.vue";
+import EndocrineInfo from "./modules/endocrine-expand.vue";
+import RadiationInfo from "./modules/radiation-expand.vue";
 
 defineOptions({ name: "corePatient" });
 
@@ -29,7 +39,15 @@ const patientEditRef = ref();
 // const currentRowId = ref(null);
 const rowActiveNames = ref<{ [key: number]: CollapseModelValue }>({});
 const rowDataLoading = ref<{
-  [key: number]: { general: boolean; case: boolean };
+  [key: number]: {
+    general: boolean;
+    case: boolean;
+    surgical: boolean;
+    neoadjuvant: boolean;
+    adjuvant: boolean;
+    endocrine: boolean;
+    radiation: boolean;
+  };
 }>({});
 const expandedFormData = reactive<{ [key: number]: any }>({});
 
@@ -41,7 +59,12 @@ const pageData: any = reactive({
     update: ["patient:update"],
     delete: ["patient:del"],
     general_update: ["general:update"],
-    case_update: ["general:update"]
+    case_update: ["general:update"],
+    surgical_update: ["general:update"],
+    neoadjuvant_update: ["general:update"],
+    adjuvant_update: ["general:update"],
+    endocrine_update: ["general:update"],
+    radiation_update: ["general:update"]
   },
   searchState: true,
   searchField: [
@@ -394,7 +417,15 @@ const handleCollapseChange = (val: CollapseModelValue, rowId: number) => {
 // 加载一般资料
 const loadGeneralData = (id: number) => {
   if (!rowDataLoading.value[id]) {
-    rowDataLoading.value[id] = { general: false, case: false };
+    rowDataLoading.value[id] = {
+      general: false,
+      case: false,
+      surgical: false,
+      neoadjuvant: false,
+      adjuvant: false,
+      endocrine: false,
+      radiation: false
+    };
   }
   rowDataLoading.value[id].general = true;
 
@@ -447,7 +478,15 @@ const loadGeneralData = (id: number) => {
 // 加载病历资料
 const loadCaseData = (id: number) => {
   if (!rowDataLoading.value[id]) {
-    rowDataLoading.value[id] = { general: false, case: false };
+    rowDataLoading.value[id] = {
+      general: false,
+      case: false,
+      surgical: false,
+      neoadjuvant: false,
+      adjuvant: false,
+      endocrine: false,
+      radiation: false
+    };
   }
   rowDataLoading.value[id].case = true;
 
@@ -577,6 +616,368 @@ const loadCaseData = (id: number) => {
     });
 };
 
+const loadSurgeryData = (id: number) => {
+  if (!rowDataLoading.value[id]) {
+    rowDataLoading.value[id] = {
+      general: false,
+      case: false,
+      surgical: false,
+      neoadjuvant: false,
+      adjuvant: false,
+      endocrine: false,
+      radiation: false
+    };
+  }
+  rowDataLoading.value[id].surgical = true;
+
+  const query = { patientId: id };
+
+  surgicalApi
+    .surgicalQueryList(query)
+    .then((res: any) => {
+      if (res.success && res.result.length > 0) {
+        const surgicalData = res.result[0];
+
+        const newSurgeryData = {
+          id: surgicalData.id,
+          patientId: surgicalData.patientId,
+          surgeryTime: surgicalData.surgeryTime,
+          isTotalPartial: surgicalData.isTotalPartial,
+          isBreastConserve: surgicalData.isBreastConserve,
+          isNippleSpare: surgicalData.isNippleSpare,
+          isEndoscopic: surgicalData.isEndoscopic,
+          isReconstruction: surgicalData.isReconstruction,
+          reconMethod: surgicalData.reconMethod,
+          tumorSizeCm: surgicalData.tumorSizeCm,
+          hasLymphInvasion: surgicalData.hasLymphInvasion,
+          hasNerveInvasion: surgicalData.hasNerveInvasion,
+          postopPathGrade: surgicalData.postopPathGrade,
+          isMultifocal: surgicalData.isMultifocal,
+          tumorLocation: surgicalData.tumorLocation,
+          hasSlnBiopsy: surgicalData.hasSlnBiopsy,
+          useNs: surgicalData.useNs,
+          preTad: surgicalData.preTad,
+          slnCount: surgicalData.slnCount,
+          slnMeta: surgicalData.slnMeta,
+          slnMetaCount: surgicalData.slnMetaCount,
+          slnMicroMetaCount: surgicalData.slnMicroMetaCount,
+          slnItcCount: surgicalData.slnItcCount,
+          ald: surgicalData.ald,
+          aldStage: surgicalData.aldStage,
+          aldCount: surgicalData.aldCount,
+          aldMetaCount: surgicalData.aldMetaCount,
+          aldMicroMetaCount: surgicalData.aldMicroMetaCount,
+          aldItcCount: surgicalData.aldItcCount,
+          apexMeta: surgicalData.apexMeta,
+          imMeta: surgicalData.imMeta,
+          ihcResult: surgicalData.ihcResult,
+          erPct: surgicalData.erPct,
+          prPct: surgicalData.prPct,
+          her2: surgicalData.her2,
+          ki67Pct: surgicalData.ki67Pct,
+          arPct: surgicalData.arPct,
+          fishTest: surgicalData.fishTest,
+          tnm: surgicalData.tnm,
+          stage: surgicalData.stage,
+          subtype: surgicalData.subtype,
+          mpLevel: surgicalData.mpLevel,
+          inputStatus: surgicalData.inputStatus,
+          createdBy: surgicalData.createdBy,
+          created: surgicalData.created,
+          modifiedBy: surgicalData.modifiedBy,
+          modified: surgicalData.modified,
+          isEnable: surgicalData.isEnable,
+          isDel: surgicalData.isDel
+        };
+
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          surgical: { ...newSurgeryData },
+          originalSurgery: { ...newSurgeryData }
+        };
+      } else {
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          surgical: {},
+          originalSurgery: {}
+        };
+      }
+    })
+    .catch(error => {
+      console.error("Failed to load surgical data:", error);
+      expandedFormData[id] = {
+        ...expandedFormData[id],
+        surgical: {},
+        originalSurgery: {}
+      };
+    })
+    .finally(() => {
+      rowDataLoading.value[id].surgical = false;
+    });
+};
+
+const loadNeoadjuvantData = (id: number) => {
+  if (!rowDataLoading.value[id]) {
+    rowDataLoading.value[id] = {
+      general: false,
+      case: false,
+      surgical: false,
+      neoadjuvant: false,
+      adjuvant: false,
+      endocrine: false,
+      radiation: false
+    };
+  }
+  rowDataLoading.value[id].neoadjuvant = true;
+
+  const query = { patientId: id };
+
+  neoadjuvantApi
+    .neoadjuvantQueryList(query)
+    .then((res: any) => {
+      if (res.success && res.result.length > 0) {
+        const neoadjuvantData = res.result[0];
+
+        const newNeoadjuvantData = {
+          id: neoadjuvantData.id,
+          patientId: neoadjuvantData.patientId,
+          neoadjTherapy: neoadjuvantData.neoadjTherapy,
+          clinResearch: neoadjuvantData.clinResearch,
+          researchDetails: neoadjuvantData.researchDetails,
+          therapyPlan: neoadjuvantData.therapyPlan,
+          immunotherapy: neoadjuvantData.immunotherapy,
+          week1Size: neoadjuvantData.week1Size,
+          week2Size: neoadjuvantData.week2Size,
+          week3Size: neoadjuvantData.week3Size,
+          week4Size: neoadjuvantData.week4Size,
+          week5Size: neoadjuvantData.week5Size,
+          week6Size: neoadjuvantData.week6Size,
+          week23Size: neoadjuvantData.week23Size,
+          week45Size: neoadjuvantData.week45Size,
+          week67Size: neoadjuvantData.week67Size,
+          week8Size: neoadjuvantData.week8Size,
+          doseAdjust: neoadjuvantData.doseAdjust,
+          adjustReason: neoadjuvantData.adjustReason,
+          therapyTerm: neoadjuvantData.therapyTerm,
+          termReason: neoadjuvantData.termReason,
+          gcsf: neoadjuvantData.gcsf,
+          longGcsf: neoadjuvantData.longGcsf,
+          inputStatus: neoadjuvantData.inputStatus
+        };
+
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          neoadjuvant: { ...newNeoadjuvantData },
+          originalNeoadjuvant: { ...newNeoadjuvantData }
+        };
+      } else {
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          neoadjuvant: {},
+          originalNeoadjuvant: {}
+        };
+      }
+    })
+    .catch(error => {
+      console.error("Failed to load neoadjuvant data:", error);
+      expandedFormData[id] = {
+        ...expandedFormData[id],
+        neoadjuvant: {},
+        originalNeoadjuvant: {}
+      };
+    })
+    .finally(() => {
+      rowDataLoading.value[id].neoadjuvant = false;
+    });
+};
+
+const loadAdjuvantData = (id: number) => {
+  if (!rowDataLoading.value[id]) {
+    rowDataLoading.value[id] = {
+      general: false,
+      case: false,
+      surgical: false,
+      neoadjuvant: false,
+      adjuvant: false,
+      endocrine: false,
+      radiation: false
+    };
+  }
+  rowDataLoading.value[id].adjuvant = true;
+
+  const query = { patientId: id };
+
+  adjuvantApi
+    .adjuvantQueryList(query)
+    .then((res: any) => {
+      if (res.success && res.result.length > 0) {
+        const adjuvantData = res.result[0];
+
+        const newAdjuvantData = {
+          id: adjuvantData.id,
+          patientId: adjuvantData.patientId,
+          adjuvantTherapy: adjuvantData.adjuvantTherapy,
+          clinicalResearch: adjuvantData.clinicalResearch,
+          researchDetails: adjuvantData.researchDetails,
+          therapyPlan: adjuvantData.therapyPlan,
+          intensifiedTherapy: adjuvantData.intensifiedTherapy,
+          intensifiedPlan: adjuvantData.intensifiedPlan,
+          doseAdjustment: adjuvantData.doseAdjustment,
+          adjustmentReason: adjuvantData.adjustmentReason,
+          therapyTermination: adjuvantData.therapyTermination,
+          terminationReason: adjuvantData.terminationReason,
+          inputStatus: adjuvantData.inputStatus
+        };
+
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          adjuvant: { ...newAdjuvantData },
+          originalAdjuvant: { ...newAdjuvantData }
+        };
+      } else {
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          adjuvant: {},
+          originalAdjuvant: {}
+        };
+      }
+    })
+    .catch(error => {
+      console.error("Failed to load adjuvant data:", error);
+      expandedFormData[id] = {
+        ...expandedFormData[id],
+        adjuvant: {},
+        originalAdjuvant: {}
+      };
+    })
+    .finally(() => {
+      rowDataLoading.value[id].adjuvant = false;
+    });
+};
+
+const loadEndocrineData = (id: number) => {
+  if (!rowDataLoading.value[id]) {
+    rowDataLoading.value[id] = {
+      general: false,
+      case: false,
+      surgical: false,
+      neoadjuvant: false,
+      adjuvant: false,
+      endocrine: false,
+      radiation: false
+    };
+  }
+  rowDataLoading.value[id].endocrine = true;
+
+  const query = { patientId: id };
+
+  endocrineApi
+    .endocrineQueryList(query)
+    .then((res: any) => {
+      if (res.success && res.result.length > 0) {
+        const endocrineData = res.result[0];
+
+        const newEndocrineData = {
+          id: endocrineData.id,
+          patientId: endocrineData.patientId,
+          endocrineTreatment: endocrineData.endocrineTreatment,
+          clinicalResearch: endocrineData.clinicalResearch,
+          clinicalResearchDetails: endocrineData.clinicalResearchDetails,
+          treatmentPlan: endocrineData.treatmentPlan,
+          enhancedTreatment: endocrineData.enhancedTreatment,
+          enhancedPlan: endocrineData.enhancedPlan,
+          dosageAdjustment: endocrineData.dosageAdjustment,
+          adjustmentReason: endocrineData.adjustmentReason,
+          medicationAdjustment: endocrineData.medicationAdjustment,
+          medAdjustReason: endocrineData.medAdjustReason,
+          inputStatus: endocrineData.inputStatus
+        };
+
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          endocrine: { ...newEndocrineData },
+          originalEndocrine: { ...newEndocrineData }
+        };
+      } else {
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          endocrine: {},
+          originalEndocrine: {}
+        };
+      }
+    })
+    .catch(error => {
+      console.error("Failed to load endocrine data:", error);
+      expandedFormData[id] = {
+        ...expandedFormData[id],
+        endocrine: {},
+        originalEndocrine: {}
+      };
+    })
+    .finally(() => {
+      rowDataLoading.value[id].endocrine = false;
+    });
+};
+
+const loadRadiationData = (id: number) => {
+  if (!rowDataLoading.value[id]) {
+    rowDataLoading.value[id] = {
+      general: false,
+      case: false,
+      surgical: false,
+      neoadjuvant: false,
+      adjuvant: false,
+      endocrine: false,
+      radiation: false
+    };
+  }
+  rowDataLoading.value[id].radiation = true;
+
+  const query = { patientId: id };
+
+  radiationApi
+    .radiationQueryList(query)
+    .then((res: any) => {
+      if (res.success && res.result.length > 0) {
+        const radiationData = res.result[0];
+
+        const newRadiationData = {
+          id: radiationData.id,
+          patientId: radiationData.patientId,
+          radiationTreatment: radiationData.radiationTreatment,
+          clinicalResearch: radiationData.clinicalResearch,
+          clinicalResearchDetails: radiationData.clinicalResearchDetails,
+          treatmentPlan: radiationData.treatmentPlan,
+          treatmentLocation: radiationData.treatmentLocation,
+          inputStatus: radiationData.inputStatus
+        };
+
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          radiation: { ...newRadiationData },
+          originalRadiation: { ...newRadiationData }
+        };
+      } else {
+        expandedFormData[id] = {
+          ...expandedFormData[id],
+          radiation: {},
+          originalRadiation: {}
+        };
+      }
+    })
+    .catch(error => {
+      console.error("Failed to load radiation data:", error);
+      expandedFormData[id] = {
+        ...expandedFormData[id],
+        radiation: {},
+        originalRadiation: {}
+      };
+    })
+    .finally(() => {
+      rowDataLoading.value[id].radiation = false;
+    });
+};
+
 // 处理展开/折叠
 const handleExpand = (row: any, expanded: boolean) => {
   if (expanded) {
@@ -584,23 +985,46 @@ const handleExpand = (row: any, expanded: boolean) => {
       expandedFormData[row.id] = {
         main: { ...row, disabled: true },
         general: {},
-        case: {}
+        case: {},
+        surgical: {},
+        neoadjuvant: {},
+        adjuvant: {},
+        endocrine: {},
+        radiation: {}
       };
     }
     if (!rowActiveNames.value[row.id]) {
       rowActiveNames.value[row.id] = [];
     }
     if (!rowDataLoading.value[row.id]) {
-      rowDataLoading.value[row.id] = { general: false, case: false };
+      rowDataLoading.value[row.id] = {
+        general: false,
+        case: false,
+        surgical: false,
+        neoadjuvant: false,
+        adjuvant: false,
+        endocrine: false,
+        radiation: false
+      };
     }
     // 当展开行时，立即加载数据
     loadGeneralData(row.id);
     loadCaseData(row.id);
+    loadSurgeryData(row.id);
+    loadNeoadjuvantData(row.id);
+    loadAdjuvantData(row.id);
+    loadEndocrineData(row.id);
+    loadRadiationData(row.id);
   }
 };
 
 // 编辑状态
 const editState: { [key: string]: { [key: string]: boolean } } = reactive({
+  radiation: {},
+  endocrine: {},
+  adjuvant: {},
+  neoadjuvant: {},
+  surgical: {},
   general: {},
   case: {},
   main: {}
@@ -785,6 +1209,76 @@ onMounted(() => {
                     :row-id="row.id"
                     v-model:form-data="expandedFormData[row.id].case"
                     v-model:is-editing="editState.case[row.id]"
+                    :permissions="pageData.permission"
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="手术相关" name="3" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.surgical">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <SurgeryInfo
+                    :row-id="row.id"
+                    v-model:form-data="expandedFormData[row.id].surgical"
+                    v-model:is-editing="editState.surgical[row.id]"
+                    :permissions="pageData.permission"
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="新辅助治疗" name="4" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.neoadjuvant">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <NeoadjuvantInfo
+                    :row-id="row.id"
+                    v-model:form-data="expandedFormData[row.id].neoadjuvant"
+                    v-model:is-editing="editState.neoadjuvant[row.id]"
+                    :permissions="pageData.permission"
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="辅助治疗" name="5" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.adjuvant">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <AdjuvantInfo
+                    :row-id="row.id"
+                    v-model:form-data="expandedFormData[row.id].adjuvant"
+                    v-model:is-editing="editState.adjuvant[row.id]"
+                    :permissions="pageData.permission"
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="内分泌治疗" name="6" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.endocrine">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <EndocrineInfo
+                    :row-id="row.id"
+                    v-model:form-data="expandedFormData[row.id].endocrine"
+                    v-model:is-editing="editState.endocrine[row.id]"
+                    :permissions="pageData.permission"
+                  />
+                </template>
+              </el-collapse-item>
+
+              <el-collapse-item title="放射治疗" name="7" style="width: 100%">
+                <template v-if="rowDataLoading[row.id]?.radiation">
+                  <el-skeleton :rows="3" animated />
+                </template>
+                <template v-else>
+                  <RadiationInfo
+                    :row-id="row.id"
+                    v-model:form-data="expandedFormData[row.id].radiation"
+                    v-model:is-editing="editState.radiation[row.id]"
                     :permissions="pageData.permission"
                   />
                 </template>
