@@ -87,7 +87,7 @@ nextTick(() => {
         class="set-icon navbar-bg-hover"
         title="打开项目配置"
         @click="onPanel"
-        v-if="false"
+        v-if="true"
       >
         <IconifyIconOffline :icon="Setting" />
       </span>

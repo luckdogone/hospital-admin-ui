@@ -154,11 +154,8 @@ const handleSubmit = async (values: FieldValues): Promise<void> => {
       return;
     }
 
-    const { id: _, ...updateData } = values;
-    const res = await endocrineApi.endocrineUpdate(
-      String(props.rowId),
-      updateData
-    );
+    const { id, ...updateData } = values;
+    const res = await endocrineApi.endocrineUpdate(String(id), updateData);
     if (res.success) {
       ElMessage.success("内分泌治疗资料提交成功");
       localFormData.value = { ...values };

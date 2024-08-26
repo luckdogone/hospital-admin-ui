@@ -42,6 +42,81 @@ watch(
   { deep: true }
 );
 
+// 添加在 script 部分的其他 watch 函数附近
+watch(
+  () => localFormData.value.ultrasoundStatus,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.ultrasoundSize = "";
+      localFormData.value.ultrasoundBloodFlow = null;
+      localFormData.value.ultrasoundBirads = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.mammographyStatus,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.mammographySize = "";
+      localFormData.value.mammographyAggregation = null;
+      localFormData.value.mammographyBirads = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.mriStatus,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.mriSize = "";
+      localFormData.value.mriBloodFlow = null;
+      localFormData.value.mriBirads = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.breastCoreNeedle,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.breastCoreNeedleResult = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.axillaryCoreNeedle,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.axillaryCoreNeedleResult = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.axillaryFineNeedle,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.axillaryFineNeedleResult = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.ihcResult,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.erPct = null;
+      localFormData.value.prPct = null;
+      localFormData.value.her2 = null;
+      localFormData.value.ki67Pct = null;
+      localFormData.value.arPct = null;
+      localFormData.value.fishTest = null;
+    }
+  }
+);
+
 // 病历资料表单列定义
 const caseColumns = computed(() => {
   const isUltrasoundDisabled =
@@ -56,6 +131,18 @@ const caseColumns = computed(() => {
     !localFormData.value ||
     !localFormData.value.mriStatus ||
     localFormData.value.mriStatus === 0;
+  const isBreastCoreNeedleDisabled =
+    !localFormData.value ||
+    !localFormData.value.breastCoreNeedle ||
+    localFormData.value.breastCoreNeedle === 0;
+  const isAxillaryCoreNeedleDisabled =
+    !localFormData.value ||
+    !localFormData.value.axillaryCoreNeedle ||
+    localFormData.value.axillaryCoreNeedle === 0;
+  const isAxillaryFineNeedleDisabled =
+    !localFormData.value ||
+    !localFormData.value.axillaryFineNeedle ||
+    localFormData.value.axillaryFineNeedle === 0;
   const isIhcDisabled =
     !localFormData.value ||
     !localFormData.value.ihcResult ||
@@ -250,10 +337,10 @@ const caseColumns = computed(() => {
     },
     {
       label: "血小板计数",
-      width: 120,
+      width: 240,
       prop: "platelets",
       valueType: "copy",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入血小板计数"
       }
@@ -285,7 +372,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "alkalinePhosphatase",
       valueType: "copy",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入碱性磷酸酶"
       }
@@ -317,7 +404,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "uricAcid",
       valueType: "copy",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入尿酸"
       }
@@ -404,7 +491,8 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入乳腺粗针穿刺病理结果"
+        placeholder: "请输入乳腺粗针穿刺病理结果",
+        disabled: isBreastCoreNeedleDisabled
       }
     },
     // 入院腋窝核心针检查
@@ -429,7 +517,8 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入腋窝粗针穿刺病理结果"
+        placeholder: "请输入腋窝粗针穿刺病理结果",
+        disabled: isAxillaryCoreNeedleDisabled
       }
     },
     // 入院腋窝细针穿刺检查
@@ -454,7 +543,8 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入腋窝细针穿刺病理结果"
+        placeholder: "请输入腋窝细针穿刺病理结果",
+        disabled: isAxillaryFineNeedleDisabled
       }
     },
     // 入院IHC检查
@@ -479,7 +569,8 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入ER%"
+        placeholder: "请输入ER%",
+        disabled: isIhcDisabled
       }
     },
     {
@@ -489,7 +580,8 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入PR%"
+        placeholder: "请输入PR%",
+        disabled: isIhcDisabled
       }
     },
     {
@@ -536,7 +628,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "fishTest",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择FISH检测结果",
         disabled: isIhcDisabled
@@ -630,8 +722,8 @@ const handleSubmit = async (values: FieldValues): Promise<void> => {
       return;
     }
 
-    const { id: _, ...updateData } = values;
-    const res = await caseApi.caseUpdate(String(props.rowId), updateData);
+    const { id, ...updateData } = values;
+    const res = await caseApi.caseUpdate(String(id), updateData);
     if (res.success) {
       ElMessage.success("病历资料提交成功");
       localFormData.value = { ...values };

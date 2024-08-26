@@ -286,11 +286,8 @@ const handleSubmit = async (values: FieldValues): Promise<void> => {
       return;
     }
 
-    const { id: _, ...updateData } = values;
-    const res = await neoadjuvantApi.neoadjuvantUpdate(
-      String(props.rowId),
-      updateData
-    );
+    const { id, ...updateData } = values;
+    const res = await neoadjuvantApi.neoadjuvantUpdate(String(id), updateData);
     if (res.success) {
       ElMessage.success("新辅助治疗资料提交成功");
       localFormData.value = { ...values };

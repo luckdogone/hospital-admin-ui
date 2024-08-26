@@ -113,11 +113,8 @@ const handleSubmit = async (values: FieldValues): Promise<void> => {
       return;
     }
 
-    const { id: _, ...updateData } = values;
-    const res = await radiationApi.radiationUpdate(
-      String(props.rowId),
-      updateData
-    );
+    const { id, ...updateData } = values;
+    const res = await radiationApi.radiationUpdate(String(id), updateData);
     if (res.success) {
       ElMessage.success("放射治疗资料提交成功");
       localFormData.value = { ...values };

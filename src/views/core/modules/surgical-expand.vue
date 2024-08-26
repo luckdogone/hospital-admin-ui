@@ -589,11 +589,8 @@ const handleSubmit = async (values: FieldValues): Promise<void> => {
       return;
     }
 
-    const { id: _, ...updateData } = values;
-    const res = await surgicalApi.surgicalUpdate(
-      String(props.rowId),
-      updateData
-    );
+    const { id, ...updateData } = values;
+    const res = await surgicalApi.surgicalUpdate(String(id), updateData);
     if (res.success) {
       ElMessage.success("手术相关资料提交成功");
       localFormData.value = { ...values };

@@ -124,8 +124,8 @@ const handleGeneralFormSubmit = async (values: FieldValues): Promise<void> => {
       return;
     }
 
-    const { id: _, ...updateData } = values;
-    const res = await generalApi.generalUpdate(String(props.rowId), updateData);
+    const { id, ...updateData } = values;
+    const res = await generalApi.generalUpdate(String(id), updateData);
     if (res.success) {
       ElMessage.success("一般资料提交成功");
       localFormData.value = { ...values };
