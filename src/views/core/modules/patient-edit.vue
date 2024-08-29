@@ -171,7 +171,7 @@ defineOptions({ name: "PatientEdit" });
           <el-input
             v-model="pageData.formData.contactPhone"
             clearable
-            placeholder="请输入年龄"
+            placeholder="请输入联系人电话"
           />
         </el-form-item>
         <el-form-item label="住址" prop="address">

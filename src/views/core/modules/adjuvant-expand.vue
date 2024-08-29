@@ -40,91 +40,147 @@ watch(
   { deep: true }
 );
 
+watch(
+  () => localFormData.value.clinicalResearch,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.researchDetails = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.intensifiedTherapy,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.intensifiedPlan = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.doseAdjustment,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.adjustmentReason = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.therapyTermination,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.terminationReason = null;
+    }
+  }
+);
+
 const adjuvantColumns = computed(() => {
+  const isClinicalResearchDisabled =
+    !localFormData.value ||
+    !localFormData.value.clinicalResearch ||
+    localFormData.value.clinicalResearch === 0;
+  const isIntensifiedTherapyDisabled =
+    !localFormData.value ||
+    !localFormData.value.intensifiedTherapy ||
+    localFormData.value.intensifiedTherapy === 0;
+  const isDoseAdjustmentDisabled =
+    !localFormData.value ||
+    !localFormData.value.doseAdjustment ||
+    localFormData.value.doseAdjustment === 0;
+  const isTherapyTerminationDisabled =
+    !localFormData.value ||
+    !localFormData.value.therapyTermination ||
+    localFormData.value.therapyTermination === 0;
   return [
     {
-      label: "辅助治疗",
+      label: "是否进行辅助治疗",
       width: 120,
       prop: "adjuvantTherapy",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "参与临床研究",
+      label: "是否加入临床研究",
       width: 120,
       prop: "clinicalResearch",
       valueType: "switch",
-      colProps: { span: 12 }
+      colProps: { span: 24 }
     },
     {
-      label: "研究详情",
+      label: "具体临床研究",
       width: 120,
       prop: "researchDetails",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入研究详情"
+        placeholder: "请输入具体临床研究",
+        disabled: isClinicalResearchDisabled
       }
     },
     {
-      label: "治疗方案",
+      label: "具体辅助治疗方案",
       width: 120,
       prop: "therapyPlan",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入治疗方案"
+        placeholder: "请输入具体辅助治疗方案"
       }
     },
     {
-      label: "强化治疗",
+      label: "是否有强化治疗应用",
       width: 120,
       prop: "intensifiedTherapy",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "强化方案",
+      label: "具体强化辅助治疗方案",
       width: 120,
       prop: "intensifiedPlan",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入强化方案"
+        placeholder: "请输入具体强化辅助治疗方案",
+        disabled: isIntensifiedTherapyDisabled
       }
     },
     {
-      label: "剂量调整",
+      label: "是否有辅助药物剂量调整",
       width: 120,
       prop: "doseAdjustment",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "调整原因",
+      label: "辅助药物剂量调整原因",
       width: 120,
       prop: "adjustmentReason",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入调整原因"
+        placeholder: "请输入调整原因",
+        disabled: isDoseAdjustmentDisabled
       }
     },
     {
-      label: "终止治疗",
+      label: "是否终止辅助治疗",
       width: 120,
       prop: "therapyTermination",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "终止原因",
+      label: "终止辅助治疗原因",
       width: 120,
       prop: "terminationReason",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入终止原因"
+        placeholder: "请输入终止原因",
+        disabled: isTherapyTerminationDisabled
       }
     }
   ] as PlusColumn[];

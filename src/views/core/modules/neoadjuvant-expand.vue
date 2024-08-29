@@ -40,222 +40,236 @@ watch(
   { deep: true }
 );
 
+watch(
+  () => localFormData.value.clinResearch,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.researchDetails = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.doseAdjust,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.adjustReason = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.therapyTerm,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.termReason = null;
+    }
+  }
+);
+
 const neoadjuvantColumns = computed(() => {
+  const isClinResearchDisabled =
+    !localFormData.value ||
+    !localFormData.value.clinResearch ||
+    localFormData.value.clinResearch === 0;
+  const isDoseAdjustDisabled =
+    !localFormData.value ||
+    !localFormData.value.doseAdjust ||
+    localFormData.value.doseAdjust === 0;
+  const isTherapyTermDisabled =
+    !localFormData.value ||
+    !localFormData.value.therapyTerm ||
+    localFormData.value.therapyTerm === 0;
   return [
     {
-      label: "新辅助治疗",
+      label: "是否进行新辅助治疗",
       width: 120,
       prop: "neoadjTherapy",
       valueType: "switch",
-      colProps: { span: 12 }
+      colProps: { span: 24 }
     },
     {
-      label: "参与临床研究",
+      label: "是否加入临床研究",
       width: 120,
       prop: "clinResearch",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "研究详情",
+      label: "具体临床研究",
       width: 120,
       prop: "researchDetails",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入研究详情"
+        placeholder: "请输入具体临床研究",
+        disabled: isClinResearchDisabled
       }
     },
     {
-      label: "治疗方案",
+      label: "具体新辅助治疗方案",
       width: 120,
       prop: "therapyPlan",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入治疗方案"
+        placeholder: "请输入具体新辅助治疗方案"
       }
     },
     {
-      label: "免疫治疗",
+      label: "是否有免疫药物应用",
       width: 120,
       prop: "immunotherapy",
       valueType: "switch",
-      colProps: { span: 12 }
+      colProps: { span: 24 }
     },
     {
-      label: "1周期肿物大小",
+      label: "1周期超声示肿物大小",
       width: 120,
       prop: "week1Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入1周期肿物大小"
+        placeholder: "请输入1周期超声示肿物大小"
       }
     },
     {
-      label: "2周期肿物大小",
+      label: "2周期超声示肿物大小",
       width: 120,
       prop: "week2Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入2周期肿物大小"
+        placeholder: "请输入2周期超声示肿物大小"
       }
     },
     {
-      label: "3周期肿物大小",
+      label: "3周期超声示肿物大小",
       width: 120,
       prop: "week3Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入3周期肿物大小"
+        placeholder: "请输入3周期超声示肿物大小"
       }
     },
     {
-      label: "4周期肿物大小",
+      label: "4周期超声示肿物大小",
       width: 120,
       prop: "week4Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入4周期肿物大小"
+        placeholder: "请输入4周期超声示肿物大小"
       }
     },
     {
-      label: "5周期肿物大小",
+      label: "5周期超声示肿物大小",
       width: 120,
       prop: "week5Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入5周期肿物大小"
+        placeholder: "请输入5周期超声示肿物大小"
       }
     },
     {
-      label: "6周期肿物大小",
+      label: "6周期超声示肿物大小",
       width: 120,
       prop: "week6Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入6周期肿物大小"
+        placeholder: "请输入6周期超声示肿物大小"
       }
     },
     {
-      label: "2/3周期肿物大小",
+      label: "2/3周期超声示肿物大小",
       width: 120,
       prop: "week23Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入2/3周期肿物大小"
+        placeholder: "请输入2/3周期超声示肿物大小"
       }
     },
     {
-      label: "4/5周期肿物大小",
+      label: "4/5周期超声示肿物大小",
       width: 120,
       prop: "week45Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入4/5周期肿物大小"
+        placeholder: "请输入4/5周期超声示肿物大小"
       }
     },
     {
-      label: "6/7周期肿物大小",
+      label: "6/7周期超声示肿物大小",
       width: 120,
       prop: "week67Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入6/7周期肿物大小"
+        placeholder: "请输入6/7周期超声示肿物大小"
       }
     },
     {
-      label: "8周期肿物大小",
+      label: "8周期超声示肿物大小",
       width: 120,
       prop: "week8Size",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入8周期肿物大小"
+        placeholder: "请输入8周期超声示肿物大小"
       }
     },
     {
-      label: "剂量调整",
+      label: "是否有新辅助药物剂量调整",
       width: 120,
       prop: "doseAdjust",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "调整原因",
+      label: "新辅助药物剂量调整原因",
       width: 120,
       prop: "adjustReason",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入调整原因"
+        placeholder: "请输入新辅助药物剂量调整原因",
+        disabled: isDoseAdjustDisabled
       }
     },
     {
-      label: "终止治疗",
+      label: "是否终止新辅助治疗",
       width: 120,
       prop: "therapyTerm",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "终止原因",
+      label: "终止新辅助治疗原因",
       width: 120,
       prop: "termReason",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入终止原因"
+        placeholder: "请输入终止原因",
+        disabled: isTherapyTermDisabled
       }
     },
     {
-      label: "G-CSF",
+      label: "是否有升白针应用",
       width: 120,
       prop: "gcsf",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "长效G-CSF",
+      label: "是否有长效升白针应用",
       width: 120,
       prop: "longGcsf",
-      valueType: "switch",
-      colProps: { span: 12 }
-    },
-    {
-      label: "录入状态",
-      width: 120,
-      prop: "inputStatus",
-      valueType: "select",
-      colProps: { span: 12 },
-      fieldProps: {
-        options: [
-          { label: "未录入", value: 0 },
-          { label: "录入中", value: 1 },
-          { label: "已录入", value: 2 }
-        ]
-      }
-    },
-    {
-      label: "启用状态",
-      width: 120,
-      prop: "isEnable",
-      valueType: "switch",
-      colProps: { span: 12 }
-    },
-    {
-      label: "删除状态",
-      width: 120,
-      prop: "isDel",
       valueType: "switch",
       colProps: { span: 12 }
     }

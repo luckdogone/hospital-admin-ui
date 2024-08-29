@@ -1331,7 +1331,7 @@ onMounted(() => {
 
 <style scoped>
 ::v-deep .el-form-item__label {
-  width: 160px !important;
+  width: 190px !important;
 }
 
 ::v-deep .el-row {

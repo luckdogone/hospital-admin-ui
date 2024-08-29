@@ -40,50 +40,64 @@ watch(
   { deep: true }
 );
 
+watch(
+  () => localFormData.value.clinicalResearch,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.clinicalResearchDetails = null;
+    }
+  }
+);
+
 const radiationColumns = computed(() => {
+  const isClinicalResearchDisabled =
+    !localFormData.value ||
+    !localFormData.value.clinicalResearch ||
+    localFormData.value.clinicalResearch === 0;
   return [
     {
-      label: "放射治疗",
+      label: "是否进行放射治疗",
       width: 120,
       prop: "radiationTreatment",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "参与临床研究",
+      label: "是否加入临床研究",
       width: 120,
       prop: "clinicalResearch",
       valueType: "switch",
-      colProps: { span: 12 }
+      colProps: { span: 24 }
     },
     {
-      label: "临床研究详情",
+      label: "具体临床研究",
       width: 120,
       prop: "clinicalResearchDetails",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入临床研究详情"
+        placeholder: "请输入临床研究详情",
+        disabled: isClinicalResearchDisabled
       }
     },
     {
-      label: "治疗方案",
+      label: "具体放疗方案",
       width: 120,
       prop: "treatmentPlan",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入治疗方案"
+        placeholder: "请输入具体放疗方案"
       }
     },
     {
-      label: "治疗位置",
+      label: "放疗部位",
       width: 120,
       prop: "treatmentLocation",
       valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入治疗位置"
+        placeholder: "请输入放疗部位"
       }
     }
   ] as PlusColumn[];

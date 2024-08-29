@@ -40,34 +40,87 @@ watch(
   { deep: true }
 );
 
+watch(
+  () => localFormData.value.clinicalResearch,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.clinicalResearchDetails = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.enhancedTreatment,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.enhancedPlan = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.dosageAdjustment,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.adjustmentReason = null;
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.medicationAdjustment,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.medAdjustReason = null;
+    }
+  }
+);
+
 const endocrineColumns = computed(() => {
+  const isClinicalResearchDisabled =
+    !localFormData.value ||
+    !localFormData.value.clinicalResearch ||
+    localFormData.value.clinicalResearch === 0;
+  const isEnhancedTreatmentDisabled =
+    !localFormData.value ||
+    !localFormData.value.enhancedTreatment ||
+    localFormData.value.enhancedTreatment === 0;
+  const isDosageAdjustmentDisabled =
+    !localFormData.value ||
+    !localFormData.value.dosageAdjustment ||
+    localFormData.value.dosageAdjustment === 0;
+  const isMedicationAdjustmentDisabled =
+    !localFormData.value ||
+    !localFormData.value.medicationAdjustment ||
+    localFormData.value.medicationAdjustment === 0;
   return [
     {
-      label: "内分泌治疗",
+      label: "是否进行内分泌治疗",
       width: 120,
       prop: "endocrineTreatment",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "参与临床研究",
+      label: "是否加入临床研究",
       width: 120,
       prop: "clinicalResearch",
       valueType: "switch",
-      colProps: { span: 12 }
+      colProps: { span: 24 }
     },
     {
-      label: "临床研究详情",
+      label: "具体临床研究",
       width: 120,
       prop: "clinicalResearchDetails",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入临床研究详情"
+        placeholder: "请输入临床研究详情",
+        disabled: isClinicalResearchDisabled
       }
     },
     {
-      label: "治疗方案",
+      label: "具体内分泌治疗方案",
       width: 120,
       prop: "treatmentPlan",
       valueType: "textarea",
@@ -77,54 +130,57 @@ const endocrineColumns = computed(() => {
       }
     },
     {
-      label: "强化治疗",
+      label: "是否有内分泌强化治疗应用",
       width: 120,
       prop: "enhancedTreatment",
       valueType: "switch",
-      colProps: { span: 12 }
+      colProps: { span: 24 }
     },
     {
-      label: "强化方案",
+      label: "具体强化内分泌治疗方案",
       width: 120,
       prop: "enhancedPlan",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入强化方案"
+        placeholder: "请输入强化方案",
+        disabled: isEnhancedTreatmentDisabled
       }
     },
     {
-      label: "剂量调整",
+      label: "是否有内分泌剂量调整",
       width: 120,
       prop: "dosageAdjustment",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "调整原因",
+      label: "内分泌药物剂量调整原因",
       width: 120,
       prop: "adjustmentReason",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入调整原因"
+        placeholder: "请输入调整原因",
+        disabled: isDosageAdjustmentDisabled
       }
     },
     {
-      label: "药物调整",
+      label: "是否有内分泌药物调整",
       width: 120,
       prop: "medicationAdjustment",
       valueType: "switch",
       colProps: { span: 12 }
     },
     {
-      label: "药物调整原因",
+      label: "内分泌药物调整原因",
       width: 120,
       prop: "medAdjustReason",
       valueType: "textarea",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入药物调整原因"
+        placeholder: "请输入药物调整原因",
+        disabled: isMedicationAdjustmentDisabled
       }
     }
   ] as PlusColumn[];

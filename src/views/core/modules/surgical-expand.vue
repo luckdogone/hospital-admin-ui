@@ -41,14 +41,54 @@ watch(
 );
 
 // Define surgicalColumns based on the provided fields
+watch(
+  () => localFormData.value.hasSlnBiopsy,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.useNs = null;
+      localFormData.value.preTad = null;
+      localFormData.value.slnCount = null;
+      localFormData.value.slnMeta = null;
+      localFormData.value.slnMetaCount = null;
+      localFormData.value.slnMicroMetaCount = null;
+      localFormData.value.slnItcCount = null;
+    }
+  }
+);
+watch(
+  () => localFormData.value.ald,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.aldStage = null;
+      localFormData.value.aldCount = null;
+      localFormData.value.aldMetaCount = null;
+      localFormData.value.aldMicroMetaCount = null;
+      localFormData.value.aldItcCount = null;
+      localFormData.value.apexMeta = null;
+      localFormData.value.imMeta = null;
+    }
+  }
+);
 const surgicalColumns = computed(() => {
+  const isHasSlnBiopsyDisabled =
+    !localFormData.value ||
+    !localFormData.value.hasSlnBiopsy ||
+    localFormData.value.hasSlnBiopsy === 0;
+  const isAldDisabled =
+    !localFormData.value ||
+    !localFormData.value.ald ||
+    localFormData.value.ald === 0;
+  const isIhcResultDisabled =
+    !localFormData.value ||
+    !localFormData.value.ihcResult ||
+    localFormData.value.ihcResult === 0;
   return [
     {
       label: "手术时间",
       width: 120,
       prop: "surgeryTime",
       valueType: "date-picker",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择手术时间",
         type: "datetime"
@@ -147,7 +187,7 @@ const surgicalColumns = computed(() => {
       }
     },
     {
-      label: "是否有淋巴管侵犯",
+      label: "是否有脉管癌栓",
       width: 120,
       prop: "hasLymphInvasion",
       valueType: "select",
@@ -190,7 +230,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "是否多灶",
+      label: "是否多发",
       width: 120,
       prop: "isMultifocal",
       valueType: "select",
@@ -207,11 +247,18 @@ const surgicalColumns = computed(() => {
       label: "肿瘤位置",
       width: 120,
       prop: "tumorLocation",
-      valueType: "input",
+      valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入肿瘤位置"
-      }
+        placeholder: "请选择"
+      },
+      options: [
+        { label: "中央区", value: "中央区" },
+        { label: "外上象限", value: "外上象限" },
+        { label: "内上象限", value: "内上象限" },
+        { label: "外下象限", value: "外下象限" },
+        { label: "内下象限", value: "内下象限" }
+      ]
     },
     {
       label: "是否前哨淋巴结活检",
@@ -234,7 +281,8 @@ const surgicalColumns = computed(() => {
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择"
+        placeholder: "请选择",
+        disabled: isHasSlnBiopsyDisabled
       },
       options: [
         { label: "否", value: 0 },
@@ -242,13 +290,14 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "是否术前定位",
+      label: "是否新辅助前TAD",
       width: 120,
       prop: "preTad",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择"
+        placeholder: "请选择",
+        disabled: isHasSlnBiopsyDisabled
       },
       options: [
         { label: "否", value: 0 },
@@ -256,7 +305,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "前哨淋巴结数量",
+      label: "前哨淋巴结数量/个",
       width: 120,
       prop: "slnCount",
       valueType: "input-number",
@@ -264,23 +313,27 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isHasSlnBiopsyDisabled
       }
     },
     {
-      label: "前哨淋巴结转移",
+      label: "是否前哨淋巴结转移",
       width: 120,
       prop: "slnMeta",
-      valueType: "input-number",
+      valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入数量",
-        step: 1,
-        precision: 0
-      }
+        placeholder: "请选择",
+        disabled: isHasSlnBiopsyDisabled
+      },
+      options: [
+        { label: "否", value: 0 },
+        { label: "是", value: 1 }
+      ]
     },
     {
-      label: "前哨淋巴结转移数量",
+      label: "前哨淋巴结转移数量/个",
       width: 120,
       prop: "slnMetaCount",
       valueType: "input-number",
@@ -288,11 +341,12 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isHasSlnBiopsyDisabled
       }
     },
     {
-      label: "前哨淋巴结微转移数量",
+      label: "前哨淋巴结微转移数量/个",
       width: 120,
       prop: "slnMicroMetaCount",
       valueType: "input-number",
@@ -300,11 +354,12 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isHasSlnBiopsyDisabled
       }
     },
     {
-      label: "前哨淋巴结ITC数量",
+      label: "前哨孤立肿瘤细胞数量/个",
       width: 120,
       prop: "slnItcCount",
       valueType: "input-number",
@@ -312,7 +367,8 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isHasSlnBiopsyDisabled
       }
     },
     {
@@ -330,13 +386,14 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "腋窝淋巴结清扫分期",
+      label: "腋窝淋巴结清扫分级",
       width: 120,
       prop: "aldStage",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择"
+        placeholder: "请选择",
+        disabled: isAldDisabled
       },
       options: [
         { label: "I", value: "I" },
@@ -345,7 +402,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "腋窝淋巴结清扫数量",
+      label: "腋窝清扫淋巴结数量/个",
       width: 120,
       prop: "aldCount",
       valueType: "input-number",
@@ -353,11 +410,12 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isAldDisabled
       }
     },
     {
-      label: "腋窝淋巴结转移数量",
+      label: "腋窝淋巴结转移数量/个",
       width: 120,
       prop: "aldMetaCount",
       valueType: "input-number",
@@ -365,11 +423,12 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isAldDisabled
       }
     },
     {
-      label: "腋窝淋巴结微转移数量",
+      label: "腋窝微转移数量/个",
       width: 120,
       prop: "aldMicroMetaCount",
       valueType: "input-number",
@@ -377,11 +436,12 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isAldDisabled
       }
     },
     {
-      label: "腋窝淋巴结ITC数量",
+      label: "腋窝孤立肿瘤细胞数量/个",
       width: 120,
       prop: "aldItcCount",
       valueType: "input-number",
@@ -389,17 +449,19 @@ const surgicalColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入数量",
         step: 1,
-        precision: 0
+        precision: 0,
+        disabled: isAldDisabled
       }
     },
     {
-      label: "顶端淋巴结转移",
+      label: "是否有腋尖淋巴结转移",
       width: 120,
       prop: "apexMeta",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择"
+        placeholder: "请选择",
+        disabled: isAldDisabled
       },
       options: [
         { label: "否", value: 0 },
@@ -407,13 +469,14 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "内乳淋巴结转移",
+      label: "是否有肌间淋巴结转移",
       width: 120,
       prop: "imMeta",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择"
+        placeholder: "请选择",
+        disabled: isAldDisabled
       },
       options: [
         { label: "否", value: 0 },
@@ -435,7 +498,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "ER百分比",
+      label: "术后ER%",
       width: 120,
       prop: "erPct",
       valueType: "copy",
@@ -445,11 +508,12 @@ const surgicalColumns = computed(() => {
         step: 0.1,
         precision: 1,
         min: 0,
-        max: 100
+        max: 100,
+        disabled: isIhcResultDisabled
       }
     },
     {
-      label: "PR百分比",
+      label: "术后PR%",
       width: 120,
       prop: "prPct",
       valueType: "copy",
@@ -459,17 +523,19 @@ const surgicalColumns = computed(() => {
         step: 0.1,
         precision: 1,
         min: 0,
-        max: 100
+        max: 100,
+        disabled: isIhcResultDisabled
       }
     },
     {
-      label: "HER2",
+      label: "术后HER2",
       width: 120,
       prop: "her2",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择"
+        placeholder: "请选择",
+        disabled: isIhcResultDisabled
       },
       options: [
         { label: "0", value: "0" },
@@ -479,7 +545,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "Ki67百分比",
+      label: "术后ki67%",
       width: 120,
       prop: "ki67Pct",
       valueType: "copy",
@@ -489,11 +555,12 @@ const surgicalColumns = computed(() => {
         step: 0.1,
         precision: 1,
         min: 0,
-        max: 100
+        max: 100,
+        disabled: isIhcResultDisabled
       }
     },
     {
-      label: "AR百分比",
+      label: "术后AR%",
       width: 120,
       prop: "arPct",
       valueType: "copy",
@@ -503,17 +570,19 @@ const surgicalColumns = computed(() => {
         step: 0.1,
         precision: 1,
         min: 0,
-        max: 100
+        max: 100,
+        disabled: isIhcResultDisabled
       }
     },
     {
-      label: "FISH检测",
+      label: "术后Fish检测",
       width: 120,
       prop: "fishTest",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择"
+        placeholder: "请选择",
+        disabled: isIhcResultDisabled
       },
       options: [
         { label: "阴性", value: "阴性" },
@@ -521,7 +590,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "TNM分期",
+      label: "术后TNM分期",
       width: 120,
       prop: "tnm",
       valueType: "input",
@@ -531,7 +600,7 @@ const surgicalColumns = computed(() => {
       }
     },
     {
-      label: "分期",
+      label: "术后病理分级",
       width: 120,
       prop: "stage",
       valueType: "select",
@@ -546,7 +615,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "分型",
+      label: "术后分型",
       width: 120,
       prop: "subtype",
       valueType: "select",
