@@ -135,7 +135,7 @@ const handleGeneralFormSubmit = async (values: FieldValues): Promise<void> => {
     }
   } catch (error) {
     console.error("一般资料提交失败", error);
-    ElMessage.error(`一般资料提交失败：${error.message || "请重试"}`);
+    // ElMessage.error(`一般资料提交失败：${error.message || "请重试"}`);
   } finally {
     emit("update:isEditing", false);
   }

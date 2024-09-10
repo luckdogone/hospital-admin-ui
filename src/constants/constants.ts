@@ -25,6 +25,11 @@ export const MenuTypeMap: SelectOptionMap<string> = {
 /**
  * 状态
  */
+export const followUpStatusOptions: SelectOption<string>[] = [
+  { label: "已完成", value: "已完成" },
+  { label: "待随访", value: "待随访" },
+  { label: "等待中", value: "等待中" }
+];
 export const sexOptions: SelectOption<number>[] = [
   { label: "男", value: 1 },
   { label: "女", value: 0 }
