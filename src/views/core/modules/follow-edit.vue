@@ -61,6 +61,15 @@ const showMammogram = computed(() => pageData.formData.needFurtherBiopsy === 1);
 const showMri = computed(() => pageData.formData.metastasis === 1);
 const showBreastCoreBiopsy = computed(() => pageData.formData.deceased === 1);
 const showAxillaryCoreBiopsy = computed(() => pageData.formData.armEdema === 1);
+const showChestCtAbnormalResult = computed(
+  () => pageData.formData.chestCtAbnormal === 1
+);
+const showHeadMrAbnormalResult = computed(
+  () => pageData.formData.headMrAbnormal === 1
+);
+const showBoneScanAbnormalResult = computed(
+  () => pageData.formData.boneScanAbnormal === 1
+);
 // const showAxillaryFineNeedleAspiration = computed(
 //   () => pageData.formData.axillaryFineNeedleAspirationDone === true
 // );
@@ -84,8 +93,11 @@ const open = (data?: any, title?: string, dataSource?: any) => {
     armEdema: 0,
     armEdemaTreatment: 0,
     chestCtAbnormal: 0,
+    chestCtAbnormalResult: "",
     headMrAbnormal: 0,
+    headMrAbnormalResult: "",
     boneScanAbnormal: 0,
+    boneScanAbnormalResult: "",
     notes: ""
   };
   pageData.dataSource = dataSource;
@@ -360,6 +372,19 @@ defineOptions({ name: "RoleEdit" });
             <el-option label="否" :value="0" />
           </el-select>
         </el-form-item>
+        <template v-if="showChestCtAbnormalResult">
+          <el-form-item
+            label="X月复查胸部CT异常结果"
+            prop="chestCtAbnormalResult"
+          >
+            <el-input
+              v-model="pageData.formData.chestCtAbnormalResult"
+              clearable
+              placeholder="请输入异常结果"
+              style="width: 70%"
+            />
+          </el-form-item>
+        </template>
         <el-form-item label="X月复查头颅MR是否异常" prop="headMrAbnormal">
           <el-select
             v-model="pageData.formData.headMrAbnormal"
@@ -371,6 +396,19 @@ defineOptions({ name: "RoleEdit" });
             <el-option label="否" :value="0" />
           </el-select>
         </el-form-item>
+        <template v-if="showHeadMrAbnormalResult">
+          <el-form-item
+            label="X月复查头颅MR异常结果"
+            prop="headMrAbnormalResult"
+          >
+            <el-input
+              v-model="pageData.formData.headMrAbnormalResult"
+              clearable
+              placeholder="请输入异常结果"
+              style="width: 70%"
+            />
+          </el-form-item>
+        </template>
         <el-form-item label="X月复查全身骨扫描是否异常" prop="boneScanAbnormal">
           <el-select
             v-model="pageData.formData.boneScanAbnormal"
@@ -382,6 +420,19 @@ defineOptions({ name: "RoleEdit" });
             <el-option label="否" :value="0" />
           </el-select>
         </el-form-item>
+        <template v-if="showBoneScanAbnormalResult">
+          <el-form-item
+            label="X月复查胸部CT异常结果"
+            prop="boneScanAbnormalResult"
+          >
+            <el-input
+              v-model="pageData.formData.boneScanAbnormalResult"
+              clearable
+              placeholder="请输入异常结果"
+              style="width: 70%"
+            />
+          </el-form-item>
+        </template>
         <el-form-item label="备注" prop="notes">
           <el-input
             v-model="pageData.formData.notes"

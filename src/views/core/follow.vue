@@ -481,12 +481,24 @@ defineOptions({ name: "sysRole" });
                 {{ row.chestCtAbnormal ? "是" : "否" }}
               </p>
               <p class="mb-2">
+                术后第{{ row.afterSurgeryDate }}月复查胸部CT异常结果:
+                {{ row.chestCtAbnormalResult }}
+              </p>
+              <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查头颅MR是否异常:
                 {{ row.headMrAbnormal ? "是" : "否" }}
               </p>
               <p class="mb-2">
+                术后第{{ row.afterSurgeryDate }}月复查头颅MR异常结果:
+                {{ row.headMrAbnormalResult }}
+              </p>
+              <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查全身骨扫描是否异常:
                 {{ row.boneScanAbnormal ? "是" : "否" }}
+              </p>
+              <p class="mb-2">
+                术后第{{ row.afterSurgeryDate }}月复查全身骨扫描异常结果:
+                {{ row.boneScanAbnormalResult }}
               </p>
               <p class="mb-2">备注: {{ row.notes }}</p>
             </div>

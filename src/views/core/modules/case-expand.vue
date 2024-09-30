@@ -117,20 +117,107 @@ watch(
   }
 );
 
+watch(
+  () => localFormData.value.ultrasoundStatus,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.ultrasoundLeftSize = "";
+      localFormData.value.ultrasoundLeftBloodFlow = null;
+      localFormData.value.ultrasoundLeftBirads = "";
+      localFormData.value.ultrasoundRightSize = "";
+      localFormData.value.ultrasoundRightBloodFlow = null;
+      localFormData.value.ultrasoundRightBirads = "";
+    } else if (newVal === 1) {
+      // Left
+      localFormData.value.ultrasoundRightSize = "";
+      localFormData.value.ultrasoundRightBloodFlow = null;
+      localFormData.value.ultrasoundRightBirads = "";
+    } else if (newVal === 2) {
+      // Right
+      localFormData.value.ultrasoundLeftSize = "";
+      localFormData.value.ultrasoundLeftBloodFlow = null;
+      localFormData.value.ultrasoundLeftBirads = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.mammographyStatus,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.mammographyLeftSize = "";
+      localFormData.value.mammographyLeftAggregation = null;
+      localFormData.value.mammographyLeftBirads = "";
+      localFormData.value.mammographyRightSize = "";
+      localFormData.value.mammographyRightAggregation = null;
+      localFormData.value.mammographyRightBirads = "";
+    } else if (newVal === 1) {
+      // Left
+      localFormData.value.mammographyRightSize = "";
+      localFormData.value.mammographyRightAggregation = null;
+      localFormData.value.mammographyRightBirads = "";
+    } else if (newVal === 2) {
+      // Right
+      localFormData.value.mammographyLeftSize = "";
+      localFormData.value.mammographyLeftAggregation = null;
+      localFormData.value.mammographyLeftBirads = "";
+    }
+  }
+);
+
+watch(
+  () => localFormData.value.mriStatus,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.mriLeftSize = "";
+      localFormData.value.mriLeftBloodFlow = null;
+      localFormData.value.mriLeftBirads = "";
+      localFormData.value.mriRightSize = "";
+      localFormData.value.mriRightBloodFlow = null;
+      localFormData.value.mriRightBirads = "";
+    } else if (newVal === 1) {
+      // Left
+      localFormData.value.mriRightSize = "";
+      localFormData.value.mriRightBloodFlow = null;
+      localFormData.value.mriRightBirads = "";
+    } else if (newVal === 2) {
+      // Right
+      localFormData.value.mriLeftSize = "";
+      localFormData.value.mriLeftBloodFlow = null;
+      localFormData.value.mriLeftBirads = "";
+    }
+  }
+);
+
 // 病历资料表单列定义
 const caseColumns = computed(() => {
-  const isUltrasoundDisabled =
-    !localFormData.value ||
-    !localFormData.value.ultrasoundStatus ||
-    localFormData.value.ultrasoundStatus === 0;
-  const isMammographyDisabled =
-    !localFormData.value ||
-    !localFormData.value.mammographyStatus ||
-    localFormData.value.mammographyStatus === 0;
-  const isMriDisabled =
-    !localFormData.value ||
-    !localFormData.value.mriStatus ||
-    localFormData.value.mriStatus === 0;
+  const ultrasoundStatus = localFormData.value?.ultrasoundStatus;
+  const isUltrasoundLeftDisabled =
+    !ultrasoundStatus || ultrasoundStatus === 0 || ultrasoundStatus === 2;
+  const isUltrasoundRightDisabled =
+    !ultrasoundStatus || ultrasoundStatus === 0 || ultrasoundStatus === 1;
+
+  const mammographyStatus = localFormData.value?.mammographyStatus;
+  const isMammographyLeftDisabled =
+    !mammographyStatus || mammographyStatus === 0 || mammographyStatus === 2;
+  const isMammographyRightDisabled =
+    !mammographyStatus || mammographyStatus === 0 || mammographyStatus === 1;
+
+  const mriStatus = localFormData.value?.mriStatus;
+  const isMriLeftDisabled = !mriStatus || mriStatus === 0 || mriStatus === 2;
+  const isMriRightDisabled = !mriStatus || mriStatus === 0 || mriStatus === 1;
+  // const isUltrasoundDisabled =
+  //   !localFormData.value ||
+  //   !localFormData.value.ultrasoundStatus ||
+  //   localFormData.value.ultrasoundStatus === 0;
+  // const isMammographyDisabled =
+  //   !localFormData.value ||
+  //   !localFormData.value.mammographyStatus ||
+  //   localFormData.value.mammographyStatus === 0;
+  // const isMriDisabled =
+  //   !localFormData.value ||
+  //   !localFormData.value.mriStatus ||
+  //   localFormData.value.mriStatus === 0;
   const isBreastCoreNeedleDisabled =
     !localFormData.value ||
     !localFormData.value.breastCoreNeedle ||
@@ -155,7 +242,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "ultrasoundStatus",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择状态"
       },
@@ -167,25 +254,25 @@ const caseColumns = computed(() => {
       ]
     },
     {
-      label: "超声大小/cm",
+      label: "左超声大小/cm",
       width: 120,
-      prop: "ultrasoundSize",
+      prop: "ultrasoundLeftSize",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入大小",
-        disabled: isUltrasoundDisabled
+        placeholder: "请输入左侧大小",
+        disabled: isUltrasoundLeftDisabled
       }
     },
     {
-      label: "血流信号",
+      label: "左血流信号",
       width: 120,
-      prop: "ultrasoundBloodFlow",
+      prop: "ultrasoundLeftBloodFlow",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择",
-        disabled: isUltrasoundDisabled
+        disabled: isUltrasoundLeftDisabled
       },
       options: [
         { label: "有", value: 1, color: "red" },
@@ -193,15 +280,75 @@ const caseColumns = computed(() => {
       ]
     },
     {
-      label: "BIRADS",
+      label: "左BIRADS",
       width: 120,
-      prop: "ultrasoundBirads",
+      prop: "ultrasoundLeftBirads",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isUltrasoundLeftDisabled
+      },
+      options: [
+        { label: "0类", value: "0", color: "red" },
+        { label: "1类", value: "1", color: "blue" },
+        { label: "2类", value: "2", color: "yellow" },
+        { label: "3类", value: "3", color: "green" },
+        { label: "4A类", value: "4A", color: "red" },
+        { label: "4B类", value: "4B", color: "blue" },
+        { label: "4C类", value: "4C", color: "yellow" },
+        { label: "5类", value: "5", color: "green" },
+        { label: "6类", value: "6", color: "red" }
+      ]
+    },
+    // Right Ultrasound Fields
+    {
+      label: "右超声大小/cm",
+      width: 120,
+      prop: "ultrasoundRightSize",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入类别",
-        disabled: isUltrasoundDisabled
+        placeholder: "请输入右侧大小",
+        disabled: isUltrasoundRightDisabled
       }
+    },
+    {
+      label: "右血流信号",
+      width: 120,
+      prop: "ultrasoundRightBloodFlow",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isUltrasoundRightDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "右BIRADS",
+      width: 120,
+      prop: "ultrasoundRightBirads",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isUltrasoundRightDisabled
+      },
+      options: [
+        { label: "0类", value: "0", color: "red" },
+        { label: "1类", value: "1", color: "blue" },
+        { label: "2类", value: "2", color: "yellow" },
+        { label: "3类", value: "3", color: "green" },
+        { label: "4A类", value: "4A", color: "red" },
+        { label: "4B类", value: "4B", color: "blue" },
+        { label: "4C类", value: "4C", color: "yellow" },
+        { label: "5类", value: "5", color: "green" },
+        { label: "6类", value: "6", color: "red" }
+      ]
     },
 
     // 入院钼靶检查
@@ -210,7 +357,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "mammographyStatus",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择状态"
       },
@@ -222,25 +369,25 @@ const caseColumns = computed(() => {
       ]
     },
     {
-      label: "钼靶大小/cm",
+      label: "左钼靶大小/cm",
       width: 120,
-      prop: "mammographySize",
+      prop: "mammographyLeftSize",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入大小",
-        disabled: isMammographyDisabled
+        placeholder: "请输入左侧大小",
+        disabled: isMammographyLeftDisabled
       }
     },
     {
-      label: "细小钙化影",
+      label: "左细小钙化影",
       width: 120,
-      prop: "mammographyAggregation",
+      prop: "mammographyLeftAggregation",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择",
-        disabled: isMammographyDisabled
+        disabled: isMammographyLeftDisabled
       },
       options: [
         { label: "有", value: 1, color: "red" },
@@ -248,15 +395,74 @@ const caseColumns = computed(() => {
       ]
     },
     {
-      label: "BIRADS",
+      label: "左BIRADS",
       width: 120,
-      prop: "mammographyBirads",
+      prop: "mammographyLeftBirads",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMammographyLeftDisabled
+      },
+      options: [
+        { label: "0类", value: "0", color: "red" },
+        { label: "1类", value: "1", color: "blue" },
+        { label: "2类", value: "2", color: "yellow" },
+        { label: "3类", value: "3", color: "green" },
+        { label: "4A类", value: "4A", color: "red" },
+        { label: "4B类", value: "4B", color: "blue" },
+        { label: "4C类", value: "4C", color: "yellow" },
+        { label: "5类", value: "5", color: "green" },
+        { label: "6类", value: "6", color: "red" }
+      ]
+    },
+    {
+      label: "右钼靶大小/cm",
+      width: 120,
+      prop: "mammographyRightSize",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入类别",
-        disabled: isMammographyDisabled
+        placeholder: "请输入右侧大小",
+        disabled: isMammographyRightDisabled
       }
+    },
+    {
+      label: "右细小钙化影",
+      width: 120,
+      prop: "mammographyRightAggregation",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMammographyRightDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "右BIRADS",
+      width: 120,
+      prop: "mammographyRightBirads",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMammographyRightDisabled
+      },
+      options: [
+        { label: "0类", value: "0", color: "red" },
+        { label: "1类", value: "1", color: "blue" },
+        { label: "2类", value: "2", color: "yellow" },
+        { label: "3类", value: "3", color: "green" },
+        { label: "4A类", value: "4A", color: "red" },
+        { label: "4B类", value: "4B", color: "blue" },
+        { label: "4C类", value: "4C", color: "yellow" },
+        { label: "5类", value: "5", color: "green" },
+        { label: "6类", value: "6", color: "red" }
+      ]
     },
 
     // 入院乳腺核磁检查
@@ -265,7 +471,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "mriStatus",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择状态"
       },
@@ -277,41 +483,103 @@ const caseColumns = computed(() => {
       ]
     },
     {
-      label: "乳腺大小/cm",
+      label: "左乳腺大小/cm",
       width: 120,
-      prop: "mriSize",
+      prop: "mriLeftSize",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入大小",
-        disabled: isMriDisabled
+        placeholder: "请输入左侧大小",
+        disabled: isMriLeftDisabled
       }
     },
     {
-      label: "增强信号",
+      label: "左增强信号",
       width: 120,
-      prop: "mriBloodFlow",
+      prop: "mriLeftBloodFlow",
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择",
-        disabled: isMriDisabled
+        disabled: isMriLeftDisabled
       },
       options: [
-        { label: "有", value: 1, color: "red" },
-        { label: "无", value: 0, color: "blue" }
+        { label: "廓清型", value: 2, color: "red" },
+        { label: "平台型", value: 1, color: "blue" },
+        { label: "流入型", value: 0, color: "yellow" }
       ]
     },
     {
-      label: "BIRADS",
+      label: "左BIRADS",
       width: 120,
-      prop: "mriBirads",
+      prop: "mriLeftBirads",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMriLeftDisabled
+      },
+      options: [
+        { label: "0类", value: "0", color: "red" },
+        { label: "1类", value: "1", color: "blue" },
+        { label: "2类", value: "2", color: "yellow" },
+        { label: "3类", value: "3", color: "green" },
+        { label: "4A类", value: "4A", color: "red" },
+        { label: "4B类", value: "4B", color: "blue" },
+        { label: "4C类", value: "4C", color: "yellow" },
+        { label: "5类", value: "5", color: "green" },
+        { label: "6类", value: "6", color: "red" }
+      ]
+    },
+
+    {
+      label: "右乳腺大小/cm",
+      width: 120,
+      prop: "mriRightSize",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入类别",
-        disabled: isMriDisabled
+        placeholder: "请输入右侧大小",
+        disabled: isMriRightDisabled
       }
+    },
+    {
+      label: "右增强信号",
+      width: 120,
+      prop: "mriRightBloodFlow",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMriRightDisabled
+      },
+      options: [
+        { label: "廓清型", value: 2, color: "red" },
+        { label: "平台型", value: 1, color: "blue" },
+        { label: "流入型", value: 0, color: "yellow" }
+      ]
+    },
+    {
+      label: "右BIRADS",
+      width: 120,
+      prop: "mriRightBirads",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isMriRightDisabled
+      },
+      options: [
+        { label: "0类", value: "0", color: "red" },
+        { label: "1类", value: "1", color: "blue" },
+        { label: "2类", value: "2", color: "yellow" },
+        { label: "3类", value: "3", color: "green" },
+        { label: "4A类", value: "4A", color: "red" },
+        { label: "4B类", value: "4B", color: "blue" },
+        { label: "4C类", value: "4C", color: "yellow" },
+        { label: "5类", value: "5", color: "green" },
+        { label: "6类", value: "6", color: "red" }
+      ]
     },
 
     // 血常规检查
@@ -406,7 +674,7 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入尿酸"
+        placeholder: "请输入尿酸值"
       }
     },
     {
@@ -416,7 +684,7 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入甘油三酯"
+        placeholder: "请输入甘油三酯值"
       }
     },
     {
@@ -426,7 +694,7 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入低密度脂蛋白"
+        placeholder: "请输入低密度脂蛋白值"
       }
     },
     {
@@ -436,7 +704,7 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入D-二聚体"
+        placeholder: "请输入D-二聚体值"
       }
     },
     {
@@ -446,7 +714,7 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入CEA"
+        placeholder: "请输入CEA值"
       }
     },
     {
@@ -466,7 +734,7 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入CA125"
+        placeholder: "请输入CA125值"
       }
     },
     // 入院乳腺核心针检查
@@ -558,8 +826,8 @@ const caseColumns = computed(() => {
         placeholder: "请选择有无免疫组化结果"
       },
       options: [
-        { label: "无", value: 0, color: "red" },
-        { label: "有", value: 1, color: "green" }
+        { label: "有", value: 1, color: "green" },
+        { label: "无", value: 0, color: "red" }
       ]
     },
     {
@@ -602,13 +870,13 @@ const caseColumns = computed(() => {
       ]
     },
     {
-      label: "Ki-67标志物百分比",
+      label: "Ki-67标志物%",
       width: 120,
       prop: "ki67Pct",
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入Ki-67百分比",
+        placeholder: "请输入Ki-67%",
         disabled: isIhcDisabled
       }
     },
@@ -649,7 +917,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "分期",
+      label: "病理分级",
       width: 120,
       prop: "stage",
       valueType: "select",
@@ -677,7 +945,8 @@ const caseColumns = computed(() => {
         { label: "三阴性", value: "三阴性" },
         { label: "Luminal A", value: "Luminal A" },
         { label: "Luminal B HER2阴性型", value: "Luminal B HER2阴性型" },
-        { label: "Luminal B HER2阳性型", value: "Luminal B HER2阳性型" }
+        { label: "Luminal B HER2阳性型", value: "Luminal B HER2阳性型" },
+        { label: "HER2阳性型", value: "HER2阳性型" }
       ]
     }
   ] as PlusColumn[];

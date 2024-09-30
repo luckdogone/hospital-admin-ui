@@ -68,17 +68,17 @@ const pageData: any = reactive({
   },
   searchState: true,
   searchField: [
+    // {
+    //   type: "input",
+    //   label: "患者姓名",
+    //   prop: "roleCode",
+    //   placeholder: "精准查询角色编码"
+    // },
     {
       type: "input",
-      label: "角色编码",
-      prop: "roleCode",
-      placeholder: "精准查询角色编码"
-    },
-    {
-      type: "input",
-      label: "角色名称",
-      prop: "roleName",
-      placeholder: "模糊查询角色名称"
+      label: "患者姓名",
+      prop: "name",
+      placeholder: "模糊查询患者姓名"
     },
     {
       type: "select",
@@ -506,21 +506,30 @@ const loadCaseData = (id: number) => {
 
           // 入院超声检查
           ultrasoundStatus: caseData.ultrasoundStatus,
-          ultrasoundSize: caseData.ultrasoundSize,
-          ultrasoundBloodFlow: caseData.ultrasoundBloodFlow,
-          ultrasoundBirads: caseData.ultrasoundBirads,
+          ultrasoundLeftSize: caseData.ultrasoundLeftSize,
+          ultrasoundLeftBloodFlow: caseData.ultrasoundLeftBloodFlow,
+          ultrasoundLeftBirads: caseData.ultrasoundLeftBirads,
+          ultrasoundRightSize: caseData.ultrasoundRightSize,
+          ultrasoundRightBloodFlow: caseData.ultrasoundRightBloodFlow,
+          ultrasoundRightBirads: caseData.ultrasoundRightBirads,
 
           // 入院钼靶检查
           mammographyStatus: caseData.mammographyStatus,
-          mammographySize: caseData.mammographySize,
-          mammographyAggregation: caseData.mammographyAggregation,
-          mammographyBirads: caseData.mammographyBirads,
+          mammographyLeftSize: caseData.mammographyLeftSize,
+          mammographyLeftAggregation: caseData.mammographyLeftAggregation,
+          mammographyLeftBirads: caseData.mammographyLeftBirads,
+          mammographyRightSize: caseData.mammographyRightSize,
+          mammographyRightAggregation: caseData.mammographyRightAggregation,
+          mammographyRightBirads: caseData.mammographyRightBirads,
 
           // 入院乳腺核磁检查
           mriStatus: caseData.mriStatus,
-          mriSize: caseData.mriSize,
-          mriBloodFlow: caseData.mriBloodFlow,
-          mriBirads: caseData.mriBirads,
+          mriLeftSize: caseData.mriLeftSize,
+          mriLeftBloodFlow: caseData.mriLeftBloodFlow,
+          mriLeftBirads: caseData.mriLeftBirads,
+          mriRightSize: caseData.mriRightSize,
+          mriRightBloodFlow: caseData.mriRightBloodFlow,
+          mriRightBirads: caseData.mriRightBirads,
 
           // 血常规检查
           wbc: caseData.wbc,
@@ -752,10 +761,11 @@ const loadNeoadjuvantData = (id: number) => {
           week4Size: neoadjuvantData.week4Size,
           week5Size: neoadjuvantData.week5Size,
           week6Size: neoadjuvantData.week6Size,
+          week7Size: neoadjuvantData.week7Size,
+          week8Size: neoadjuvantData.week8Size,
           week23Size: neoadjuvantData.week23Size,
           week45Size: neoadjuvantData.week45Size,
           week67Size: neoadjuvantData.week67Size,
-          week8Size: neoadjuvantData.week8Size,
           doseAdjust: neoadjuvantData.doseAdjust,
           adjustReason: neoadjuvantData.adjustReason,
           therapyTerm: neoadjuvantData.therapyTerm,

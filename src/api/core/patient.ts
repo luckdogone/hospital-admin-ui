@@ -5,6 +5,15 @@ import { get, Result, post, put, deleteRequest } from "../base";
  * @param query .
  * @returns .
  */
+export function patientAllInfoQueryPage<T>(query?: any): Promise<Result<T>> {
+  return post("/core/patient/query/search", query);
+}
+
+/**
+ * 分页查询基础信息数据
+ * @param query .
+ * @returns .
+ */
 export function patientQueryPage<T>(query?: any): Promise<Result<T>> {
   return get("/core/patient/query/page", query);
 }

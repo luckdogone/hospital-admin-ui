@@ -91,7 +91,8 @@ const surgicalColumns = computed(() => {
       colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择手术时间",
-        type: "datetime"
+        type: "datetime",
+        valueFormat: "YYYY-MM-DD HH:mm:ss"
       }
     },
     {
@@ -493,8 +494,8 @@ const surgicalColumns = computed(() => {
         placeholder: "请选择"
       },
       options: [
-        { label: "阴性", value: 0 },
-        { label: "阳性", value: 1 }
+        { label: "有", value: 1 },
+        { label: "无", value: 0 }
       ]
     },
     {
@@ -627,7 +628,8 @@ const surgicalColumns = computed(() => {
         { label: "三阴性", value: "三阴性" },
         { label: "Luminal A", value: "Luminal A" },
         { label: "Luminal B HER2阴性型", value: "Luminal B HER2阴性型" },
-        { label: "Luminal B HER2阳性型", value: "Luminal B HER2阳性型" }
+        { label: "Luminal B HER2阳性型", value: "Luminal B HER2阳性型" },
+        { label: "HER2阳性型", value: "HER2阳性型" }
       ]
     }
   ] as PlusColumn[];
