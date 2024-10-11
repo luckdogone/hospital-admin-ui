@@ -257,10 +257,12 @@ const caseColumns = computed(() => {
       label: "左超声大小/cm",
       width: 120,
       prop: "ultrasoundLeftSize",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入左侧大小",
+        step: 0.1,
+        precision: 1,
         disabled: isUltrasoundLeftDisabled
       }
     },
@@ -306,10 +308,12 @@ const caseColumns = computed(() => {
       label: "右超声大小/cm",
       width: 120,
       prop: "ultrasoundRightSize",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入右侧大小",
+        step: 0.1,
+        precision: 1,
         disabled: isUltrasoundRightDisabled
       }
     },
@@ -372,10 +376,12 @@ const caseColumns = computed(() => {
       label: "左钼靶大小/cm",
       width: 120,
       prop: "mammographyLeftSize",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入左侧大小",
+        step: 0.1,
+        precision: 1,
         disabled: isMammographyLeftDisabled
       }
     },
@@ -420,10 +426,12 @@ const caseColumns = computed(() => {
       label: "右钼靶大小/cm",
       width: 120,
       prop: "mammographyRightSize",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入右侧大小",
+        step: 0.1,
+        precision: 1,
         disabled: isMammographyRightDisabled
       }
     },
@@ -486,10 +494,12 @@ const caseColumns = computed(() => {
       label: "左乳腺大小/cm",
       width: 120,
       prop: "mriLeftSize",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入左侧大小",
+        step: 0.1,
+        precision: 1,
         disabled: isMriLeftDisabled
       }
     },
@@ -536,10 +546,12 @@ const caseColumns = computed(() => {
       label: "右乳腺大小/cm",
       width: 120,
       prop: "mriRightSize",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入右侧大小",
+        step: 0.1,
+        precision: 1,
         disabled: isMriRightDisabled
       }
     },
@@ -584,7 +596,7 @@ const caseColumns = computed(() => {
 
     // 血常规检查
     {
-      label: "白细胞计数",
+      label: "白细胞计数 10⁹/L",
       width: 120,
       prop: "wbc",
       valueType: "copy",
@@ -594,7 +606,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "红细胞计数",
+      label: "红细胞计数 10¹²/L",
       width: 120,
       prop: "rbc",
       valueType: "copy",
@@ -604,7 +616,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "血小板计数",
+      label: "血小板计数 10⁹/L",
       width: 240,
       prop: "platelets",
       valueType: "copy",
@@ -616,7 +628,7 @@ const caseColumns = computed(() => {
 
     // 肝功能检查
     {
-      label: "谷丙转氨酶",
+      label: "谷丙转氨酶 U/L",
       width: 120,
       prop: "alt",
       valueType: "copy",
@@ -626,7 +638,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "谷草转氨酶",
+      label: "谷草转氨酶 U/L",
       width: 120,
       prop: "ast",
       valueType: "copy",
@@ -636,7 +648,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "碱性磷酸酶",
+      label: "碱性磷酸酶 U/L",
       width: 120,
       prop: "alkalinePhosphatase",
       valueType: "copy",
@@ -648,7 +660,7 @@ const caseColumns = computed(() => {
 
     // 肾功能检查
     {
-      label: "血肌酐",
+      label: "血肌酐 umol/L",
       width: 120,
       prop: "creatinine",
       valueType: "copy",
@@ -658,7 +670,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "血清尿素",
+      label: "血清尿素 mmol/L",
       width: 120,
       prop: "urea",
       valueType: "copy",
@@ -668,7 +680,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "尿酸",
+      label: "尿酸 umol/L",
       width: 120,
       prop: "uricAcid",
       valueType: "copy",
@@ -678,7 +690,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "甘油三酯",
+      label: "甘油三酯 mmol/L",
       width: 120,
       prop: "triglycerides",
       valueType: "copy",
@@ -688,7 +700,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "低密度脂蛋白",
+      label: "低密度脂蛋白 mmol/L",
       width: 120,
       prop: "ldl",
       valueType: "copy",
@@ -698,7 +710,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "D-二聚体",
+      label: "D-二聚体 ug/ml",
       width: 120,
       prop: "dimer",
       valueType: "copy",
@@ -708,7 +720,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "癌胚抗原（CEA）",
+      label: "癌胚抗原 ng/mL",
       width: 120,
       prop: "cea",
       valueType: "copy",
@@ -718,7 +730,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "癌抗原153（CA153）",
+      label: "癌抗原153 IU/mL",
       width: 120,
       prop: "ca153",
       valueType: "copy",
@@ -728,7 +740,7 @@ const caseColumns = computed(() => {
       }
     },
     {
-      label: "癌抗原125（CA125）",
+      label: "癌抗原125 IU/mL",
       width: 120,
       prop: "ca125",
       valueType: "copy",
@@ -933,7 +945,7 @@ const caseColumns = computed(() => {
       ]
     },
     {
-      label: "分型",
+      label: "亚型分型",
       width: 120,
       prop: "subtype",
       valueType: "select",

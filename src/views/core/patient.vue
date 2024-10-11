@@ -178,9 +178,9 @@ const tableColumns: TableColumnList = [
     prop: "inputStatus",
     formatter: row => {
       const statusMap = {
-        0: "未开始",
-        1: "进行中",
-        2: "已完成"
+        0: "未录入",
+        1: "录入中",
+        2: "已录入"
       };
       return statusMap[row.inputStatus] || "未知";
     }
@@ -1340,13 +1340,13 @@ onMounted(() => {
 </template>
 
 <style scoped>
-::v-deep .el-form-item__label {
+:deep(.el-form-item__label) {
   width: 190px !important;
 }
 
-::v-deep .el-row {
+/* ::v-deep .el-row {
   width: 100% !important;
-}
+} */
 
 .form-header {
   display: flex;

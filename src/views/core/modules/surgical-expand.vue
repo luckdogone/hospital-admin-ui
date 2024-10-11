@@ -88,12 +88,26 @@ const surgicalColumns = computed(() => {
       width: 120,
       prop: "surgeryTime",
       valueType: "date-picker",
-      colProps: { span: 24 },
+      colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择手术时间",
         type: "datetime",
         valueFormat: "YYYY-MM-DD HH:mm:ss"
       }
+    },
+    {
+      label: "手术部位",
+      width: 120,
+      prop: "surgicalSite",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择"
+      },
+      options: [
+        { label: "左", value: "左" },
+        { label: "右", value: "右" }
+      ]
     },
     {
       label: "是否全乳切除",
@@ -213,21 +227,6 @@ const surgicalColumns = computed(() => {
       options: [
         { label: "否", value: 0 },
         { label: "是", value: 1 }
-      ]
-    },
-    {
-      label: "术后病理分级",
-      width: 120,
-      prop: "postopPathGrade",
-      valueType: "select",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请选择"
-      },
-      options: [
-        { label: "I", value: "I" },
-        { label: "II", value: "II" },
-        { label: "III", value: "III" }
       ]
     },
     {
@@ -485,7 +484,7 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "免疫组化结果",
+      label: "术后有无免疫组化结果",
       width: 120,
       prop: "ihcResult",
       valueType: "select",
@@ -575,6 +574,23 @@ const surgicalColumns = computed(() => {
         disabled: isIhcResultDisabled
       }
     },
+    // {
+    //   label: "Miller-Payne系统分级",
+    //   width: 120,
+    //   prop: "postopPathGrade",
+    //   valueType: "select",
+    //   colProps: { span: 12 },
+    //   fieldProps: {
+    //     placeholder: "请选择"
+    //   },
+    //   options: [
+    //     { label: "1", value: "1" },
+    //     { label: "2", value: "2" },
+    //     { label: "3", value: "3" },
+    //     { label: "4", value: "4" },
+    //     { label: "5", value: "5" }
+    //   ]
+    // },
     {
       label: "术后Fish检测",
       width: 120,
@@ -630,6 +646,23 @@ const surgicalColumns = computed(() => {
         { label: "Luminal B HER2阴性型", value: "Luminal B HER2阴性型" },
         { label: "Luminal B HER2阳性型", value: "Luminal B HER2阳性型" },
         { label: "HER2阳性型", value: "HER2阳性型" }
+      ]
+    },
+    {
+      label: "术后MP级别",
+      width: 120,
+      prop: "mpLevel",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择MP级别"
+      },
+      options: [
+        { label: "1", value: "1" },
+        { label: "2", value: "2" },
+        { label: "3", value: "3" },
+        { label: "4", value: "4" },
+        { label: "5", value: "5" }
       ]
     }
   ] as PlusColumn[];
