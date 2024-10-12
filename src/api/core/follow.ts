@@ -46,6 +46,16 @@ export function followUpdate<T>(id: string, data?: T): Promise<Result<T>> {
 }
 
 /**
+ * 根据ID更新角色
+ * @param id 角色ID
+ * @param data 需要更新的信息
+ * @returns .
+ */
+export function followRecord<T>(id: string, data?: T): Promise<Result<T>> {
+  return put("/core/follow/record", { id: id }, data);
+}
+
+/**
  * 删除
  * @param id .
  * @returns .

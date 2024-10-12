@@ -68,14 +68,14 @@ const pageData: any = reactive({
   /*按钮 */
   btnOpts: {
     left: [
-      {
-        key: "add",
-        label: "新增",
-        type: "primary",
-        icon: "ep:plus",
-        state: true,
-        permission: ["org:save"]
-      }
+      // {
+      //   key: "add",
+      //   label: "新增",
+      //   type: "primary",
+      //   icon: "ep:plus",
+      //   state: true,
+      //   permission: ["org:save"]
+      // }
       // {
       //   key: "update",
       //   label: "修改",
@@ -86,24 +86,24 @@ const pageData: any = reactive({
       // }
     ],
     right: [
-      {
-        key: "search",
-        label: "查询",
-        icon: "ep:search",
-        state: true,
-        options: {
-          circle: true
-        }
-      },
-      {
-        key: "refresh",
-        label: "刷新",
-        icon: "ep:refresh",
-        state: true,
-        options: {
-          circle: true
-        }
-      }
+      // {
+      //   key: "search",
+      //   label: "查询",
+      //   icon: "ep:search",
+      //   state: true,
+      //   options: {
+      //     circle: true
+      //   }
+      // },
+      // {
+      //   key: "refresh",
+      //   label: "刷新",
+      //   icon: "ep:refresh",
+      //   state: true,
+      //   options: {
+      //     circle: true
+      //   }
+      // }
     ]
   },
   tableParams: {
@@ -357,6 +357,7 @@ const handleBtnClick = (val: String) => {
       break;
   }
 };
+
 /**
  * 新增
  */
@@ -364,8 +365,26 @@ const _handlerAdd = () => {
   radiationEditRef.value!.open("", "", pageData.dataSource);
 };
 const handleEdit = (data: any) => {
-  radiationEditRef.value!.open(data, "更新随访记录", pageData.dataSource);
+  radiationEditRef.value!.open(
+    data,
+    "编辑随访记录",
+    pageData.dataSource,
+    "",
+    1
+  );
 };
+
+// open函数接收五个参数，最后一个是判断当前操作是记录：0、编辑：1、新增：2。
+const handleRecord = (data: any) => {
+  radiationEditRef.value!.open(
+    data,
+    "记录随访记录",
+    pageData.dataSource,
+    "",
+    0
+  );
+};
+
 /**
  * 删除
  */
@@ -526,6 +545,22 @@ defineOptions({ name: "sysRole" });
             v-show="hasAuth(pageData.permission.update) && row.isSystem != 1"
             direction="vertical"
           /> -->
+          <el-link
+            v-show="
+              hasAuth(pageData.permission.update) &&
+              row.followUpStatus == '待随访'
+            "
+            type="primary"
+            @click="handleRecord(row)"
+            >记录</el-link
+          >
+          <el-divider
+            v-show="
+              hasAuth(pageData.permission.delete) &&
+              row.followUpStatus == '待随访'
+            "
+            direction="vertical"
+          />
           <el-link
             v-show="hasAuth(pageData.permission.update) && row.isSystem !== 1"
             type="primary"

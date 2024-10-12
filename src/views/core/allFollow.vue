@@ -79,34 +79,34 @@ const pageData: any = reactive({
   searchForm: {},
   btnOpts: {
     left: [
-      {
-        key: "add",
-        label: "新增",
-        type: "primary",
-        icon: "ep:plus",
-        state: true,
-        permission: ["patient:save"]
-      }
+      // {
+      //   key: "add",
+      //   label: "新增",
+      //   type: "primary",
+      //   icon: "ep:plus",
+      //   state: true,
+      //   permission: ["patient:save"]
+      // }
     ],
     right: [
-      {
-        key: "search",
-        label: "查询",
-        icon: "ep:search",
-        state: true,
-        options: {
-          circle: true
-        }
-      },
-      {
-        key: "refresh",
-        label: "刷新",
-        icon: "ep:refresh",
-        state: true,
-        options: {
-          circle: true
-        }
-      }
+      // {
+      //   key: "search",
+      //   label: "查询",
+      //   icon: "ep:search",
+      //   state: true,
+      //   options: {
+      //     circle: true
+      //   }
+      // },
+      // {
+      //   key: "refresh",
+      //   label: "刷新",
+      //   icon: "ep:refresh",
+      //   state: true,
+      //   options: {
+      //     circle: true
+      //   }
+      // }
     ]
   },
   tableParams: {
@@ -197,7 +197,7 @@ const tableChildrenColumns: TableColumnList = [
     width: "200"
   },
   {
-    label: "创建人",
+    label: "创建者",
     prop: "createdBy"
   },
   {
@@ -205,7 +205,7 @@ const tableChildrenColumns: TableColumnList = [
     prop: "created"
   },
   {
-    label: "更新人",
+    label: "更新者",
     prop: "modifiedBy"
   },
   {
@@ -246,7 +246,7 @@ const handlePageChange = (current: number, size: number) => {
  * 删除患者信息
  */
 const handleDel = (record: any) => {
-  message.confirm("确认删除当前数据").then(() => {
+  message.confirm("确认删除该患者全部数据").then(() => {
     _delete([record.id]);
   });
 };
@@ -273,11 +273,12 @@ const _delete = (ids: any[]) => {
  * 删除随访记录
  */
 const handleFollowDel = (record: any) => {
+  console.log(record);
   message.confirm("确认删除当前数据").then(() => {
-    _delete_Follow([record.id]);
+    _delete_Follow([record.id], record.patientId);
   });
 };
-const _delete_Follow = (ids: any[]) => {
+const _delete_Follow = (ids: any[], patientId: number) => {
   if (ids && ids.length > 0) {
     pageData.tableParams.loading = true;
     followApi
@@ -285,7 +286,8 @@ const _delete_Follow = (ids: any[]) => {
       .then(res => {
         if (res.success) {
           message.success("删除成功");
-          loadTableData();
+          loadChildrenTableData(patientId);
+          // loadTableData();
         } else {
           message.warning(res.message);
         }
@@ -363,8 +365,13 @@ const handleBtnClick = (action: string) => {
 /**
  * 新增
  */
-const _handlerAdd = () => {
-  radiationEditRef.value!.open("", "", pageData.dataSource);
+// open函数接收五个参数，最后一个是判断当前操作是记录：0、编辑：1、新增：2。
+const _handlerAdd = (row?: any) => {
+  radiationEditRef.value!.open("", "", pageData.dataSource, row.id, 2);
+};
+
+const handleFollowAdded = (patientId: number) => {
+  loadChildrenTableData(patientId);
 };
 // const handleEdit = (data: any) => {
 //   radiationEditRef.value!.open(data, "修改病历资料", pageData.dataSource);
@@ -413,8 +420,26 @@ const handleExpand = (row: any, expanded: boolean) => {
   }
 };
 
+// open函数接收五个参数，最后一个是判断当前操作是记录：0、编辑：1、新增：2。
+const handleRecord = (data: any) => {
+  radiationEditRef.value!.open(
+    data,
+    "记录随访记录",
+    pageData.dataSource,
+    "",
+    0
+  );
+};
+
+// open函数接收五个参数，最后一个是判断当前操作是记录：0、编辑：1、新增：2。
 const handleEdit = (data: any) => {
-  radiationEditRef.value!.open(data, "更新随访记录", pageData.dataSource);
+  radiationEditRef.value!.open(
+    data,
+    "编辑随访记录",
+    pageData.dataSource,
+    "",
+    1
+  );
 };
 
 const handleChildExpand = (childRow: any, expanded: boolean) => {
@@ -554,6 +579,22 @@ onMounted(() => {
             <template #operation="{ row }">
               <el-link
                 v-show="
+                  hasAuth(pageData.permission.update) &&
+                  row.followUpStatus == '待随访'
+                "
+                type="primary"
+                @click="handleRecord(row)"
+                >记录</el-link
+              >
+              <el-divider
+                v-show="
+                  hasAuth(pageData.permission.delete) &&
+                  row.followUpStatus == '待随访'
+                "
+                direction="vertical"
+              />
+              <el-link
+                v-show="
                   hasAuth(pageData.permission.update) && row.isSystem !== 1
                 "
                 type="primary"
@@ -596,6 +637,16 @@ onMounted(() => {
 
         <template #operation="{ row }">
           <el-link
+            v-show="hasAuth(pageData.permission.update) && row.isSystem !== 1"
+            type="primary"
+            @click="_handlerAdd(row)"
+            >新增</el-link
+          >
+          <el-divider
+            v-show="hasAuth(pageData.permission.delete) && row.isSystem !== 1"
+            direction="vertical"
+          />
+          <el-link
             v-show="hasAuth(pageData.permission.delete) && row.isSystem !== 1"
             type="primary"
             @click="handleDel(row)"
@@ -605,7 +656,10 @@ onMounted(() => {
         </template>
       </pure-table>
 
-      <radiation-edit ref="radiationEditRef" @ok="loadTableData" />
+      <radiation-edit
+        ref="radiationEditRef"
+        @follow-added="handleFollowAdded"
+      />
     </template>
   </el-card>
 </template>

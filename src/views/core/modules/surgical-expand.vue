@@ -91,8 +91,8 @@ const surgicalColumns = computed(() => {
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请选择手术时间",
-        type: "datetime",
-        valueFormat: "YYYY-MM-DD HH:mm:ss"
+        type: "date",
+        valueFormat: "YYYY-MM-DD"
       }
     },
     {

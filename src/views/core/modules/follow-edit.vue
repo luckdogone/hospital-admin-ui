@@ -13,6 +13,7 @@ const pageData: any = reactive({
   title: "新增新辅助治疗信息",
   formLoading: false,
   isUpdate: false,
+  flag: true,
   formData: {
     patientId: "",
     surgeryDate: "",
@@ -51,7 +52,7 @@ const pageData: any = reactive({
   }
 });
 
-const emits = defineEmits(["ok", "close"]);
+const emits = defineEmits(["ok", "close", "follow-added"]);
 
 // 计算出是否显示相关表单项
 const showUltrasound = computed(
@@ -73,8 +74,15 @@ const showBoneScanAbnormalResult = computed(
 // const showAxillaryFineNeedleAspiration = computed(
 //   () => pageData.formData.axillaryFineNeedleAspirationDone === true
 // );
+let flags = 0;
 
-const open = (data?: any, title?: string, dataSource?: any) => {
+const open = (
+  data?: any,
+  title?: string,
+  dataSource?: any,
+  patientId?: number,
+  flag?: number
+) => {
   pageData.formData = data || {
     id: "",
     patientId: "",
@@ -100,10 +108,26 @@ const open = (data?: any, title?: string, dataSource?: any) => {
     boneScanAbnormalResult: "",
     notes: ""
   };
+  flags = flag;
+  console.log(flags);
+  if (flags != 0) {
+    pageData.flag = false;
+  } else {
+    pageData.flag = true;
+  }
+  if (
+    pageData.formData.patientId == "" ||
+    pageData.formData.patientId == null
+  ) {
+    pageData.formData.patientId = patientId;
+  }
   pageData.dataSource = dataSource;
+  console.log(data);
   console.log(pageData.dataSource);
+  console.log(flags);
   pageData.title = title || "新增随访记录";
-  pageData.isUpdate = !!pageData.formData.id;
+  pageData.isUpdate = true;
+  // pageData.isUpdate = !!pageData.formData.id;
   pageData.dialogVisible = true;
 };
 
@@ -117,7 +141,11 @@ const handleConfirm = () => {
     if (isValid) {
       const { id } = pageData.formData;
       if (id) {
-        _update();
+        if (flags != 0) {
+          _update();
+        } else {
+          _record();
+        }
       } else {
         _save();
       }
@@ -139,6 +167,7 @@ const _save = () => {
       if (res.success) {
         _confirm();
         message("新增成功!", { type: "success" });
+        emits("follow-added", _data.patientId);
       } else {
         message(res.message, { type: "warning" });
       }
@@ -160,6 +189,27 @@ const _update = () => {
       if (res.success) {
         _confirm();
         message("修改成功!", { type: "success" });
+        emits("follow-added", _data.patientId);
+      } else {
+        message(res.message, { type: "warning" });
+      }
+    })
+    .finally(() => {
+      pageData.formLoading = false;
+    });
+};
+
+const _record = () => {
+  pageData.formLoading = true;
+  const _data = cloneDeep(pageData.formData);
+  _data.followUpDate = dayjs(_data.followUpDate).format("YYYY-MM-DD");
+  followApi
+    .followRecord(pageData.formData.id, _data)
+    .then((res: any) => {
+      if (res.success) {
+        _confirm();
+        message("记录成功!", { type: "success" });
+        emits("follow-added", _data.patientId);
       } else {
         message(res.message, { type: "warning" });
       }
@@ -226,21 +276,24 @@ defineOptions({ name: "RoleEdit" });
             type="date"
             clearable
             placeholder="请选择随访日期"
+            valueFormat="YYYY-MM-DD"
             style="width: 70%"
+            :disabled="pageData.flag"
           />
         </el-form-item>
-        <!-- <el-form-item label="随访状态" prop="followUpStatus">
+        <el-form-item label="随访状态" prop="followUpStatus">
           <el-select
             v-model="pageData.formData.followUpStatus"
             clearable
             placeholder="请选择随访状态"
             style="width: 70%"
+            :disabled="pageData.flag"
           >
             <el-option label="等待中" value="等待中" />
             <el-option label="待随访" value="待随访" />
             <el-option label="已完成" value="已完成" />
           </el-select>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="超声是否异常" prop="ultrasoundAbnormal">
           <el-select
             v-model="pageData.formData.ultrasoundAbnormal"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, onMounted, ref, computed } from "vue";
+import { reactive, onMounted, ref } from "vue";
 import { PureTable } from "@pureadmin/table";
 import {
   PlusForm,
@@ -7,7 +7,7 @@ import {
   type FieldValues
 } from "plus-pro-components";
 import { CollapseModelValue } from "element-plus";
-import FormSearch from "@/components/opts/form-search.vue";
+// import FormSearch from "@/components/opts/form-search.vue";
 import TableButtons from "@/components/opts/btns2.vue";
 import PatientEdit from "./modules/patient-edit.vue";
 import { hasAuth } from "@/router/utils";
@@ -69,43 +69,43 @@ const pageData: any = reactive({
   searchState: true,
   isAdvancedSearch: false, // 新增：控制是否显示高级搜索
   searchField: [
-    {
-      type: "input",
-      label: "患者电话",
-      prop: "phone",
-      placeholder: "精准查询患者电话"
-    },
-    {
-      type: "input",
-      label: "联系人电话",
-      prop: "contactPhone",
-      placeholder: "精准查询联系人电话"
-    },
-    {
-      type: "input",
-      label: "患者姓名",
-      prop: "name",
-      placeholder: "模糊查询患者姓名"
-    },
-    // 新增高级搜索字段
-    {
-      type: "input",
-      label: "年龄",
-      prop: "age",
-      placeholder: "请输入年龄",
-      isAdvanced: true
-    },
-    {
-      type: "select",
-      label: "性别",
-      prop: "sex",
-      placeholder: "请选择性别",
-      options: [
-        { label: "男", value: 1 },
-        { label: "女", value: 0 }
-      ],
-      isAdvanced: true
-    }
+    // {
+    //   type: "input",
+    //   label: "患者电话",
+    //   prop: "phone",
+    //   placeholder: "精准查询患者电话"
+    // },
+    // {
+    //   type: "input",
+    //   label: "联系人电话",
+    //   prop: "contactPhone",
+    //   placeholder: "精准查询联系人电话"
+    // },
+    // {
+    //   type: "input",
+    //   label: "患者姓名",
+    //   prop: "name",
+    //   placeholder: "模糊查询患者姓名"
+    // },
+    // // 新增高级搜索字段
+    // {
+    //   type: "input",
+    //   label: "年龄",
+    //   prop: "age",
+    //   placeholder: "请输入年龄",
+    //   isAdvanced: true
+    // },
+    // {
+    //   type: "select",
+    //   label: "性别",
+    //   prop: "sex",
+    //   placeholder: "请选择性别",
+    //   options: [
+    //     { label: "男", value: 1 },
+    //     { label: "女", value: 0 }
+    //   ],
+    //   isAdvanced: true
+    // }
     // {
     //   type: "select",
     //   label: "状态",
@@ -204,9 +204,9 @@ const tableColumns: TableColumnList = [
     prop: "inputStatus",
     formatter: row => {
       const statusMap = {
-        0: "未开始",
-        1: "进行中",
-        2: "已完成"
+        0: "未录入",
+        1: "录入中",
+        2: "已录入"
       };
       return statusMap[row.inputStatus] || "未知";
     }
@@ -324,17 +324,17 @@ const mainFormColumns: PlusColumn[] = [
 ];
 
 // 功能函数
-const updateSearchForm = (data: any) => {
-  pageData.searchForm = data;
-};
+// const updateSearchForm = (data: any) => {
+//   pageData.searchForm = data;
+// };
 
-const handleSearch = () => {
-  loadTableData();
-};
+// const handleSearch = () => {
+//   loadTableData();
+// };
 
-const resetSearch = (data?: any) => {
-  pageData.searchForm = data || {};
-};
+// const resetSearch = (data?: any) => {
+//   pageData.searchForm = data || {};
+// };
 
 const toggleSearchState = () => {
   pageData.searchState = !pageData.searchState;
@@ -1143,11 +1143,11 @@ const handleMainFormReset = (rowId: string): void => {
 };
 
 // 计算属性：根据当前展开状态返回应该显示的搜索字段
-const visibleSearchFields = computed(() => {
-  return pageData.searchField.filter(
-    field => !field.isAdvanced || pageData.isAdvancedSearch
-  );
-});
+// const visibleSearchFields = computed(() => {
+//   return pageData.searchField.filter(
+//     field => !field.isAdvanced || pageData.isAdvancedSearch
+//   );
+// });
 
 // const advancedSearchModules = reactive({
 //   patient: false,
@@ -1264,7 +1264,7 @@ const caseSearchForm = reactive({
 });
 
 const surgicalSearchForm = reactive({
-  surgeryTime: "",
+  surgeryTime: null,
   surgicalSite: "",
   isTotalPartial: "",
   isBreastConserve: "",
@@ -1423,7 +1423,7 @@ onMounted(() => {
 <template>
   <el-card :shadow="'never'">
     <template #default>
-      <form-search
+      <!-- <form-search
         :show="pageData.searchState"
         :form-field="visibleSearchFields"
         :data-source="pageData.dataSource"
@@ -1431,7 +1431,7 @@ onMounted(() => {
         @search="handleSearch"
         @reset="resetSearch"
         :query-permission="pageData.permission.query"
-      />
+      /> -->
 
       <div class="advanced-search-area">
         <h3>高级搜索</h3>
@@ -1452,6 +1452,7 @@ onMounted(() => {
                     <el-select
                       v-model="patientSearchForm.sex"
                       placeholder="请选择性别"
+                      clearable
                     >
                       <el-option
                         v-for="option in sexOptions"
@@ -1555,6 +1556,7 @@ onMounted(() => {
                     <el-select
                       v-model="generalSearchForm.inputStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未录入" value="0" />
                       <el-option label="录入中" value="1" />
@@ -1575,6 +1577,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.ultrasoundStatus"
                       placeholder="请选择状态"
+                      clearable
                     >
                       <el-option label="未做" value="0" />
                       <el-option label="左" value="1" />
@@ -1596,6 +1599,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.ultrasoundLeftBloodFlow"
                       placeholder="请输入血流信号"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -1609,6 +1613,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.ultrasoundLeftBirads"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="0类" value="0" />
                       <el-option label="1类" value="1" />
@@ -1648,6 +1653,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.ultrasoundRightBirads"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="0类" value="0" />
                       <el-option label="1类" value="1" />
@@ -1670,6 +1676,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mammographyStatus"
                       placeholder="请选择状态"
+                      clearable
                     >
                       <el-option label="未做" value="0" />
                       <el-option label="左" value="1" />
@@ -1691,6 +1698,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mammographyLeftAggregation"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -1704,6 +1712,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mammographyLeftBirads"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="0类" value="0" />
                       <el-option label="1类" value="1" />
@@ -1730,6 +1739,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mammographyRightAggregation"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -1743,6 +1753,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mammographyRightBirads"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="0类" value="0" />
                       <el-option label="1类" value="1" />
@@ -1765,6 +1776,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mriStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未做" value="0" />
                       <el-option label="左" value="1" />
@@ -1786,6 +1798,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mriLeftBloodFlow"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="廓清型" value="2" />
                       <el-option label="平台型" value="1" />
@@ -1800,6 +1813,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mriLeftBirads"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="0类" value="0" />
                       <el-option label="1类" value="1" />
@@ -1826,6 +1840,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mriRightBloodFlow"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -1839,6 +1854,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.mriRightBirads"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="0类" value="0" />
                       <el-option label="1类" value="1" />
@@ -2003,6 +2019,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.breastCoreNeedle"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -2028,6 +2045,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.axillaryCoreNeedle"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -2053,6 +2071,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.axillaryFineNeedle"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -2078,6 +2097,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.ihcResult"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -2107,6 +2127,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.her2"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="3+" value="3+" />
                       <el-option label="2+" value="2+" />
@@ -2138,6 +2159,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.fishTest"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="阳性" value="阳性" />
                       <el-option label="阴性" value="阴性" />
@@ -2161,6 +2183,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.stage"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="无" value="无" />
                       <el-option label="I" value="I" />
@@ -2174,6 +2197,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.subtype"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="三阴性" value="三阴性" />
                       <el-option label="Luminal A" value="Luminal A" />
@@ -2196,6 +2220,7 @@ onMounted(() => {
                     <el-select
                       v-model="caseSearchForm.inputStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未录入" value="0" />
                       <el-option label="录入中" value="1" />
@@ -2215,8 +2240,9 @@ onMounted(() => {
                   <el-form-item label="手术时间">
                     <el-date-picker
                       v-model="surgicalSearchForm.surgeryTime"
-                      type="datetime"
+                      type="date"
                       placeholder="选择日期"
+                      valueFormat="YYYY-MM-DD"
                     />
                   </el-form-item>
                 </el-col>
@@ -2225,6 +2251,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.surgicalSite"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="左" value="左" />
                       <el-option label="右" value="右" />
@@ -2236,6 +2263,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.isTotalPartial"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2247,6 +2275,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.isBreastConserve"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2261,6 +2290,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.isNippleSpare"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2272,6 +2302,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.isEndoscopic"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2283,6 +2314,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.isReconstruction"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2314,6 +2346,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.hasLymphInvasion"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2328,6 +2361,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.hasNerveInvasion"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2339,6 +2373,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.isMultifocal"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2353,6 +2388,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.tumorLocation"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="中央区" value="中央区" />
                       <el-option label="外上象限" value="外上象限" />
@@ -2367,6 +2403,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.hasSlnBiopsy"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2378,6 +2415,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.useNs"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2392,6 +2430,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.preTad"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2412,6 +2451,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.slnMeta"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2456,6 +2496,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.ald"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2467,6 +2508,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.aldStage"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="I" value="I" />
                       <el-option label="II" value="II" />
@@ -2521,6 +2563,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.apexMeta"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2532,6 +2575,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.imMeta"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2542,7 +2586,8 @@ onMounted(() => {
                   <el-form-item label="术后有无免疫组化结果">
                     <el-select
                       v-model="surgicalSearchForm.ihcResult"
-                      placeholder="请输入免疫组化结果"
+                      placeholder="请选择"
+                      clearable
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -2577,6 +2622,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.her2"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="0" value="0" />
                       <el-option label="1+" value="1+" />
@@ -2627,6 +2673,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.fishTest"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="阳性" value="阳性" />
                       <el-option label="阴性" value="阴性" />
@@ -2649,6 +2696,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.stage"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="I" value="I" />
                       <el-option label="II" value="II" />
@@ -2661,6 +2709,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.subtype"
                       placeholder="请选择分型"
+                      clearable
                     >
                       <el-option label="三阴性" value="三阴性" />
                       <el-option label="Luminal A" value="Luminal A" />
@@ -2684,6 +2733,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.mpLevel"
                       placeholder="请选择MP级别"
+                      clearable
                     >
                       <el-option label="1" value="1" />
                       <el-option label="2" value="2" />
@@ -2701,6 +2751,7 @@ onMounted(() => {
                     <el-select
                       v-model="surgicalSearchForm.inputStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未录入" value="0" />
                       <el-option label="录入中" value="1" />
@@ -2720,6 +2771,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.neoadjTherapy"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2731,6 +2783,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.clinResearch"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2761,6 +2814,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.immunotherapy"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2870,6 +2924,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.doseAdjust"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2889,6 +2944,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.therapyTerm"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2910,6 +2966,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.gcsf"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2921,6 +2978,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.longGcsf"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2935,6 +2993,7 @@ onMounted(() => {
                     <el-select
                       v-model="neoadjuvantSearchForm.inputStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未录入" value="0" />
                       <el-option label="录入中" value="1" />
@@ -2954,6 +3013,7 @@ onMounted(() => {
                     <el-select
                       v-model="adjuvantSearchForm.adjuvantTherapy"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2965,6 +3025,7 @@ onMounted(() => {
                     <el-select
                       v-model="adjuvantSearchForm.clinicalResearch"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -2994,6 +3055,7 @@ onMounted(() => {
                     <el-select
                       v-model="adjuvantSearchForm.intensifiedTherapy"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3015,6 +3077,7 @@ onMounted(() => {
                     <el-select
                       v-model="adjuvantSearchForm.doseAdjustment"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3034,6 +3097,7 @@ onMounted(() => {
                     <el-select
                       v-model="adjuvantSearchForm.therapyTermination"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3069,6 +3133,7 @@ onMounted(() => {
                     <el-select
                       v-model="adjuvantSearchForm.inputStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未录入" value="0" />
                       <el-option label="录入中" value="1" />
@@ -3088,6 +3153,7 @@ onMounted(() => {
                     <el-select
                       v-model="endocrineSearchForm.endocrineTreatment"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3099,6 +3165,7 @@ onMounted(() => {
                     <el-select
                       v-model="endocrineSearchForm.clinicalResearch"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3128,6 +3195,7 @@ onMounted(() => {
                     <el-select
                       v-model="endocrineSearchForm.enhancedTreatment"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3149,6 +3217,7 @@ onMounted(() => {
                     <el-select
                       v-model="endocrineSearchForm.dosageAdjustment"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3168,6 +3237,7 @@ onMounted(() => {
                     <el-select
                       v-model="endocrineSearchForm.medicationAdjustment"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3203,6 +3273,7 @@ onMounted(() => {
                     <el-select
                       v-model="endocrineSearchForm.inputStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未录入" value="0" />
                       <el-option label="录入中" value="1" />
@@ -3222,6 +3293,7 @@ onMounted(() => {
                     <el-select
                       v-model="radiationSearchForm.radiationTreatment"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3233,6 +3305,7 @@ onMounted(() => {
                     <el-select
                       v-model="radiationSearchForm.clinicalResearch"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="是" value="1" />
                       <el-option label="否" value="0" />
@@ -3285,6 +3358,7 @@ onMounted(() => {
                     <el-select
                       v-model="radiationSearchForm.inputStatus"
                       placeholder="请选择"
+                      clearable
                     >
                       <el-option label="未录入" value="0" />
                       <el-option label="录入中" value="1" />
@@ -3536,5 +3610,9 @@ onMounted(() => {
 
 .search-modules .el-checkbox {
   margin-right: 15px;
+}
+
+.search-button-container {
+  margin-top: 15px;
 }
 </style>
