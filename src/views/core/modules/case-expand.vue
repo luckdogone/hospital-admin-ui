@@ -972,7 +972,7 @@ const rules = {
 
 // 处理编辑按钮点击
 const handleEdit = () => {
-  if (hasAuth(props.permissions.general_update)) {
+  if (hasAuth(props.permissions.case_update)) {
     emit("update:isEditing", !props.isEditing);
   } else {
     ElMessage.error("您没有编辑权限");

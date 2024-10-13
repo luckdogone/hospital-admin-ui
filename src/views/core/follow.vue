@@ -15,10 +15,10 @@ const radiationEditRef = ref();
 const pageData: any = reactive({
   permission: {
     query: [],
-    add: ["role:save"],
-    update: ["role:update"],
-    delete: ["role:update"],
-    permission: ["role:permission"]
+    add: ["follow:save"],
+    update: ["follow:update"],
+    delete: ["follow:del"],
+    record: ["follow:record"]
   },
   /**
    * 是否显示搜索
@@ -364,15 +364,15 @@ const handleBtnClick = (val: String) => {
 const _handlerAdd = () => {
   radiationEditRef.value!.open("", "", pageData.dataSource);
 };
-const handleEdit = (data: any) => {
-  radiationEditRef.value!.open(
-    data,
-    "编辑随访记录",
-    pageData.dataSource,
-    "",
-    1
-  );
-};
+// const handleEdit = (data: any) => {
+//   radiationEditRef.value!.open(
+//     data,
+//     "编辑随访记录",
+//     pageData.dataSource,
+//     "",
+//     1
+//   );
+// };
 
 // open函数接收五个参数，最后一个是判断当前操作是记录：0、编辑：1、新增：2。
 const handleRecord = (data: any) => {
@@ -388,11 +388,11 @@ const handleRecord = (data: any) => {
 /**
  * 删除
  */
-const handleDel = (record: any) => {
-  message.confirm("确认删除当前数据").then(() => {
-    _delete([record.id]);
-  });
-};
+// const handleDel = (record: any) => {
+//   message.confirm("确认删除当前数据").then(() => {
+//     _delete([record.id]);
+//   });
+// };
 const _delete = (ids: any[]) => {
   if (ids && ids.length > 0) {
     pageData.tableParams.loading = true;
@@ -547,18 +547,15 @@ defineOptions({ name: "sysRole" });
           /> -->
           <el-link
             v-show="
-              hasAuth(pageData.permission.update) &&
+              hasAuth(pageData.permission.record) &&
               row.followUpStatus == '待随访'
             "
             type="primary"
             @click="handleRecord(row)"
             >记录</el-link
           >
-          <el-divider
-            v-show="
-              hasAuth(pageData.permission.delete) &&
-              row.followUpStatus == '待随访'
-            "
+          <!-- <el-divider
+            v-show="hasAuth(pageData.permission.update) && row.followUpStatus == '待随访'"
             direction="vertical"
           />
           <el-link
@@ -568,7 +565,7 @@ defineOptions({ name: "sysRole" });
             >编辑</el-link
           >
           <el-divider
-            v-show="hasAuth(pageData.permission.delete) && row.isSystem !== 1"
+            v-show="hasAuth(pageData.permission.update) && row.isSystem !== 1"
             direction="vertical"
           />
           <el-link
@@ -576,7 +573,7 @@ defineOptions({ name: "sysRole" });
             type="primary"
             @click="handleDel(row)"
             >删除</el-link
-          >
+          > -->
         </template>
       </pure-table>
       <radiation-edit ref="radiationEditRef" @ok="_loadData" />

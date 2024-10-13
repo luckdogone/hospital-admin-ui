@@ -8,9 +8,9 @@ import {
 } from "plus-pro-components";
 import { CollapseModelValue } from "element-plus";
 // import FormSearch from "@/components/opts/form-search.vue";
-import TableButtons from "@/components/opts/btns2.vue";
+// import TableButtons from "@/components/opts/btns2.vue";
 import PatientEdit from "./modules/patient-edit.vue";
-import { hasAuth } from "@/router/utils";
+// import { hasAuth } from "@/router/utils";
 import { enableConvert, enabledBooleanConvert } from "@/constants/convert";
 import { enableOptions, sexOptions } from "@/constants/constants";
 import * as patientApi from "@/api/core/patient";
@@ -55,16 +55,17 @@ const expandedFormData = reactive<{ [key: number]: any }>({});
 const pageData: any = reactive({
   permission: {
     query: [],
+    search: ["search:query"],
     add: ["patient:save"],
     update: ["patient:update"],
-    delete: ["patient:del"],
-    general_update: ["general:update"],
-    case_update: ["general:update"],
-    surgical_update: ["general:update"],
-    neoadjuvant_update: ["general:update"],
-    adjuvant_update: ["general:update"],
-    endocrine_update: ["general:update"],
-    radiation_update: ["general:update"]
+    delete: ["patient:del"]
+    // general_update: ["general:update"],
+    // case_update: ["general:update"],
+    // surgical_update: ["general:update"],
+    // neoadjuvant_update: ["general:update"],
+    // adjuvant_update: ["general:update"],
+    // endocrine_update: ["general:update"],
+    // radiation_update: ["general:update"]
   },
   searchState: true,
   isAdvancedSearch: false, // 新增：控制是否显示高级搜索
@@ -210,12 +211,12 @@ const tableColumns: TableColumnList = [
       };
       return statusMap[row.inputStatus] || "未知";
     }
-  },
-  {
-    label: "操作",
-    fixed: "right",
-    slot: "operation"
   }
+  // {
+  //   label: "操作",
+  //   fixed: "right",
+  //   slot: "operation"
+  // }
 ];
 
 // 表单验证规则
@@ -336,9 +337,9 @@ const mainFormColumns: PlusColumn[] = [
 //   pageData.searchForm = data || {};
 // };
 
-const toggleSearchState = () => {
-  pageData.searchState = !pageData.searchState;
-};
+// const toggleSearchState = () => {
+//   pageData.searchState = !pageData.searchState;
+// };
 
 const handlePageChange = (current: number, size: number) => {
   pageData.tableParams.pagination.currentPage = current;
@@ -349,11 +350,11 @@ const handlePageChange = (current: number, size: number) => {
 /**
  * 删除
  */
-const handleDel = (record: any) => {
-  message.confirm("确认删除当前数据").then(() => {
-    _delete([record.id]);
-  });
-};
+// const handleDel = (record: any) => {
+//   message.confirm("确认删除当前数据").then(() => {
+//     _delete([record.id]);
+//   });
+// };
 const _delete = (ids: any[]) => {
   if (ids && ids.length > 0) {
     pageData.tableParams.loading = true;
@@ -396,33 +397,33 @@ const loadTableData = () => {
 };
 
 //按钮跳转
-const handleBtnClick = (action: string) => {
-  switch (action) {
-    case "add":
-      patientEditRef.value?.open();
-      break;
-    case "search":
-      toggleSearchState();
-      break;
-    case "refresh":
-      loadTableData();
-      break;
-  }
-};
+// const handleBtnClick = (action: string) => {
+//   switch (action) {
+//     case "add":
+//       patientEditRef.value?.open();
+//       break;
+//     case "search":
+//       toggleSearchState();
+//       break;
+//     case "refresh":
+//       loadTableData();
+//       break;
+//   }
+// };
 
 //编辑函数
-const handleEdit = (row: any, type: "general" | "case" | "main") => {
-  if (hasAuth(pageData.permission.update) && row.isSystem !== 1) {
-    editState[type][String(row.id)] = !editState[type][String(row.id)];
-    // 更新表单项的禁用状态
-    expandedFormData[row.id][type] = {
-      ...expandedFormData[row.id][type],
-      disabled: !editState[type][String(row.id)]
-    };
-  } else {
-    ElMessage.error("您没有编辑权限");
-  }
-};
+// const handleEdit = (row: any, type: "general" | "case" | "main") => {
+//   if (hasAuth(pageData.permission.update) && row.isSystem !== 1) {
+//     editState[type][String(row.id)] = !editState[type][String(row.id)];
+//     // 更新表单项的禁用状态
+//     expandedFormData[row.id][type] = {
+//       ...expandedFormData[row.id][type],
+//       disabled: !editState[type][String(row.id)]
+//     };
+//   } else {
+//     ElMessage.error("您没有编辑权限");
+//   }
+// };
 
 // 处理折叠面板变化
 const handleCollapseChange = (val: CollapseModelValue, rowId: number) => {
@@ -3377,12 +3378,12 @@ onMounted(() => {
         </div>
       </div>
 
-      <table-buttons
+      <!-- <table-buttons
         :size="'small'"
         :left-btns="pageData.btnOpts.left"
         :right-btns="pageData.btnOpts.right"
         @click="handleBtnClick"
-      />
+      /> -->
       <pure-table
         :columns="tableColumns"
         :data="pageData.tableParams.list"
@@ -3546,7 +3547,7 @@ onMounted(() => {
           </el-tag>
         </template>
 
-        <template #operation="{ row }">
+        <!-- <template #operation="{ row }">
           <el-link
             v-show="hasAuth(pageData.permission.update) && row.isSystem !== 1"
             type="primary"
@@ -3565,7 +3566,7 @@ onMounted(() => {
           >
             删除
           </el-link>
-        </template>
+        </template> -->
       </pure-table>
 
       <patient-edit ref="patientEditRef" @ok="loadTableData" />

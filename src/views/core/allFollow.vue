@@ -24,16 +24,10 @@ const childTableData = ref([]);
 const pageData: any = reactive({
   permission: {
     query: [],
-    add: ["patient:save"],
-    update: ["patient:update"],
-    delete: ["patient:del"],
-    general_update: ["general:update"],
-    case_update: ["general:update"],
-    surgical_update: ["general:update"],
-    neoadjuvant_update: ["general:update"],
-    adjuvant_update: ["general:update"],
-    endocrine_update: ["general:update"],
-    radiation_update: ["general:update"]
+    add: ["follow:save"],
+    update: ["follow:update"],
+    delete: ["follow:del"],
+    record: ["follow:record"]
   },
   searchState: true,
   searchField: [
@@ -245,11 +239,11 @@ const handlePageChange = (current: number, size: number) => {
 /**
  * 删除患者信息
  */
-const handleDel = (record: any) => {
-  message.confirm("确认删除该患者全部数据").then(() => {
-    _delete([record.id]);
-  });
-};
+// const handleDel = (record: any) => {
+//   message.confirm("确认删除该患者全部数据").then(() => {
+//     _delete([record.id]);
+//   });
+// };
 const _delete = (ids: any[]) => {
   if (ids && ids.length > 0) {
     pageData.tableParams.loading = true;
@@ -579,7 +573,7 @@ onMounted(() => {
             <template #operation="{ row }">
               <el-link
                 v-show="
-                  hasAuth(pageData.permission.update) &&
+                  hasAuth(pageData.permission.record) &&
                   row.followUpStatus == '待随访'
                 "
                 type="primary"
@@ -588,7 +582,7 @@ onMounted(() => {
               >
               <el-divider
                 v-show="
-                  hasAuth(pageData.permission.delete) &&
+                  hasAuth(pageData.permission.update) &&
                   row.followUpStatus == '待随访'
                 "
                 direction="vertical"
@@ -603,7 +597,7 @@ onMounted(() => {
               >
               <el-divider
                 v-show="
-                  hasAuth(pageData.permission.delete) && row.isSystem !== 1
+                  hasAuth(pageData.permission.update) && row.isSystem !== 1
                 "
                 direction="vertical"
               />
@@ -642,7 +636,7 @@ onMounted(() => {
             @click="_handlerAdd(row)"
             >新增</el-link
           >
-          <el-divider
+          <!-- <el-divider
             v-show="hasAuth(pageData.permission.delete) && row.isSystem !== 1"
             direction="vertical"
           />
@@ -652,7 +646,7 @@ onMounted(() => {
             @click="handleDel(row)"
           >
             删除
-          </el-link>
+          </el-link> -->
         </template>
       </pure-table>
 

@@ -59,12 +59,12 @@ const pageData: any = reactive({
     update: ["patient:update"],
     delete: ["patient:del"],
     general_update: ["general:update"],
-    case_update: ["general:update"],
-    surgical_update: ["general:update"],
-    neoadjuvant_update: ["general:update"],
-    adjuvant_update: ["general:update"],
-    endocrine_update: ["general:update"],
-    radiation_update: ["general:update"]
+    case_update: ["case:update"],
+    surgical_update: ["surgical:update"],
+    neoadjuvant_update: ["neoadjuvant:update"],
+    adjuvant_update: ["adjuvant:update"],
+    endocrine_update: ["endocrine:update"],
+    radiation_update: ["radiation:update"]
   },
   searchState: true,
   searchField: [

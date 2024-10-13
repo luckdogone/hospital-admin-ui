@@ -133,6 +133,8 @@ const open = (
 
 const handleClose = () => {
   pageData.dialogVisible = false;
+  const _data = cloneDeep(pageData.formData);
+  emits("follow-added", _data.patientId);
   emits("close");
 };
 
