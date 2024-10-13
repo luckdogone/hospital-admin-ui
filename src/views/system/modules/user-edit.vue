@@ -102,9 +102,9 @@ const pageData: any = reactive({
       },
       {
         type: "select",
-        label: "分配角色",
+        label: "分配职务",
         prop: "roleIds",
-        placeholder: "请选择分配角色",
+        placeholder: "请选择分配职务",
         dataSourceKey: "roleList",
         options: {
           filterable: true,
@@ -232,9 +232,9 @@ const formFields = computed(() => {
     },
     {
       type: "select",
-      label: "分配角色",
+      label: "分配职务",
       prop: "roleIds",
-      placeholder: "请选择分配角色",
+      placeholder: "请选择分配职务",
       dataSourceKey: "roleList",
       options: {
         filterable: true,

@@ -9,7 +9,7 @@ import { ElMessageBox, type ElTree } from "element-plus";
 const treeRef = ref<InstanceType<typeof ElTree>>();
 const pageData: any = reactive({
   isShow: false,
-  title: "角色权限",
+  title: "职务权限",
   treeLoading: false,
   role: {},
   rolePermission: [],

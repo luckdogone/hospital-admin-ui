@@ -27,15 +27,15 @@ const pageData: any = reactive({
   searchField: [
     {
       type: "input",
-      label: "角色编码",
+      label: "职务编码",
       prop: "roleCode",
-      placeholder: "精准查询角色编码"
+      placeholder: "精准查询职务编码"
     },
     {
       type: "input",
-      label: "角色名称",
+      label: "职务名称",
       prop: "roleName",
-      placeholder: "模糊查询角色名称"
+      placeholder: "模糊查询职务名称"
     },
     {
       type: "select",
@@ -104,11 +104,11 @@ const pageData: any = reactive({
      */
     columns: [
       {
-        label: "角色编码",
+        label: "职务编码",
         prop: "roleCode"
       },
       {
-        label: "角色名称",
+        label: "职务名称",
         prop: "roleName"
       },
       {
@@ -230,7 +230,7 @@ const _handlerAdd = () => {
   roleEditRef.value!.open();
 };
 const handleEdit = (data: any) => {
-  roleEditRef.value!.open(data, "修改角色");
+  roleEditRef.value!.open(data, "修改职务");
 };
 const handleAuthorize = (row: any) => {
   rolePermissionRef.value!.open(row);

@@ -21,11 +21,11 @@ const username = ref(useUserStoreHook()?.username);
 const options = [
   {
     value: "admin",
-    label: "管理员角色"
+    label: "管理员职务"
   },
   {
     value: "common",
-    label: "普通角色"
+    label: "普通职务"
   }
 ];
 
@@ -45,12 +45,12 @@ function onChange() {
 <template>
   <el-space direction="vertical" size="large">
     <el-tag :style="elStyle" size="large" effect="dark">
-      模拟后台根据不同角色返回对应路由（具体参考完整版pure-admin代码）
+      模拟后台根据不同职务返回对应路由（具体参考完整版pure-admin代码）
     </el-tag>
     <el-card shadow="never" :style="elStyle">
       <template #header>
         <div class="card-header">
-          <span>当前角色：{{ username }}</span>
+          <span>当前职务：{{ username }}</span>
         </div>
       </template>
       <el-select v-model="username" @change="onChange">

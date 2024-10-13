@@ -7,7 +7,7 @@ import type { FormInstance } from "element-plus";
 import { cloneDeep } from "@pureadmin/utils";
 const checkRoleCode = (rule: any, value: any, callback: any) => {
   if (value === "") {
-    callback(new Error("请输入角色编码"));
+    callback(new Error("请输入职务编码"));
   } else {
     const id = pageData.formData.id;
     roleApi.checkCode(value, id).then((res: any) => {
@@ -23,7 +23,7 @@ const checkRoleCode = (rule: any, value: any, callback: any) => {
 const formRef = ref<FormInstance>();
 const pageData: any = reactive({
   dialogVisible: false,
-  title: "新增角色",
+  title: "新增职务",
   formLoading: false,
   isUpdate: false,
   formData: {
@@ -34,10 +34,10 @@ const pageData: any = reactive({
   },
   formRules: {
     roleCode: [
-      { required: true, message: "请输入角色编码", trigger: "blur" },
+      { required: true, message: "请输入职务编码", trigger: "blur" },
       { validator: checkRoleCode, trigger: "blur" }
     ],
-    roleName: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
+    roleName: [{ required: true, message: "请输入职务名称", trigger: "blur" }],
     enabled: [{ required: true, message: "请选择状态", trigger: "change" }]
   }
 });
@@ -49,7 +49,7 @@ const open = (data?: any, title?: string) => {
     description: "",
     enabled: 1
   };
-  pageData.title = title || "新增角色";
+  pageData.title = title || "新增职务";
   pageData.isUpdate = !!pageData.formData.id;
   pageData.dialogVisible = true;
 };
@@ -128,19 +128,19 @@ defineOptions({ name: "RoleEdit" });
         ref="formRef"
         :loading="pageData.formLoading"
       >
-        <el-form-item label="角色编码" prop="roleCode">
+        <el-form-item label="职务编码" prop="roleCode">
           <el-input
             v-model="pageData.formData.roleCode"
             clearable
-            placeholder="请输入角色编码"
+            placeholder="请输入职务编码"
             :disabled="pageData.isUpdate"
           />
         </el-form-item>
-        <el-form-item label="角色名称" prop="roleName">
+        <el-form-item label="职务名称" prop="roleName">
           <el-input
             v-model="pageData.formData.roleName"
             clearable
-            placeholder="请输入角色名称"
+            placeholder="请输入职务名称"
           />
         </el-form-item>
         <el-form-item label="描述" prop="description">
