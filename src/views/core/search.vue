@@ -1171,7 +1171,8 @@ const patientSearchForm = reactive({
   // minHeight: "",
   // maxHeight: "",
   height: "",
-  weight: ""
+  weight: "",
+  inputStatus: ""
 });
 
 const generalSearchForm = reactive({
@@ -1525,6 +1526,21 @@ onMounted(() => {
                       v-model="patientSearchForm.weight"
                       placeholder="请输入体重"
                     />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="8">
+                  <el-form-item label="录入状态">
+                    <el-select
+                      v-model="patientSearchForm.inputStatus"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="未录入" value="0" />
+                      <el-option label="录入中" value="1" />
+                      <el-option label="已录入" value="2" />
+                    </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
