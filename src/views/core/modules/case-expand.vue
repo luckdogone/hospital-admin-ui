@@ -230,6 +230,10 @@ const caseColumns = computed(() => {
     !localFormData.value ||
     !localFormData.value.axillaryFineNeedle ||
     localFormData.value.axillaryFineNeedle === 0;
+  const isCollarboneLymphNeedleDisabled =
+    !localFormData.value ||
+    !localFormData.value.collarboneLymphNeedle ||
+    localFormData.value.collarboneLymphNeedleResult === 0;
   const isIhcDisabled =
     !localFormData.value ||
     !localFormData.value.ihcResult ||
@@ -736,7 +740,7 @@ const caseColumns = computed(() => {
       valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入CA153"
+        placeholder: "请输入CA153值"
       }
     },
     {
@@ -747,6 +751,53 @@ const caseColumns = computed(() => {
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入CA125值"
+      }
+    },
+    {
+      label: "月经状态",
+      width: 120,
+      prop: "menstrualStatus",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择月经状态"
+      },
+      options: [
+        { label: "绝经", value: 0, color: "red" },
+        { label: "未绝经", value: 1, color: "green" },
+        { label: "子宫切除", value: 2, color: "green" }
+      ]
+    },
+    {
+      label: "绝经年龄",
+      width: 120,
+      prop: "menopausalAge",
+      valueType: "input-number",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入绝经年龄",
+        step: 1,
+        precision: 0
+      }
+    },
+    {
+      label: "个人既往史",
+      width: 120,
+      prop: "personalMedicalHistory",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入个人既往史"
+      }
+    },
+    {
+      label: "家族史",
+      width: 120,
+      prop: "familyHistory",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入家族史"
       }
     },
     // 入院乳腺核心针检查
@@ -827,6 +878,74 @@ const caseColumns = computed(() => {
         disabled: isAxillaryFineNeedleDisabled
       }
     },
+    // 入院锁骨上淋巴结穿刺检查
+    {
+      label: "有无锁骨上淋巴结穿刺",
+      width: 120,
+      prop: "collarboneLymphNeedle",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择是否进行"
+      },
+      options: [
+        { label: "无", value: 0, color: "red" },
+        { label: "有", value: 1, color: "green" }
+      ]
+    },
+    {
+      label: "锁骨上淋巴结穿刺病理结果",
+      width: 120,
+      prop: "collarboneLymphNeedleResult",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入锁骨上淋巴结穿刺病理结果",
+        disabled: isCollarboneLymphNeedleDisabled
+      }
+    },
+
+    {
+      label: "P120",
+      width: 120,
+      prop: "p120",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P120"
+      }
+    },
+    {
+      label: "E-cad",
+      width: 120,
+      prop: "eCad",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入E-cad"
+      }
+    },
+    {
+      label: "CK5/6",
+      width: 120,
+      prop: "ck56",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入CK5/6"
+      }
+    },
+    {
+      label: "GATA3",
+      width: 120,
+      prop: "gata3",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入GATA3"
+      }
+    },
+
     // 入院IHC检查
     {
       label: "有无免疫组化结果",

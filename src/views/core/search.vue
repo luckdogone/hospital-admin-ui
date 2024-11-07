@@ -1235,6 +1235,12 @@ const caseSearchForm = reactive({
   ca153: "",
   ca125: "",
 
+  //月经信息
+  menstrualStatus: "",
+  menopausalAge: null,
+  personalMedicalHistory: "",
+  familyHistory: "",
+
   // 乳腺粗针穿刺病理结果
   breastCoreNeedle: "",
   breastCoreNeedleResult: "",
@@ -1246,6 +1252,15 @@ const caseSearchForm = reactive({
   // 腋窝细针穿刺病理结果
   axillaryFineNeedle: "",
   axillaryFineNeedleResult: "",
+
+  // 锁骨上淋巴结穿刺病理结果
+  collarboneLymphNeedle: "",
+  collarboneLymphNeedleResult: "",
+
+  p120: "",
+  eCad: "",
+  ck56: "",
+  gata3: "",
 
   // 免疫组化结果
   ihcResult: "",
@@ -1306,7 +1321,18 @@ const surgicalSearchForm = reactive({
   tnm: "",
   stage: "",
   subtype: "",
+  specialTypeTumors: null,
   mpLevel: "",
+  rcb: "",
+  p120: "",
+  eCad: "",
+  ck56: "",
+  gata3: "",
+  p63: "",
+  p53: "",
+  trps1: "",
+  sam: "",
+  egfr: "",
   inputStatus: ""
 });
 
@@ -2032,6 +2058,49 @@ onMounted(() => {
               </el-row>
               <el-row :gutter="20">
                 <el-col :span="12">
+                  <el-form-item label="月经状态">
+                    <el-select
+                      v-model="caseSearchForm.menstrualStatus"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="绝经" value="绝经" />
+                      <el-option label="未绝经" value="未绝经" />
+                      <el-option label="子宫切除" value="子宫切除" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="绝经年龄">
+                    <el-input
+                      v-model="caseSearchForm.menopausalAge"
+                      placeholder="请输入绝经年龄"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="个人既往史">
+                    <el-input
+                      v-model="caseSearchForm.personalMedicalHistory"
+                      type="textarea"
+                      :rows="2"
+                      placeholder="请输入个人既往史"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="家族史">
+                    <el-input
+                      v-model="caseSearchForm.familyHistory"
+                      type="textarea"
+                      :rows="2"
+                      placeholder="请输入家族史"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="12">
                   <el-form-item label="有无乳腺粗针穿刺">
                     <el-select
                       v-model="caseSearchForm.breastCoreNeedle"
@@ -2102,6 +2171,67 @@ onMounted(() => {
                       type="textarea"
                       :rows="2"
                       placeholder="请输入腋窝细针穿刺病理结果"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <!-- 锁骨上淋巴结穿刺病理结果 -->
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <el-form-item label="有无锁骨上淋巴结穿刺">
+                    <el-select
+                      v-model="caseSearchForm.collarboneLymphNeedle"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="锁骨上淋巴结穿刺病理结果">
+                    <el-input
+                      v-model="caseSearchForm.collarboneLymphNeedleResult"
+                      type="textarea"
+                      :rows="2"
+                      placeholder="请输入锁骨上淋巴结穿刺病理结果"
+                    />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="20">
+                <el-col :span="8">
+                  <el-form-item label="P120">
+                    <el-input
+                      v-model="caseSearchForm.p120"
+                      placeholder="请输入P120"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="E-cad">
+                    <el-input
+                      v-model="caseSearchForm.eCad"
+                      placeholder="请输入E-cad"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="CK5/6">
+                    <el-input
+                      v-model="caseSearchForm.ck56"
+                      placeholder="请输入CK5/6"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="GATA3">
+                    <el-input
+                      v-model="caseSearchForm.gata3"
+                      placeholder="请输入GATA3"
                     />
                   </el-form-item>
                 </el-col>
@@ -2742,6 +2872,28 @@ onMounted(() => {
                     </el-select>
                   </el-form-item>
                 </el-col>
+                <el-col :span="8">
+                  <el-form-item label="特殊类型肿瘤">
+                    <el-select
+                      v-model="surgicalSearchForm.specialTypeTumors"
+                      placeholder="请选择特殊类型肿瘤"
+                      clearable
+                    >
+                      <el-option label="原位癌" value="原位癌" />
+                      <el-option label="Paget’s病" value="Paget’s病" />
+                      <el-option label="小叶癌" value="小叶癌" />
+                      <el-option label="粘液癌" value="粘液癌" />
+                      <el-option label="筛状癌" value="筛状癌" />
+                      <el-option label="化生性癌" value="化生性癌" />
+                      <el-option label="乳头状癌" value="乳头状癌" />
+                      <el-option label="髓样癌" value="髓样癌" />
+                      <el-option
+                        label="神经内分泌肿瘤"
+                        value="神经内分泌肿瘤"
+                      />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
               </el-row>
 
               <el-row :gutter="20">
@@ -2758,6 +2910,92 @@ onMounted(() => {
                       <el-option label="4" value="4" />
                       <el-option label="5" value="5" />
                     </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="RCB评分">
+                    <el-select
+                      v-model="surgicalSearchForm.rcb"
+                      placeholder="请选择RCB评分"
+                      clearable
+                    >
+                      <el-option label="0" value="0" />
+                      <el-option label="1" value="1" />
+                      <el-option label="2" value="2" />
+                      <el-option label="3" value="3" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="P120">
+                    <el-input
+                      v-model="surgicalSearchForm.p120"
+                      placeholder="请输入P120"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="E-cad">
+                    <el-input
+                      v-model="surgicalSearchForm.eCad"
+                      placeholder="请输入E-cad"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="CK5/6">
+                    <el-input
+                      v-model="surgicalSearchForm.ck56"
+                      placeholder="请输入CK5/6"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="GATA3">
+                    <el-input
+                      v-model="surgicalSearchForm.gata3"
+                      placeholder="请输入GATA3"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="P63">
+                    <el-input
+                      v-model="surgicalSearchForm.p63"
+                      placeholder="请输入P63"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="P53">
+                    <el-input
+                      v-model="surgicalSearchForm.p53"
+                      placeholder="请输入P53"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="TRPS1">
+                    <el-input
+                      v-model="surgicalSearchForm.trps1"
+                      placeholder="请输入TRPS1"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="SAM">
+                    <el-input
+                      v-model="surgicalSearchForm.sam"
+                      placeholder="请输入SAM"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="EGFR">
+                    <el-input
+                      v-model="surgicalSearchForm.egfr"
+                      placeholder="请输入EGFR"
+                    />
                   </el-form-item>
                 </el-col>
               </el-row>

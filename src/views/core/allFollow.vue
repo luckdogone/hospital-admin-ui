@@ -551,14 +551,37 @@ onMounted(() => {
                     {{ childRow.chestCtAbnormal ? "是" : "否" }}
                   </p>
                   <p class="mb-2">
+                    术后第{{ childRow.afterSurgeryDate }}月复查胸部CT异常结果:
+                    {{ childRow.chestCtAbnormalResult }}
+                  </p>
+                  <p class="mb-2">
                     术后第{{ childRow.afterSurgeryDate }}月复查头颅MR是否异常:
                     {{ childRow.headMrAbnormal ? "是" : "否" }}
+                  </p>
+                  <p class="mb-2">
+                    术后第{{ childRow.afterSurgeryDate }}月复查头颅MR异常结果:
+                    {{ childRow.headMrAbnormalResult }}
                   </p>
                   <p class="mb-2">
                     术后第{{
                       childRow.afterSurgeryDate
                     }}月复查全身骨扫描是否异常:
                     {{ childRow.boneScanAbnormal ? "是" : "否" }}
+                  </p>
+                  <p class="mb-2">
+                    术后第{{
+                      childRow.afterSurgeryDate
+                    }}月复查全身骨扫描异常结果:
+                    {{ childRow.boneScanAbnormalResult }}
+                  </p>
+                  <p class="mb-2">量表评分: {{ childRow.scaleRating }}</p>
+                  <p class="mb-2">
+                    是否更改治疗方案:
+                    {{ childRow.isChangeTreatmentPlan ? "是" : "否" }}
+                  </p>
+                  <p class="mb-2">
+                    当前治疗方案:
+                    {{ childRow.currentTreatmentPlan }}
                   </p>
                   <p class="mb-2">备注: {{ childRow.notes }}</p>
                 </div>

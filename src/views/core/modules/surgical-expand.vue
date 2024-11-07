@@ -106,7 +106,8 @@ const surgicalColumns = computed(() => {
       },
       options: [
         { label: "左", value: "左" },
-        { label: "右", value: "右" }
+        { label: "右", value: "右" },
+        { label: "双侧", value: "双侧" }
       ]
     },
     {
@@ -265,7 +266,7 @@ const surgicalColumns = computed(() => {
       width: 120,
       prop: "hasSlnBiopsy",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择"
       },
@@ -376,7 +377,7 @@ const surgicalColumns = computed(() => {
       width: 120,
       prop: "ald",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择"
       },
@@ -488,7 +489,7 @@ const surgicalColumns = computed(() => {
       width: 120,
       prop: "ihcResult",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择"
       },
@@ -649,6 +650,27 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
+      label: "特殊类型肿瘤",
+      width: 120,
+      prop: "specialTypeTumors",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择特殊类型肿瘤"
+      },
+      options: [
+        { label: "原位癌", value: "原位癌" },
+        { label: "Paget’s病", value: "Paget’s病" },
+        { label: "小叶癌", value: "小叶癌" },
+        { label: "粘液癌", value: "粘液癌" },
+        { label: "筛状癌", value: "筛状癌" },
+        { label: "化生性癌", value: "化生性癌" },
+        { label: "乳头状癌", value: "乳头状癌" },
+        { label: "髓样癌", value: "髓样癌" },
+        { label: "神经内分泌肿瘤", value: "神经内分泌肿瘤" }
+      ]
+    },
+    {
       label: "术后MP级别",
       width: 120,
       prop: "mpLevel",
@@ -664,6 +686,112 @@ const surgicalColumns = computed(() => {
         { label: "4", value: "4" },
         { label: "5", value: "5" }
       ]
+    },
+    {
+      label: "RCB评分",
+      width: 120,
+      prop: "rcb",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择RCB评分"
+      },
+      options: [
+        { label: "0", value: "0" },
+        { label: "1", value: "1" },
+        { label: "2", value: "2" },
+        { label: "3", value: "3" }
+      ]
+    },
+    {
+      label: "P120",
+      width: 120,
+      prop: "p120",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P120"
+      }
+    },
+    {
+      label: "E-cad",
+      width: 120,
+      prop: "eCad",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入E-cad"
+      }
+    },
+    {
+      label: "CK5/6",
+      width: 120,
+      prop: "ck56",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入CK5/6"
+      }
+    },
+    {
+      label: "GATA3",
+      width: 120,
+      prop: "gata3",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入GATA3"
+      }
+    },
+    {
+      label: "P63",
+      width: 120,
+      prop: "p63",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P63"
+      }
+    },
+    {
+      label: "P53",
+      width: 120,
+      prop: "p53",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P53"
+      }
+    },
+    {
+      label: "TRPS1",
+      width: 120,
+      prop: "trps1",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入TRPS1"
+      }
+    },
+    {
+      label: "SAM",
+      width: 120,
+      prop: "sam",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入SAM"
+      }
+    },
+    {
+      label: "EGFR",
+      width: 120,
+      prop: "egfr",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入EGFR"
+      }
     }
   ] as PlusColumn[];
 });

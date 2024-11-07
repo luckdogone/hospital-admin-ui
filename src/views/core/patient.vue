@@ -558,6 +558,12 @@ const loadCaseData = (id: number) => {
           ca153: caseData.ca153,
           ca125: caseData.ca125,
 
+          //月经信息
+          menstrualStatus: caseData.menstrualStatus,
+          menopausalAge: caseData.menopausalAge,
+          personalMedicalHistory: caseData.personalMedicalHistory,
+          familyHistory: caseData.familyHistory,
+
           // 乳腺粗针穿刺病理结果
           breastCoreNeedle: caseData.breastCoreNeedle,
           breastCoreNeedleResult: caseData.breastCoreNeedleResult,
@@ -569,6 +575,15 @@ const loadCaseData = (id: number) => {
           // 腋窝细针穿刺病理结果
           axillaryFineNeedle: caseData.axillaryFineNeedle,
           axillaryFineNeedleResult: caseData.axillaryFineNeedleResult,
+
+          // 锁骨上淋巴结穿刺病理结果
+          collarboneLymphNeedle: caseData.collarboneLymphNeedle,
+          collarboneLymphNeedleResult: caseData.collarboneLymphNeedleResult,
+
+          p120: caseData.p120,
+          eCad: caseData.eCad,
+          ck56: caseData.ck56,
+          gata3: caseData.gata3,
 
           // 免疫组化结果
           ihcResult: caseData.ihcResult,
@@ -651,6 +666,7 @@ const loadSurgeryData = (id: number) => {
           id: surgicalData.id,
           patientId: surgicalData.patientId,
           surgeryTime: surgicalData.surgeryTime,
+          surgicalSite: surgicalData.surgicalSite,
           isTotalPartial: surgicalData.isTotalPartial,
           isBreastConserve: surgicalData.isBreastConserve,
           isNippleSpare: surgicalData.isNippleSpare,
@@ -689,7 +705,18 @@ const loadSurgeryData = (id: number) => {
           tnm: surgicalData.tnm,
           stage: surgicalData.stage,
           subtype: surgicalData.subtype,
+          specialTypeTumors: surgicalData.specialTypeTumors,
           mpLevel: surgicalData.mpLevel,
+          rcb: surgicalData.rcb,
+          p120: surgicalData.p120,
+          eCad: surgicalData.eCad,
+          ck56: surgicalData.ck56,
+          gata3: surgicalData.gata3,
+          p63: surgicalData.p63,
+          p53: surgicalData.p53,
+          trps1: surgicalData.trps1,
+          sam: surgicalData.sam,
+          egfr: surgicalData.egfr,
           inputStatus: surgicalData.inputStatus,
           createdBy: surgicalData.createdBy,
           created: surgicalData.created,

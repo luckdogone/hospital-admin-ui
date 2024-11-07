@@ -33,6 +33,9 @@ const pageData: any = reactive({
     chestCtAbnormal: false,
     headMrAbnormal: false,
     boneScanAbnormal: false,
+    scaleRating: null,
+    isChangeTreatmentPlan: null,
+    currentTreatmentPlan: "",
     notes: ""
   },
   formRules: {
@@ -106,6 +109,9 @@ const open = (
     headMrAbnormalResult: "",
     boneScanAbnormal: 0,
     boneScanAbnormalResult: "",
+    scaleRating: null,
+    isChangeTreatmentPlan: null,
+    currentTreatmentPlan: "",
     notes: ""
   };
   flags = flag;
@@ -488,6 +494,33 @@ defineOptions({ name: "RoleEdit" });
             />
           </el-form-item>
         </template>
+        <el-form-item label="量表评分" prop="scaleRating">
+          <el-input
+            v-model="pageData.formData.scaleRating"
+            clearable
+            placeholder="请输入量表评分"
+            style="width: 70%"
+          />
+        </el-form-item>
+        <el-form-item label="是否更改治疗方案" prop="isChangeTreatmentPlan">
+          <el-select
+            v-model="pageData.formData.isChangeTreatmentPlan"
+            clearable
+            placeholder="请选择是否更改治疗方案"
+            style="width: 70%"
+          >
+            <el-option label="是" :value="1" />
+            <el-option label="否" :value="0" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="当前治疗方案" prop="currentTreatmentPlan">
+          <el-input
+            v-model="pageData.formData.currentTreatmentPlan"
+            clearable
+            placeholder="请输入当前治疗方案"
+            style="width: 70%"
+          />
+        </el-form-item>
         <el-form-item label="备注" prop="notes">
           <el-input
             v-model="pageData.formData.notes"

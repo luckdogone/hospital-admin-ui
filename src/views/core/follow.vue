@@ -519,6 +519,15 @@ defineOptions({ name: "sysRole" });
                 术后第{{ row.afterSurgeryDate }}月复查全身骨扫描异常结果:
                 {{ row.boneScanAbnormalResult }}
               </p>
+              <p class="mb-2">量表评分: {{ row.scaleRating }}</p>
+              <p class="mb-2">
+                是否更改治疗方案:
+                {{ row.isChangeTreatmentPlan ? "是" : "否" }}
+              </p>
+              <p class="mb-2">
+                当前治疗方案:
+                {{ row.currentTreatmentPlan }}
+              </p>
               <p class="mb-2">备注: {{ row.notes }}</p>
             </div>
             <br />
