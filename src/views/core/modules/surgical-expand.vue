@@ -184,11 +184,15 @@ const surgicalColumns = computed(() => {
       label: "重建方法",
       width: 120,
       prop: "reconMethod",
-      valueType: "input",
+      valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入重建方法"
-      }
+        placeholder: "请选择重建方法"
+      },
+      options: [
+        { label: "自体", value: "自体" },
+        { label: "假体", value: "假体" }
+      ]
     },
     {
       label: "肿瘤大小(cm)",
@@ -198,12 +202,12 @@ const surgicalColumns = computed(() => {
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入肿瘤大小",
-        step: 0.1,
-        precision: 1
+        step: 0.01,
+        precision: 2
       }
     },
     {
-      label: "是否有脉管癌栓",
+      label: "有无脉管癌栓",
       width: 120,
       prop: "hasLymphInvasion",
       valueType: "select",
@@ -212,12 +216,12 @@ const surgicalColumns = computed(() => {
         placeholder: "请选择"
       },
       options: [
-        { label: "否", value: 0 },
-        { label: "是", value: 1 }
+        { label: "有", value: 1 },
+        { label: "无", value: 0 }
       ]
     },
     {
-      label: "是否有神经侵犯",
+      label: "有无神经侵犯",
       width: 120,
       prop: "hasNerveInvasion",
       valueType: "select",
@@ -226,8 +230,8 @@ const surgicalColumns = computed(() => {
         placeholder: "请选择"
       },
       options: [
-        { label: "否", value: 0 },
-        { label: "是", value: 1 }
+        { label: "有", value: 1 },
+        { label: "无", value: 0 }
       ]
     },
     {
@@ -502,12 +506,12 @@ const surgicalColumns = computed(() => {
       label: "术后ER%",
       width: 120,
       prop: "erPct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入百分比",
-        step: 0.1,
-        precision: 1,
+        placeholder: "请输入术后ER%",
+        step: 0.01,
+        precision: 2,
         min: 0,
         max: 100,
         disabled: isIhcResultDisabled
@@ -517,12 +521,12 @@ const surgicalColumns = computed(() => {
       label: "术后PR%",
       width: 120,
       prop: "prPct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入百分比",
-        step: 0.1,
-        precision: 1,
+        placeholder: "请输入术后PR%",
+        step: 0.01,
+        precision: 2,
         min: 0,
         max: 100,
         disabled: isIhcResultDisabled
@@ -546,15 +550,15 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
-      label: "术后ki67%",
+      label: "术后ki-67%",
       width: 120,
       prop: "ki67Pct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入百分比",
-        step: 0.1,
-        precision: 1,
+        placeholder: "请输入术后ki-67%",
+        step: 0.01,
+        precision: 2,
         min: 0,
         max: 100,
         disabled: isIhcResultDisabled
@@ -564,12 +568,12 @@ const surgicalColumns = computed(() => {
       label: "术后AR%",
       width: 120,
       prop: "arPct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入百分比",
-        step: 0.1,
-        precision: 1,
+        placeholder: "请输入术后AR%",
+        step: 0.01,
+        precision: 2,
         min: 0,
         max: 100,
         disabled: isIhcResultDisabled
@@ -611,11 +615,16 @@ const surgicalColumns = computed(() => {
       label: "术后TNM分期",
       width: 120,
       prop: "tnm",
-      valueType: "input",
+      valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入TNM分期"
-      }
+        placeholder: "请选择TNM分期"
+      },
+      options: [
+        { label: "cT", value: "cT" },
+        { label: "N", value: "N" },
+        { label: "M", value: "M" }
+      ]
     },
     {
       label: "术后病理分级",
@@ -627,6 +636,7 @@ const surgicalColumns = computed(() => {
         placeholder: "请选择"
       },
       options: [
+        { label: "无", value: "无" },
         { label: "I", value: "I" },
         { label: "II", value: "II" },
         { label: "III", value: "III" }
@@ -680,11 +690,11 @@ const surgicalColumns = computed(() => {
         placeholder: "请选择MP级别"
       },
       options: [
-        { label: "1", value: "1" },
-        { label: "2", value: "2" },
-        { label: "3", value: "3" },
-        { label: "4", value: "4" },
-        { label: "5", value: "5" }
+        { label: "无浸润(MP0)", value: 0 },
+        { label: "微浸润(MP1)", value: 1 },
+        { label: "中度浸润(MP2)", value: 2 },
+        { label: "重度浸润(MP3)", value: 3 },
+        { label: "完全浸润(MP4)", value: 4 }
       ]
     },
     {
@@ -737,11 +747,15 @@ const surgicalColumns = computed(() => {
       label: "GATA3",
       width: 120,
       prop: "gata3",
-      valueType: "input",
+      valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入GATA3"
-      }
+        placeholder: "请选择GATA3"
+      },
+      options: [
+        { label: "阳性", value: 1, color: "green" },
+        { label: "阴性", value: 0, color: "red" }
+      ]
     },
     {
       label: "P63",

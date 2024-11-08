@@ -362,12 +362,23 @@ defineOptions({ name: "RoleEdit" });
 
         <template v-if="showMri">
           <el-form-item label="转移部位" prop="metastasisLocation">
-            <el-input
+            <el-select
               v-model="pageData.formData.metastasisLocation"
               clearable
               placeholder="请输入转移部位"
               style="width: 70%"
-            />
+            >
+              <el-option label="脑" :value="1" />
+              <el-option label="肺" :value="2" />
+              <el-option label="肝" :value="3" />
+              <el-option label="骨" :value="4" />
+              <el-option label="同侧乳腺或胸壁" :value="5" />
+              <el-option label="同侧腋窝淋巴结" :value="6" />
+              <el-option label="同侧锁骨上淋巴结" :value="7" />
+              <el-option label="对侧腋窝淋巴结" :value="8" />
+              <el-option label="对侧锁骨上淋巴结" :value="9" />
+              <el-option label="其他部位" :value="0" />
+            </el-select>
           </el-form-item>
         </template>
 
@@ -495,10 +506,14 @@ defineOptions({ name: "RoleEdit" });
           </el-form-item>
         </template>
         <el-form-item label="量表评分" prop="scaleRating">
-          <el-input
+          <el-input-number
             v-model="pageData.formData.scaleRating"
             clearable
             placeholder="请输入量表评分"
+            :step="1"
+            :precision="0"
+            :min="0"
+            :max="100"
             style="width: 70%"
           />
         </el-form-item>

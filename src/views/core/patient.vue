@@ -276,6 +276,7 @@ const mainFormColumns: PlusColumn[] = [
     valueType: "input-number",
     colProps: { span: 12 },
     fieldProps: {
+      step: 0.1,
       placeholder: "请输入身高" // 直接设置placeholder
     }
   },
@@ -283,9 +284,10 @@ const mainFormColumns: PlusColumn[] = [
     label: "体重",
     width: 120,
     prop: "weight",
-    valueType: "copy",
+    valueType: "input-number",
     colProps: { span: 12 },
     fieldProps: {
+      step: 0.1,
       placeholder: "请输入体重" // 直接设置placeholder
     }
   },
@@ -1086,7 +1088,7 @@ const handleMainFormSubmit = (values: FieldValues): Promise<void> => {
       .patientUpdate(rowId, updateData)
       .then(res => {
         if (res.success) {
-          ElMessage.success("主表单提交成功");
+          ElMessage.success("提交成功");
           // 更新本地数据
           expandedFormData[rowId].main = { ...values };
           // 可能需要重新加载表格数据
@@ -1097,7 +1099,9 @@ const handleMainFormSubmit = (values: FieldValues): Promise<void> => {
       })
       .catch(error => {
         console.error("主表单提交失败", error);
-        ElMessage.error(`主表单提交失败：${error.message || "请重试"}`);
+        ElMessage.error(
+          `提交失败，请检查是否有非法字符: ${error.message || "请重试"}`
+        );
       })
       .finally(() => {
         // 退出编辑状态
@@ -1112,8 +1116,8 @@ const handleMainFormSubmit = (values: FieldValues): Promise<void> => {
     // 更新本地数据
     // expandedFormData[rowId].main = { ...values };
   } catch (error) {
-    console.error("主表单提交失败", error);
-    ElMessage.error("主表单提交失败,请重试");
+    console.error("提交失败", error);
+    ElMessage.error("提交失败,请重试");
   }
 };
 

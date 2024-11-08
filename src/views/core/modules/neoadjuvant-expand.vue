@@ -127,110 +127,132 @@ const neoadjuvantColumns = computed(() => {
       label: "1周期超声示肿物大小",
       width: 120,
       prop: "week1Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入1周期超声示肿物大小"
+        placeholder: "请输入1周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "2周期超声示肿物大小",
       width: 120,
       prop: "week2Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入2周期超声示肿物大小"
+        placeholder: "请输入2周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "3周期超声示肿物大小",
       width: 120,
       prop: "week3Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入3周期超声示肿物大小"
+        placeholder: "请输入3周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "4周期超声示肿物大小",
       width: 120,
       prop: "week4Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入4周期超声示肿物大小"
+        placeholder: "请输入4周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "5周期超声示肿物大小",
       width: 120,
       prop: "week5Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入5周期超声示肿物大小"
+        placeholder: "请输入5周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "6周期超声示肿物大小",
       width: 120,
       prop: "week6Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入6周期超声示肿物大小"
+        placeholder: "请输入6周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "7周期超声示肿物大小",
       width: 120,
       prop: "week7Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入7周期超声示肿物大小"
+        placeholder: "请输入7周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "8周期超声示肿物大小",
       width: 120,
       prop: "week8Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入8周期超声示肿物大小"
+        placeholder: "请输入8周期超声示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "2/3周期核磁示肿物大小",
       width: 120,
       prop: "week23Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入2/3周期核磁示肿物大小"
+        placeholder: "请输入2/3周期核磁示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "4/5周期核磁示肿物大小",
       width: 120,
       prop: "week45Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入4/5周期核磁示肿物大小"
+        placeholder: "请输入4/5周期核磁示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "6/7周期核磁示肿物大小",
       width: 120,
       prop: "week67Size",
-      valueType: "input",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入6/7周期核磁示肿物大小"
+        placeholder: "请输入6/7周期核磁示肿物大小",
+        step: 0.01,
+        precision: 2
       }
     },
     {

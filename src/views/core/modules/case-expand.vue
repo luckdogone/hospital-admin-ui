@@ -603,30 +603,36 @@ const caseColumns = computed(() => {
       label: "白细胞计数 10⁹/L",
       width: 120,
       prop: "wbc",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入白细胞计数"
+        placeholder: "请输入白细胞计数",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "红细胞计数 10¹²/L",
       width: 120,
       prop: "rbc",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入红细胞计数"
+        placeholder: "请输入红细胞计数",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "血小板计数 10⁹/L",
       width: 240,
       prop: "platelets",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入血小板计数"
+        placeholder: "请输入血小板计数",
+        step: 0.01,
+        precision: 2
       }
     },
 
@@ -635,30 +641,36 @@ const caseColumns = computed(() => {
       label: "谷丙转氨酶 U/L",
       width: 120,
       prop: "alt",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入谷丙转氨酶"
+        placeholder: "请输入谷丙转氨酶",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "谷草转氨酶 U/L",
       width: 120,
       prop: "ast",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入谷草转氨酶"
+        placeholder: "请输入谷草转氨酶",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "碱性磷酸酶 U/L",
       width: 120,
       prop: "alkalinePhosphatase",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入碱性磷酸酶"
+        placeholder: "请输入碱性磷酸酶",
+        step: 0.01,
+        precision: 2
       }
     },
 
@@ -667,90 +679,108 @@ const caseColumns = computed(() => {
       label: "血肌酐 umol/L",
       width: 120,
       prop: "creatinine",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入血肌酐"
+        placeholder: "请输入血肌酐",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "血清尿素 mmol/L",
       width: 120,
       prop: "urea",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入血清尿素"
+        placeholder: "请输入血清尿素",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "尿酸 umol/L",
       width: 120,
       prop: "uricAcid",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 24 },
       fieldProps: {
-        placeholder: "请输入尿酸值"
+        placeholder: "请输入尿酸值",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "甘油三酯 mmol/L",
       width: 120,
       prop: "triglycerides",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入甘油三酯值"
+        placeholder: "请输入甘油三酯值",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "低密度脂蛋白 mmol/L",
       width: 120,
       prop: "ldl",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入低密度脂蛋白值"
+        placeholder: "请输入低密度脂蛋白值",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "D-二聚体 ug/ml",
       width: 120,
       prop: "dimer",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入D-二聚体值"
+        placeholder: "请输入D-二聚体值",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "癌胚抗原 ng/mL",
       width: 120,
       prop: "cea",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入CEA值"
+        placeholder: "请输入CEA值",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "癌抗原153 IU/mL",
       width: 120,
       prop: "ca153",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入CA153值"
+        placeholder: "请输入CA153值",
+        step: 0.01,
+        precision: 2
       }
     },
     {
       label: "癌抗原125 IU/mL",
       width: 120,
       prop: "ca125",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入CA125值"
+        placeholder: "请输入CA125值",
+        step: 0.01,
+        precision: 2
       }
     },
     {
@@ -777,6 +807,8 @@ const caseColumns = computed(() => {
       fieldProps: {
         placeholder: "请输入绝经年龄",
         step: 1,
+        min: 0,
+        max: 1000,
         precision: 0
       }
     },
@@ -939,11 +971,15 @@ const caseColumns = computed(() => {
       label: "GATA3",
       width: 120,
       prop: "gata3",
-      valueType: "copy",
+      valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入GATA3"
-      }
+        placeholder: "请选择GATA3"
+      },
+      options: [
+        { label: "阳性", value: 1, color: "green" },
+        { label: "阴性", value: 0, color: "red" }
+      ]
     },
 
     // 入院IHC检查
@@ -965,10 +1001,14 @@ const caseColumns = computed(() => {
       label: "IHC ER%",
       width: 120,
       prop: "erPct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入ER%",
+        step: 0.01,
+        precision: 2,
+        min: 0,
+        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -976,10 +1016,14 @@ const caseColumns = computed(() => {
       label: "IHC PR%",
       width: 120,
       prop: "prPct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入PR%",
+        step: 0.01,
+        precision: 2,
+        min: 0,
+        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -1004,10 +1048,14 @@ const caseColumns = computed(() => {
       label: "Ki-67标志物%",
       width: 120,
       prop: "ki67Pct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入Ki-67%",
+        step: 0.01,
+        precision: 2,
+        min: 0,
+        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -1015,10 +1063,14 @@ const caseColumns = computed(() => {
       label: "AR%",
       width: 120,
       prop: "arPct",
-      valueType: "copy",
+      valueType: "input-number",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入AR百分比",
+        step: 0.01,
+        precision: 2,
+        min: 0,
+        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -1041,11 +1093,16 @@ const caseColumns = computed(() => {
       label: "TNM分期",
       width: 120,
       prop: "tnm",
-      valueType: "copy",
+      valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入TNM分期"
-      }
+        placeholder: "请选择TNM分期"
+      },
+      options: [
+        { label: "cT", value: "cT" },
+        { label: "N", value: "N" },
+        { label: "M", value: "M" }
+      ]
     },
     {
       label: "病理分级",
