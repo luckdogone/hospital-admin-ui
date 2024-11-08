@@ -465,7 +465,15 @@ defineOptions({ name: "sysRole" });
               <h3>超声检查</h3>
               <br />
               <p class="mb-2">
-                超声是否异常: {{ row.ultrasoundAbnormal ? "是" : "否" }}
+                超声是否异常:
+                {{
+                  row.ultrasoundAbnormal !== null &&
+                  row.ultrasoundAbnormal !== ""
+                    ? row.ultrasoundAbnormal
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">
                 超声异常明细: {{ row.ultrasoundAbnormalDetail }}
@@ -476,7 +484,14 @@ defineOptions({ name: "sysRole" });
               <h3>穿刺检查</h3>
               <br />
               <p class="mb-2">
-                是否需进一步穿刺: {{ row.needFurtherBiopsy ? "是" : "否" }}
+                是否需进一步穿刺:
+                {{
+                  row.needFurtherBiopsy !== null && row.needFurtherBiopsy !== ""
+                    ? row.needFurtherBiopsy
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">穿刺结果: {{ row.biopsyResult }}</p>
             </div>
@@ -484,20 +499,57 @@ defineOptions({ name: "sysRole" });
             <div>
               <h3>其他检查</h3>
               <br />
-              <p class="mb-2">是否有转移: {{ row.metastasis ? "是" : "否" }}</p>
+              <p class="mb-2">
+                是否有转移:
+                {{
+                  row.metastasis !== null && row.metastasis !== ""
+                    ? row.metastasis
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
+              </p>
               <p class="mb-2">转移部位: {{ row.metastasisLocation }}</p>
-              <p class="mb-2">是否已故: {{ row.deceased ? "是" : "否" }}</p>
+              <p class="mb-2">
+                是否已故:
+                {{
+                  row.deceased !== null && row.deceased !== ""
+                    ? row.deceased
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
+              </p>
               <p class="mb-2">已故原因: {{ row.causeOfDeath }}</p>
               <p class="mb-2">
-                是否术后患侧上肢水肿: {{ row.armEdema ? "是" : "否" }}
+                是否术后患侧上肢水肿:
+                {{
+                  row.armEdema !== null && row.armEdema !== ""
+                    ? row.armEdema
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">
                 是否行针对上肢水肿的治疗:
-                {{ row.armEdemaTreatment ? "是" : "否" }}
+                {{
+                  row.armEdemaTreatment !== null && row.armEdemaTreatment !== ""
+                    ? row.armEdemaTreatment
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查胸部CT是否异常:
-                {{ row.chestCtAbnormal ? "是" : "否" }}
+                {{
+                  row.chestCtAbnormal !== null && row.chestCtAbnormal !== ""
+                    ? row.chestCtAbnormal
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查胸部CT异常结果:
@@ -505,7 +557,13 @@ defineOptions({ name: "sysRole" });
               </p>
               <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查头颅MR是否异常:
-                {{ row.headMrAbnormal ? "是" : "否" }}
+                {{
+                  row.headMrAbnormal !== null && row.headMrAbnormal !== ""
+                    ? row.headMrAbnormal
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查头颅MR异常结果:
@@ -513,7 +571,13 @@ defineOptions({ name: "sysRole" });
               </p>
               <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查全身骨扫描是否异常:
-                {{ row.boneScanAbnormal ? "是" : "否" }}
+                {{
+                  row.boneScanAbnormal !== null && row.boneScanAbnormal !== ""
+                    ? row.boneScanAbnormal
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">
                 术后第{{ row.afterSurgeryDate }}月复查全身骨扫描异常结果:
@@ -522,7 +586,14 @@ defineOptions({ name: "sysRole" });
               <p class="mb-2">量表评分: {{ row.scaleRating }}</p>
               <p class="mb-2">
                 是否更改治疗方案:
-                {{ row.isChangeTreatmentPlan ? "是" : "否" }}
+                {{
+                  row.isChangeTreatmentPlan !== null &&
+                  row.isChangeTreatmentPlan !== ""
+                    ? row.isChangeTreatmentPlan
+                      ? "是"
+                      : "否"
+                    : ""
+                }}
               </p>
               <p class="mb-2">
                 当前治疗方案:
