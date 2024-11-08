@@ -509,7 +509,14 @@ onMounted(() => {
                   <br />
                   <p class="mb-2">
                     超声是否异常:
-                    {{ childRow.ultrasoundAbnormal ? "是" : "否" }}
+                    {{
+                      childRow.ultrasoundAbnormal !== null &&
+                      childRow.ultrasoundAbnormal !== ""
+                        ? childRow.ultrasoundAbnormal
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     超声异常明细: {{ childRow.ultrasoundAbnormalDetail }}
@@ -521,7 +528,14 @@ onMounted(() => {
                   <br />
                   <p class="mb-2">
                     是否需进一步穿刺:
-                    {{ childRow.needFurtherBiopsy ? "是" : "否" }}
+                    {{
+                      childRow.needFurtherBiopsy !== null &&
+                      childRow.needFurtherBiopsy !== undefined
+                        ? childRow.needFurtherBiopsy
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">穿刺结果: {{ childRow.biopsyResult }}</p>
                 </div>
@@ -530,33 +544,78 @@ onMounted(() => {
                   <h3>其他检查</h3>
                   <br />
                   <p class="mb-2">
-                    是否有转移: {{ childRow.metastasis ? "是" : "否" }}
+                    是否有转移:
+                    {{
+                      childRow.metastasis !== null &&
+                      childRow.metastasis !== undefined
+                        ? childRow.metastasis
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     转移部位: {{ childRow.metastasisLocation }}
                   </p>
                   <p class="mb-2">
-                    是否已故: {{ childRow.deceased ? "是" : "否" }}
+                    是否已故:
+                    {{
+                      childRow.deceased !== null &&
+                      childRow.deceased !== undefined
+                        ? childRow.deceased
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">已故原因: {{ childRow.causeOfDeath }}</p>
                   <p class="mb-2">
-                    是否术后患侧上肢水肿: {{ childRow.armEdema ? "是" : "否" }}
+                    是否术后患侧上肢水肿:
+                    {{
+                      childRow.armEdema !== null &&
+                      childRow.armEdema !== undefined
+                        ? childRow.armEdema
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     是否行针对上肢水肿的治疗:
-                    {{ childRow.armEdemaTreatment ? "是" : "否" }}
+                    {{
+                      childRow.armEdemaTreatment !== null &&
+                      childRow.armEdemaTreatment !== undefined
+                        ? childRow.armEdemaTreatment
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     术后第{{ childRow.afterSurgeryDate }}月复查胸部CT是否异常:
-                    {{ childRow.chestCtAbnormal ? "是" : "否" }}
+                    {{
+                      childRow.chestCtAbnormal !== null &&
+                      childRow.chestCtAbnormal !== undefined
+                        ? childRow.chestCtAbnormal
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     术后第{{ childRow.afterSurgeryDate }}月复查胸部CT异常结果:
-                    {{ childRow.chestCtAbnormalResult }}
+                    {{ childRow.chestCtAbnormalResult || "" }}
                   </p>
                   <p class="mb-2">
                     术后第{{ childRow.afterSurgeryDate }}月复查头颅MR是否异常:
-                    {{ childRow.headMrAbnormal ? "是" : "否" }}
+                    {{
+                      childRow.headMrAbnormal !== null &&
+                      childRow.headMrAbnormal !== undefined
+                        ? childRow.headMrAbnormal
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     术后第{{ childRow.afterSurgeryDate }}月复查头颅MR异常结果:
@@ -566,7 +625,14 @@ onMounted(() => {
                     术后第{{
                       childRow.afterSurgeryDate
                     }}月复查全身骨扫描是否异常:
-                    {{ childRow.boneScanAbnormal ? "是" : "否" }}
+                    {{
+                      childRow.boneScanAbnormal !== null &&
+                      childRow.boneScanAbnormal !== undefined
+                        ? childRow.boneScanAbnormal
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     术后第{{
@@ -577,7 +643,14 @@ onMounted(() => {
                   <p class="mb-2">量表评分: {{ childRow.scaleRating }}</p>
                   <p class="mb-2">
                     是否更改治疗方案:
-                    {{ childRow.isChangeTreatmentPlan ? "是" : "否" }}
+                    {{
+                      childRow.isChangeTreatmentPlan !== null &&
+                      childRow.isChangeTreatmentPlan !== undefined
+                        ? childRow.isChangeTreatmentPlan
+                          ? "是"
+                          : "否"
+                        : ""
+                    }}
                   </p>
                   <p class="mb-2">
                     当前治疗方案:
