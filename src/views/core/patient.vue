@@ -237,7 +237,12 @@ const mainFormColumns: PlusColumn[] = [
     prop: "age",
     valueType: "input-number",
     colProps: { span: 12 },
-    fieldProps: { step: 1 }
+    fieldProps: {
+      step: 1,
+      precision: 0,
+      min: 0,
+      max: 1000
+    }
   },
   {
     label: "电话",
@@ -270,7 +275,7 @@ const mainFormColumns: PlusColumn[] = [
     }
   },
   {
-    label: "身高",
+    label: "身高/cm",
     width: 120,
     prop: "height",
     valueType: "input-number",
@@ -281,7 +286,7 @@ const mainFormColumns: PlusColumn[] = [
     }
   },
   {
-    label: "体重",
+    label: "体重/kg",
     width: 120,
     prop: "weight",
     valueType: "input-number",

@@ -1007,8 +1007,6 @@ const caseColumns = computed(() => {
         placeholder: "请输入ER%",
         step: 0.01,
         precision: 2,
-        min: 0,
-        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -1022,8 +1020,6 @@ const caseColumns = computed(() => {
         placeholder: "请输入PR%",
         step: 0.01,
         precision: 2,
-        min: 0,
-        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -1054,8 +1050,6 @@ const caseColumns = computed(() => {
         placeholder: "请输入Ki-67%",
         step: 0.01,
         precision: 2,
-        min: 0,
-        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -1069,8 +1063,6 @@ const caseColumns = computed(() => {
         placeholder: "请输入AR百分比",
         step: 0.01,
         precision: 2,
-        min: 0,
-        max: 100,
         disabled: isIhcDisabled
       }
     },
@@ -1111,7 +1103,7 @@ const caseColumns = computed(() => {
       valueType: "select",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择分期"
+        placeholder: "请选择"
       },
       options: [
         { label: "无", value: "无" },

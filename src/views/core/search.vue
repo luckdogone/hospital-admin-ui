@@ -1164,14 +1164,14 @@ const handleMainFormReset = (rowId: string): void => {
 const patientSearchForm = reactive({
   name: "",
   sex: "",
-  age: "",
+  age: null,
   address: "",
   phone: "",
   contactPhone: "",
   // minHeight: "",
   // maxHeight: "",
-  height: "",
-  weight: "",
+  height: null,
+  weight: null,
   inputStatus: ""
 });
 
@@ -1183,57 +1183,57 @@ const generalSearchForm = reactive({
 
 const caseSearchForm = reactive({
   ultrasoundStatus: "",
-  ultrasoundLeftSize: "",
+  ultrasoundLeftSize: null,
   ultrasoundLeftBloodFlow: "",
   ultrasoundLeftBirads: "",
-  ultrasoundRightSize: "",
+  ultrasoundRightSize: null,
   ultrasoundRightBloodFlow: "",
   ultrasoundRightBirads: "",
 
   // 入院钼靶检查
   mammographyStatus: "",
-  mammographyLeftSize: "",
+  mammographyLeftSize: null,
   mammographyLeftAggregation: "",
   mammographyLeftBirads: "",
-  mammographyRightSize: "",
+  mammographyRightSize: null,
   mammographyRightAggregation: "",
   mammographyRightBirads: "",
 
   // 入院乳腺核磁检查
   mriStatus: "",
-  mriLeftSize: "",
+  mriLeftSize: null,
   mriLeftBloodFlow: "",
   mriLeftBirads: "",
-  mriRightSize: "",
+  mriRightSize: null,
   mriRightBloodFlow: "",
   mriRightBirads: "",
 
   // 血常规检查
-  wbc: "",
-  rbc: "",
-  platelets: "",
+  wbc: null,
+  rbc: null,
+  platelets: null,
 
   // 肝功能检查
-  alt: "",
-  ast: "",
-  alkalinePhosphatase: "",
+  alt: null,
+  ast: null,
+  alkalinePhosphatase: null,
 
   // 肾功能检查
-  creatinine: "",
-  bun: "",
-  uricAcid: "",
+  creatinine: null,
+  bun: null,
+  uricAcid: null,
 
   // 血脂检查
-  triglycerides: "",
-  ldl: "",
+  triglycerides: null,
+  ldl: null,
 
   // D-二聚体检查
-  dimer: "",
+  dimer: null,
 
   // 肿瘤标志物检查
-  cea: "",
-  ca153: "",
-  ca125: "",
+  cea: null,
+  ca153: null,
+  ca125: null,
 
   //月经信息
   menstrualStatus: "",
@@ -1264,11 +1264,11 @@ const caseSearchForm = reactive({
 
   // 免疫组化结果
   ihcResult: "",
-  erPct: "",
-  prPct: "",
+  erPct: null,
+  prPct: null,
   her2: "",
-  ki67Pct: "",
-  arPct: "",
+  ki67Pct: null,
+  arPct: null,
   fishTest: "",
 
   // TNM分期
@@ -1289,7 +1289,7 @@ const surgicalSearchForm = reactive({
   isEndoscopic: "",
   isReconstruction: "",
   reconMethod: "",
-  tumorSizeCm: "",
+  tumorSizeCm: null,
   hasLymphInvasion: "",
   hasNerveInvasion: "",
   postopPathGrade: "",
@@ -1343,17 +1343,17 @@ const neoadjuvantSearchForm = reactive({
   researchDetails: "",
   therapyPlan: "",
   immunotherapy: "",
-  week1Size: "",
-  week2Size: "",
-  week3Size: "",
-  week4Size: "",
-  week5Size: "",
-  week6Size: "",
-  week7Size: "",
-  week8Size: "",
-  week23Size: "",
-  week45Size: "",
-  week67Size: "",
+  week1Size: null,
+  week2Size: null,
+  week3Size: null,
+  week4Size: null,
+  week5Size: null,
+  week6Size: null,
+  week7Size: null,
+  week8Size: null,
+  week23Size: null,
+  week45Size: null,
+  week67Size: null,
   doseAdjust: "",
   adjustReason: "",
   therapyTerm: "",
@@ -1493,8 +1493,12 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="年龄">
-                    <el-input
+                    <el-input-number
                       v-model="patientSearchForm.age"
+                      :step="1"
+                      :precision="0"
+                      :min="0"
+                      :max="1000"
                       placeholder="请输入年龄"
                     />
                   </el-form-item>
@@ -1539,17 +1543,25 @@ onMounted(() => {
                   </el-form-item>
                 </el-col> -->
                 <el-col :span="8">
-                  <el-form-item label="身高">
-                    <el-input
+                  <el-form-item label="身高/cm">
+                    <el-input-number
                       v-model="patientSearchForm.height"
+                      :step="0.01"
+                      :precision="2"
+                      :min="0"
+                      :max="1000"
                       placeholder="请输入身高"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="体重">
-                    <el-input
+                  <el-form-item label="体重/kg">
+                    <el-input-number
                       v-model="patientSearchForm.weight"
+                      :step="0.01"
+                      :precision="2"
+                      :min="0"
+                      :max="1000"
                       placeholder="请输入体重"
                     />
                   </el-form-item>
@@ -1631,8 +1643,10 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="左超声大小/cm">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.ultrasoundLeftSize"
+                      :step="0.1"
+                      :precision="1"
                       placeholder="请输入大小"
                     />
                   </el-form-item>
@@ -1672,8 +1686,10 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="右超声大小/cm">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.ultrasoundRightSize"
+                      :step="0.1"
+                      :precision="1"
                       placeholder="请输入大小"
                     />
                   </el-form-item>
@@ -1730,8 +1746,10 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="左钼靶大小/cm">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.mammographyLeftSize"
+                      :step="0.1"
+                      :precision="1"
                       placeholder="请输入大小"
                     />
                   </el-form-item>
@@ -1771,8 +1789,10 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="右钼靶大小/cm">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.mammographyRightSize"
+                      :step="0.1"
+                      :precision="1"
                       placeholder="请输入大小"
                     />
                   </el-form-item>
@@ -1830,8 +1850,10 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="左乳腺大小/cm">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.mriLeftSize"
+                      :step="0.1"
+                      :precision="1"
                       placeholder="请输入大小"
                     />
                   </el-form-item>
@@ -1872,8 +1894,10 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="右乳腺大小/cm">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.mriRightSize"
+                      :step="0.1"
+                      :precision="1"
                       placeholder="请输入大小"
                     />
                   </el-form-item>
@@ -1917,24 +1941,30 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="白细胞计数 10⁹/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.wbc"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入白细胞计数"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="红细胞计数 10¹²/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.rbc"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入红细胞计数"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="血小板计数 10⁹/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.platelets"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入血小板计数"
                     />
                   </el-form-item>
@@ -1945,24 +1975,30 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="谷丙转氨酶 U/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.alt"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入谷丙转氨酶"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="谷草转氨酶 U/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.ast"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入谷草转氨酶"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="碱性磷酸酶 U/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.alkalinePhosphatase"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入碱性磷酸酶"
                     />
                   </el-form-item>
@@ -1973,24 +2009,30 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="血肌酐 umol/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.creatinine"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入血肌酐"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="血清尿素 mmol/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.bun"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入血清尿素"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="尿酸 umol/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.uricAcid"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入尿酸值"
                     />
                   </el-form-item>
@@ -2001,16 +2043,20 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="甘油三酯 mmol/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.triglycerides"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入甘油三酯值"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="低密度脂蛋白 mmol/L">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.ldl"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入低密度脂蛋白值"
                     />
                   </el-form-item>
@@ -2021,8 +2067,10 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="D-二聚体 ug/ml">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.dimer"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入D-二聚体值"
                     />
                   </el-form-item>
@@ -2033,24 +2081,30 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="癌胚抗原 ng/mL">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.cea"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入CEA值"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="癌抗原153 IU/mL">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.ca153"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入CA153值"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="癌抗原125 IU/mL">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.ca125"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入CA125值"
                     />
                   </el-form-item>
@@ -2072,8 +2126,12 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="绝经年龄">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.menopausalAge"
+                      :step="1"
+                      :precision="0"
+                      :min="0"
+                      :max="1000"
                       placeholder="请输入绝经年龄"
                     />
                   </el-form-item>
@@ -2254,17 +2312,21 @@ onMounted(() => {
               </el-row>
               <el-row :gutter="20">
                 <el-col :span="8">
-                  <el-form-item label="ER%">
-                    <el-input
+                  <el-form-item label="IHC ER%">
+                    <el-input-number
                       v-model="caseSearchForm.erPct"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入ER%"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="PR%">
-                    <el-input
+                  <el-form-item label="IHC PR%">
+                    <el-input-number
                       v-model="caseSearchForm.prPct"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入PR%"
                     />
                   </el-form-item>
@@ -2287,16 +2349,20 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="Ki-67标志物%">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.ki67Pct"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入Ki-67%"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="AR%">
-                    <el-input
+                    <el-input-number
                       v-model="caseSearchForm.arPct"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入AR%"
                     />
                   </el-form-item>
@@ -2319,10 +2385,15 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="TNM分期">
-                    <el-input
+                    <el-select
                       v-model="caseSearchForm.tnm"
-                      placeholder="请输入TNM分期"
-                    />
+                      placeholder="请选择TNM分期"
+                      clearable
+                    >
+                      <el-option label="cT" value="cT" />
+                      <el-option label="N" value="N" />
+                      <el-option label="M" value="M" />
+                    </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -2402,6 +2473,7 @@ onMounted(() => {
                     >
                       <el-option label="左" value="左" />
                       <el-option label="右" value="右" />
+                      <el-option label="双侧" value="双侧" />
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -2473,30 +2545,34 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="重建方法">
-                    <el-input
+                    <el-select
                       v-model="surgicalSearchForm.reconMethod"
-                      placeholder="请输入重建方法"
-                    />
+                      placeholder="请选择重建方法"
+                    >
+                      <el-option label="自体" value="自体" />
+                      <el-option label="假体" value="假体" />
+                    </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="肿瘤大小(cm)">
-                    <el-input
+                    <el-input-number
                       v-model="surgicalSearchForm.tumorSizeCm"
-                      :min="0"
                       :step="0.01"
+                      :precision="2"
+                      placeholder="请输入肿瘤大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="是否有脉管癌栓">
+                  <el-form-item label="有无脉管癌栓">
                     <el-select
                       v-model="surgicalSearchForm.hasLymphInvasion"
                       placeholder="请选择"
                       clearable
                     >
-                      <el-option label="是" value="1" />
-                      <el-option label="否" value="0" />
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -2504,14 +2580,14 @@ onMounted(() => {
 
               <el-row :gutter="20">
                 <el-col :span="8">
-                  <el-form-item label="是否有神经侵犯">
+                  <el-form-item label="有无神经侵犯">
                     <el-select
                       v-model="surgicalSearchForm.hasNerveInvasion"
                       placeholder="请选择"
                       clearable
                     >
-                      <el-option label="是" value="1" />
-                      <el-option label="否" value="0" />
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -2589,7 +2665,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.slnCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2613,7 +2691,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.slnMetaCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2622,7 +2702,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.slnMicroMetaCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2631,7 +2713,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.slnItcCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2668,7 +2752,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.aldCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2680,7 +2766,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.aldMetaCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2689,7 +2777,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.aldMicroMetaCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2698,7 +2788,9 @@ onMounted(() => {
                     <el-input-number
                       v-model="surgicalSearchForm.aldItcCount"
                       :min="0"
+                      :precision="0"
                       :step="1"
+                      placeholder="请输入数量"
                     />
                   </el-form-item>
                 </el-col>
@@ -2750,7 +2842,9 @@ onMounted(() => {
                       v-model="surgicalSearchForm.erPct"
                       :min="0"
                       :max="100"
-                      :step="0.1"
+                      :step="0.01"
+                      :precision="2"
+                      placeholder="请输入术后ER%"
                     />
                   </el-form-item>
                 </el-col>
@@ -2760,7 +2854,9 @@ onMounted(() => {
                       v-model="surgicalSearchForm.prPct"
                       :min="0"
                       :max="100"
-                      :step="0.1"
+                      :step="0.01"
+                      :precision="2"
+                      placeholder="请输入术后PR%"
                     />
                   </el-form-item>
                 </el-col>
@@ -2787,7 +2883,9 @@ onMounted(() => {
                       v-model="surgicalSearchForm.ki67Pct"
                       :min="0"
                       :max="100"
-                      :step="0.1"
+                      :step="0.01"
+                      :precision="2"
+                      placeholder="请输入术后ki67%"
                     />
                   </el-form-item>
                 </el-col>
@@ -2797,7 +2895,9 @@ onMounted(() => {
                       v-model="surgicalSearchForm.arPct"
                       :min="0"
                       :max="100"
-                      :step="0.1"
+                      :step="0.01"
+                      :precision="2"
+                      placeholder="请输入术后AR%"
                     />
                   </el-form-item>
                 </el-col>
@@ -2832,10 +2932,14 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="术后TNM分期">
-                    <el-input
+                    <el-select
                       v-model="surgicalSearchForm.tnm"
-                      placeholder="请输入TNM分期"
-                    />
+                      placeholder="请选择TNM分期"
+                    >
+                      <el-option label="cT" value="cT" />
+                      <el-option label="N" value="N" />
+                      <el-option label="M" value="M" />
+                    </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -2845,6 +2949,7 @@ onMounted(() => {
                       placeholder="请选择"
                       clearable
                     >
+                      <el-option label="无" value="无" />
                       <el-option label="I" value="I" />
                       <el-option label="II" value="II" />
                       <el-option label="III" value="III" />
@@ -2904,11 +3009,11 @@ onMounted(() => {
                       placeholder="请选择MP级别"
                       clearable
                     >
-                      <el-option label="1" value="1" />
-                      <el-option label="2" value="2" />
-                      <el-option label="3" value="3" />
-                      <el-option label="4" value="4" />
-                      <el-option label="5" value="5" />
+                      <el-option label="无浸润(MP0)" value="1" />
+                      <el-option label="微浸润(MP1)" value="2" />
+                      <el-option label="中度浸润(MP2)" value="3" />
+                      <el-option label="重度浸润(MP3)" value="4" />
+                      <el-option label="完全浸润(MP4)" value="5" />
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -2952,10 +3057,13 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="GATA3">
-                    <el-input
+                    <el-select
                       v-model="surgicalSearchForm.gata3"
                       placeholder="请输入GATA3"
-                    />
+                    >
+                      <el-option label="阳性" value="1" />
+                      <el-option label="阴性" value="0" />
+                    </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -3049,6 +3157,7 @@ onMounted(() => {
                   <el-form-item label="具体临床研究">
                     <el-input
                       v-model="neoadjuvantSearchForm.researchDetails"
+                      type="textarea"
                       placeholder="请输入具体临床研究"
                     />
                   </el-form-item>
@@ -3060,6 +3169,7 @@ onMounted(() => {
                   <el-form-item label="具体新辅助治疗方案">
                     <el-input
                       v-model="neoadjuvantSearchForm.therapyPlan"
+                      type="textarea"
                       placeholder="请输入具体新辅助治疗方案"
                     />
                   </el-form-item>
@@ -3078,8 +3188,10 @@ onMounted(() => {
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="1周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week1Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入1周期超声示肿物大小"
                     />
                   </el-form-item>
@@ -3088,24 +3200,30 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="2周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week2Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入2周期超声示肿物大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="3周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week3Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入3周期超声示肿物大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="4周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week4Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入4周期超声示肿物大小"
                     />
                   </el-form-item>
@@ -3115,40 +3233,50 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="5周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week5Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入5周期超声示肿物大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="6周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week6Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入6周期超声示肿物大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="7周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week7Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入7周期超声示肿物大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="8周期超声示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week8Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入8周期超声示肿物大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="2/3周期核磁示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week23Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入2/3周期核磁示肿物大小"
                     />
                   </el-form-item>
@@ -3157,16 +3285,20 @@ onMounted(() => {
               <el-row :gutter="20">
                 <el-col :span="8">
                   <el-form-item label="4/5周期核磁示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week45Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入4/5周期核磁示肿物大小"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="6/7周期核磁示肿物大小">
-                    <el-input
+                    <el-input-number
                       v-model="neoadjuvantSearchForm.week67Size"
+                      :step="0.01"
+                      :precision="2"
                       placeholder="请输入6/7周期核磁示肿物大小"
                     />
                   </el-form-item>
@@ -3190,6 +3322,7 @@ onMounted(() => {
                   <el-form-item label="新辅助药物剂量调整原因">
                     <el-input
                       v-model="neoadjuvantSearchForm.adjustReason"
+                      type="textarea"
                       placeholder="请输入新辅助药物剂量调整原因"
                     />
                   </el-form-item>
@@ -3212,6 +3345,7 @@ onMounted(() => {
                   <el-form-item label="终止新辅助治疗原因">
                     <el-input
                       v-model="neoadjuvantSearchForm.termReason"
+                      type="textarea"
                       placeholder="请输入终止原因"
                     />
                   </el-form-item>
@@ -3291,6 +3425,7 @@ onMounted(() => {
                   <el-form-item label="具体临床研究">
                     <el-input
                       v-model="adjuvantSearchForm.researchDetails"
+                      type="textarea"
                       placeholder="请输入具体临床研究"
                     />
                   </el-form-item>
@@ -3301,6 +3436,7 @@ onMounted(() => {
                   <el-form-item label="具体辅助治疗方案">
                     <el-input
                       v-model="adjuvantSearchForm.therapyPlan"
+                      type="textarea"
                       placeholder="请输入具体辅助治疗方案"
                     />
                   </el-form-item>
@@ -3321,6 +3457,7 @@ onMounted(() => {
                   <el-form-item label="具体强化辅助治疗方案">
                     <el-input
                       v-model="adjuvantSearchForm.intensifiedPlan"
+                      type="textarea"
                       placeholder="请输入具体强化辅助治疗方案"
                     />
                   </el-form-item>
@@ -3343,6 +3480,7 @@ onMounted(() => {
                   <el-form-item label="辅助药物剂量调整原因">
                     <el-input
                       v-model="adjuvantSearchForm.adjustmentReason"
+                      type="textarea"
                       placeholder="请输入调整原因"
                     />
                   </el-form-item>
@@ -3365,6 +3503,7 @@ onMounted(() => {
                   <el-form-item label="终止辅助治疗原因">
                     <el-input
                       v-model="adjuvantSearchForm.terminationReason"
+                      type="textarea"
                       placeholder="请输入终止原因"
                     />
                   </el-form-item>
@@ -3431,6 +3570,7 @@ onMounted(() => {
                   <el-form-item label="具体临床研究">
                     <el-input
                       v-model="endocrineSearchForm.clinicalResearchDetails"
+                      type="textarea"
                       placeholder="请输入临床研究详情"
                     />
                   </el-form-item>
@@ -3441,6 +3581,7 @@ onMounted(() => {
                   <el-form-item label="具体内分泌治疗方案">
                     <el-input
                       v-model="endocrineSearchForm.treatmentPlan"
+                      type="textarea"
                       placeholder="请输入治疗方案"
                     />
                   </el-form-item>
@@ -3461,6 +3602,7 @@ onMounted(() => {
                   <el-form-item label="具体强化内分泌治疗方案">
                     <el-input
                       v-model="endocrineSearchForm.enhancedPlan"
+                      type="textarea"
                       placeholder="请输入强化方案"
                     />
                   </el-form-item>
@@ -3483,6 +3625,7 @@ onMounted(() => {
                   <el-form-item label="内分泌药物剂量调整原因">
                     <el-input
                       v-model="endocrineSearchForm.adjustmentReason"
+                      type="textarea"
                       placeholder="请输入调整原因"
                     />
                   </el-form-item>
@@ -3505,6 +3648,7 @@ onMounted(() => {
                   <el-form-item label="内分泌药物调整原因">
                     <el-input
                       v-model="endocrineSearchForm.medAdjustReason"
+                      type="textarea"
                       placeholder="请输入药物调整原因"
                     />
                   </el-form-item>
@@ -3571,6 +3715,7 @@ onMounted(() => {
                   <el-form-item label="具体临床研究">
                     <el-input
                       v-model="radiationSearchForm.clinicalResearchDetails"
+                      type="textarea"
                       placeholder="请输入临床研究详情"
                     />
                   </el-form-item>
@@ -3582,6 +3727,7 @@ onMounted(() => {
                   <el-form-item label="具体放疗方案">
                     <el-input
                       v-model="radiationSearchForm.treatmentPlan"
+                      type="textarea"
                       placeholder="请输入具体放疗方案"
                     />
                   </el-form-item>
