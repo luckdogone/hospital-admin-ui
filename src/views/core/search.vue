@@ -1496,6 +1496,7 @@ onMounted(() => {
                     <el-input-number
                       v-model="patientSearchForm.age"
                       :step="1"
+                      style="width: 320px"
                       :precision="0"
                       :min="0"
                       :max="1000"
@@ -1545,6 +1546,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="身高/cm">
                     <el-input-number
+                      style="width: 320px"
                       v-model="patientSearchForm.height"
                       :step="0.01"
                       :precision="2"
@@ -1557,6 +1559,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="体重/kg">
                     <el-input-number
+                      style="width: 320px"
                       v-model="patientSearchForm.weight"
                       :step="0.01"
                       :precision="2"
@@ -1644,6 +1647,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="左超声大小/cm">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.ultrasoundLeftSize"
                       :step="0.1"
                       :precision="1"
@@ -1687,6 +1691,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="右超声大小/cm">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.ultrasoundRightSize"
                       :step="0.1"
                       :precision="1"
@@ -1747,6 +1752,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="左钼靶大小/cm">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.mammographyLeftSize"
                       :step="0.1"
                       :precision="1"
@@ -1790,6 +1796,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="右钼靶大小/cm">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.mammographyRightSize"
                       :step="0.1"
                       :precision="1"
@@ -1851,6 +1858,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="左乳腺大小/cm">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.mriLeftSize"
                       :step="0.1"
                       :precision="1"
@@ -1895,6 +1903,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="右乳腺大小/cm">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.mriRightSize"
                       :step="0.1"
                       :precision="1"
@@ -1942,6 +1951,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="白细胞计数 10⁹/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.wbc"
                       :step="0.01"
                       :precision="2"
@@ -1952,6 +1962,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="红细胞计数 10¹²/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.rbc"
                       :step="0.01"
                       :precision="2"
@@ -1962,6 +1973,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="血小板计数 10⁹/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.platelets"
                       :step="0.01"
                       :precision="2"
@@ -1976,6 +1988,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="谷丙转氨酶 U/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.alt"
                       :step="0.01"
                       :precision="2"
@@ -1986,6 +1999,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="谷草转氨酶 U/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.ast"
                       :step="0.01"
                       :precision="2"
@@ -1996,6 +2010,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="碱性磷酸酶 U/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.alkalinePhosphatase"
                       :step="0.01"
                       :precision="2"
@@ -2010,6 +2025,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="血肌酐 umol/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.creatinine"
                       :step="0.01"
                       :precision="2"
@@ -2020,6 +2036,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="血清尿素 mmol/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.bun"
                       :step="0.01"
                       :precision="2"
@@ -2030,6 +2047,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="尿酸 umol/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.uricAcid"
                       :step="0.01"
                       :precision="2"
@@ -2044,6 +2062,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="甘油三酯 mmol/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.triglycerides"
                       :step="0.01"
                       :precision="2"
@@ -2054,6 +2073,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="低密度脂蛋白 mmol/L">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.ldl"
                       :step="0.01"
                       :precision="2"
@@ -2068,6 +2088,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="D-二聚体 ug/ml">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.dimer"
                       :step="0.01"
                       :precision="2"
@@ -2082,6 +2103,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="癌胚抗原 ng/mL">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.cea"
                       :step="0.01"
                       :precision="2"
@@ -2092,6 +2114,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="癌抗原153 IU/mL">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.ca153"
                       :step="0.01"
                       :precision="2"
@@ -2102,6 +2125,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="癌抗原125 IU/mL">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.ca125"
                       :step="0.01"
                       :precision="2"
@@ -2127,6 +2151,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="绝经年龄">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.menopausalAge"
                       :step="1"
                       :precision="0"
@@ -2314,6 +2339,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="IHC ER%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.erPct"
                       :step="0.01"
                       :precision="2"
@@ -2324,6 +2350,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="IHC PR%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.prPct"
                       :step="0.01"
                       :precision="2"
@@ -2350,6 +2377,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="Ki-67标志物%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.ki67Pct"
                       :step="0.01"
                       :precision="2"
@@ -2360,6 +2388,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="AR%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="caseSearchForm.arPct"
                       :step="0.01"
                       :precision="2"
@@ -2557,6 +2586,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="肿瘤大小(cm)">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.tumorSizeCm"
                       :step="0.01"
                       :precision="2"
@@ -2663,6 +2693,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="前哨淋巴结数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.slnCount"
                       :min="0"
                       :precision="0"
@@ -2689,6 +2720,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="前哨淋巴结转移数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.slnMetaCount"
                       :min="0"
                       :precision="0"
@@ -2700,6 +2732,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="前哨淋巴结微转移数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.slnMicroMetaCount"
                       :min="0"
                       :precision="0"
@@ -2711,6 +2744,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="前哨孤立肿瘤细胞数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.slnItcCount"
                       :min="0"
                       :precision="0"
@@ -2750,6 +2784,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="腋窝清扫淋巴结数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.aldCount"
                       :min="0"
                       :precision="0"
@@ -2764,6 +2799,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="腋窝淋巴结转移数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.aldMetaCount"
                       :min="0"
                       :precision="0"
@@ -2775,6 +2811,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="腋窝微转移数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.aldMicroMetaCount"
                       :min="0"
                       :precision="0"
@@ -2786,6 +2823,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="腋窝孤立肿瘤细胞数量/个">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.aldItcCount"
                       :min="0"
                       :precision="0"
@@ -2839,6 +2877,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="术后ER%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.erPct"
                       :min="0"
                       :max="100"
@@ -2851,6 +2890,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="术后PR%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.prPct"
                       :min="0"
                       :max="100"
@@ -2880,6 +2920,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="术后ki67%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.ki67Pct"
                       :min="0"
                       :max="100"
@@ -2892,6 +2933,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="术后AR%">
                     <el-input-number
+                      style="width: 320px"
                       v-model="surgicalSearchForm.arPct"
                       :min="0"
                       :max="100"
@@ -3189,6 +3231,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="1周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week1Size"
                       :step="0.01"
                       :precision="2"
@@ -3201,6 +3244,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="2周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week2Size"
                       :step="0.01"
                       :precision="2"
@@ -3211,6 +3255,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="3周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week3Size"
                       :step="0.01"
                       :precision="2"
@@ -3221,6 +3266,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="4周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week4Size"
                       :step="0.01"
                       :precision="2"
@@ -3234,6 +3280,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="5周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week5Size"
                       :step="0.01"
                       :precision="2"
@@ -3244,6 +3291,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="6周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week6Size"
                       :step="0.01"
                       :precision="2"
@@ -3254,6 +3302,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="7周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week7Size"
                       :step="0.01"
                       :precision="2"
@@ -3264,6 +3313,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="8周期超声示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week8Size"
                       :step="0.01"
                       :precision="2"
@@ -3274,6 +3324,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="2/3周期核磁示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week23Size"
                       :step="0.01"
                       :precision="2"
@@ -3286,6 +3337,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="4/5周期核磁示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week45Size"
                       :step="0.01"
                       :precision="2"
@@ -3296,6 +3348,7 @@ onMounted(() => {
                 <el-col :span="8">
                   <el-form-item label="6/7周期核磁示肿物大小">
                     <el-input-number
+                      style="width: 320px"
                       v-model="neoadjuvantSearchForm.week67Size"
                       :step="0.01"
                       :precision="2"
