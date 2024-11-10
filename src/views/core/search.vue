@@ -1659,7 +1659,7 @@ onMounted(() => {
                   <el-form-item label="左血流信号">
                     <el-select
                       v-model="caseSearchForm.ultrasoundLeftBloodFlow"
-                      placeholder="请输入血流信号"
+                      placeholder="请选择有无血流信号"
                       clearable
                     >
                       <el-option label="有" value="1" />
@@ -1703,7 +1703,7 @@ onMounted(() => {
                   <el-form-item label="右血流信号">
                     <el-select
                       v-model="caseSearchForm.ultrasoundRightBloodFlow"
-                      placeholder="请输入血流信号"
+                      placeholder="请选择有无血流信号"
                     >
                       <el-option label="有" value="1" />
                       <el-option label="无" value="0" />
@@ -1918,8 +1918,9 @@ onMounted(() => {
                       placeholder="请选择"
                       clearable
                     >
-                      <el-option label="有" value="1" />
-                      <el-option label="无" value="0" />
+                      <el-option label="廓清型" value="2" />
+                      <el-option label="平台型" value="1" />
+                      <el-option label="流入型" value="0" />
                     </el-select>
                   </el-form-item>
                 </el-col>
