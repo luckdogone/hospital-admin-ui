@@ -25,6 +25,10 @@ const props = defineProps({
   permissions: {
     type: Object,
     required: true
+  },
+  hideEditButton: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -158,7 +162,12 @@ const handleGeneralFormReset = (): void => {
   <div>
     <div class="form-header">
       <h3>一般资料</h3>
-      <el-button @click="handleGeneralEdit" type="primary" size="small">
+      <el-button
+        @click="handleGeneralEdit"
+        type="primary"
+        size="small"
+        v-if="!hideEditButton"
+      >
         {{ isEditing ? "取消编辑" : "编辑" }}
       </el-button>
     </div>

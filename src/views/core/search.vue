@@ -3895,6 +3895,7 @@ onMounted(() => {
                     v-model:form-data="expandedFormData[row.id].general"
                     v-model:is-editing="editState.general[row.id]"
                     :permissions="pageData.permission"
+                    :hide-edit-button="true"
                   />
                 </template>
               </el-collapse-item>
@@ -3909,6 +3910,7 @@ onMounted(() => {
                     v-model:form-data="expandedFormData[row.id].case"
                     v-model:is-editing="editState.case[row.id]"
                     :permissions="pageData.permission"
+                    :hide-edit-button="true"
                   />
                 </template>
               </el-collapse-item>
@@ -3923,6 +3925,7 @@ onMounted(() => {
                     v-model:form-data="expandedFormData[row.id].surgical"
                     v-model:is-editing="editState.surgical[row.id]"
                     :permissions="pageData.permission"
+                    :hide-edit-button="true"
                   />
                 </template>
               </el-collapse-item>
@@ -3937,6 +3940,7 @@ onMounted(() => {
                     v-model:form-data="expandedFormData[row.id].neoadjuvant"
                     v-model:is-editing="editState.neoadjuvant[row.id]"
                     :permissions="pageData.permission"
+                    :hide-edit-button="true"
                   />
                 </template>
               </el-collapse-item>
@@ -3951,6 +3955,7 @@ onMounted(() => {
                     v-model:form-data="expandedFormData[row.id].adjuvant"
                     v-model:is-editing="editState.adjuvant[row.id]"
                     :permissions="pageData.permission"
+                    :hide-edit-button="true"
                   />
                 </template>
               </el-collapse-item>
@@ -3965,6 +3970,7 @@ onMounted(() => {
                     v-model:form-data="expandedFormData[row.id].endocrine"
                     v-model:is-editing="editState.endocrine[row.id]"
                     :permissions="pageData.permission"
+                    :hide-edit-button="true"
                   />
                 </template>
               </el-collapse-item>
@@ -3979,6 +3985,7 @@ onMounted(() => {
                     v-model:form-data="expandedFormData[row.id].radiation"
                     v-model:is-editing="editState.radiation[row.id]"
                     :permissions="pageData.permission"
+                    :hide-edit-button="true"
                   />
                 </template>
               </el-collapse-item>

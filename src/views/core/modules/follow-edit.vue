@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, computed } from "vue";
+import { reactive, ref, computed, watch } from "vue";
 // import { enableOptions } from "@/constants/constants";
 import * as followApi from "@/api/core/follow";
 import { message } from "@/utils/message";
@@ -73,6 +73,79 @@ const showHeadMrAbnormalResult = computed(
 );
 const showBoneScanAbnormalResult = computed(
   () => pageData.formData.boneScanAbnormal === 1
+);
+
+// 监听控制值的变化，当值不为1时清空对应的表单项
+watch(
+  () => pageData.formData.ultrasoundAbnormal,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.ultrasoundAbnormalDetail = "";
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.needFurtherBiopsy,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.biopsyResult = "";
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.metastasis,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.metastasisLocation = "";
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.deceased,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.causeOfDeath = "";
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.armEdema,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.armEdemaTreatment = 0;
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.chestCtAbnormal,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.chestCtAbnormalResult = "";
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.headMrAbnormal,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.headMrAbnormalResult = "";
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.boneScanAbnormal,
+  newVal => {
+    if (newVal !== 1) {
+      pageData.formData.boneScanAbnormalResult = "";
+    }
+  }
 );
 // const showAxillaryFineNeedleAspiration = computed(
 //   () => pageData.formData.axillaryFineNeedleAspirationDone === true
