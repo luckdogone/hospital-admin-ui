@@ -111,6 +111,10 @@ watch(
   () => localFormData.value.ihcResult,
   newVal => {
     if (!newVal || newVal === 0) {
+      localFormData.value.p120 = null;
+      localFormData.value.eCad = null;
+      localFormData.value.ck56 = null;
+      localFormData.value.gata3 = null;
       localFormData.value.erPct = null;
       localFormData.value.prPct = null;
       localFormData.value.her2 = null;
@@ -265,12 +269,11 @@ const caseColumns = computed(() => {
       label: "左超声大小/cm",
       width: 120,
       prop: "ultrasoundLeftSize",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入左侧大小",
-        step: 0.1,
-        precision: 1,
+        clearable: true,
         disabled: isUltrasoundLeftDisabled
       }
     },
@@ -316,12 +319,11 @@ const caseColumns = computed(() => {
       label: "右超声大小/cm",
       width: 120,
       prop: "ultrasoundRightSize",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入右侧大小",
-        step: 0.1,
-        precision: 1,
+        clearable: true,
         disabled: isUltrasoundRightDisabled
       }
     },
@@ -384,12 +386,11 @@ const caseColumns = computed(() => {
       label: "左钼靶大小/cm",
       width: 120,
       prop: "mammographyLeftSize",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入左侧大小",
-        step: 0.1,
-        precision: 1,
+        clearable: true,
         disabled: isMammographyLeftDisabled
       }
     },
@@ -434,12 +435,11 @@ const caseColumns = computed(() => {
       label: "右钼靶大小/cm",
       width: 120,
       prop: "mammographyRightSize",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入右侧大小",
-        step: 0.1,
-        precision: 1,
+        clearable: true,
         disabled: isMammographyRightDisabled
       }
     },
@@ -502,12 +502,11 @@ const caseColumns = computed(() => {
       label: "左乳腺大小/cm",
       width: 120,
       prop: "mriLeftSize",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入左侧大小",
-        step: 0.1,
-        precision: 1,
+        clearable: true,
         disabled: isMriLeftDisabled
       }
     },
@@ -554,12 +553,11 @@ const caseColumns = computed(() => {
       label: "右乳腺大小/cm",
       width: 120,
       prop: "mriRightSize",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入右侧大小",
-        step: 0.1,
-        precision: 1,
+        clearable: true,
         disabled: isMriRightDisabled
       }
     },
@@ -607,36 +605,33 @@ const caseColumns = computed(() => {
       label: "白细胞计数 10⁹/L",
       width: 120,
       prop: "wbc",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入白细胞计数",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "红细胞计数 10¹²/L",
       width: 120,
       prop: "rbc",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入红细胞计数",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "血小板计数 10⁹/L",
       width: 240,
       prop: "platelets",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入血小板计数",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
 
@@ -645,36 +640,33 @@ const caseColumns = computed(() => {
       label: "谷丙转氨酶 U/L",
       width: 120,
       prop: "alt",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入谷丙转氨酶",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "谷草转氨酶 U/L",
       width: 120,
       prop: "ast",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入谷草转氨酶",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "碱性磷酸酶 U/L",
       width: 120,
       prop: "alkalinePhosphatase",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入碱性磷酸酶",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
 
@@ -683,108 +675,99 @@ const caseColumns = computed(() => {
       label: "血肌酐 umol/L",
       width: 120,
       prop: "creatinine",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入血肌酐",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "血清尿素 mmol/L",
       width: 120,
       prop: "urea",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入血清尿素",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "尿酸 umol/L",
       width: 120,
       prop: "uricAcid",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入尿酸值",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "甘油三酯 mmol/L",
       width: 120,
       prop: "triglycerides",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入甘油三酯值",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "低密度脂蛋白 mmol/L",
       width: 120,
       prop: "ldl",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入低密度脂蛋白值",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "D-二聚体 ug/ml",
       width: 120,
       prop: "dimer",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入D-二聚体值",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "癌胚抗原 ng/mL",
       width: 120,
       prop: "cea",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入CEA值",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "癌抗原153 IU/mL",
       width: 120,
       prop: "ca153",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入CA153值",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
       label: "癌抗原125 IU/mL",
       width: 120,
       prop: "ca125",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入CA125值",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
@@ -806,14 +789,11 @@ const caseColumns = computed(() => {
       label: "绝经年龄",
       width: 120,
       prop: "menopausalAge",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入绝经年龄",
-        step: 1,
-        min: 0,
-        max: 1000,
-        precision: 0
+        clearable: true
       }
     },
     {
@@ -941,51 +921,6 @@ const caseColumns = computed(() => {
       }
     },
 
-    {
-      label: "P120",
-      width: 120,
-      prop: "p120",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入P120"
-      }
-    },
-    {
-      label: "E-cad",
-      width: 120,
-      prop: "eCad",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入E-cad"
-      }
-    },
-    {
-      label: "CK5/6",
-      width: 120,
-      prop: "ck56",
-      valueType: "copy",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入CK5/6"
-      }
-    },
-    {
-      label: "GATA3",
-      width: 120,
-      prop: "gata3",
-      valueType: "select",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请选择GATA3"
-      },
-      options: [
-        { label: "阳性", value: 1, color: "green" },
-        { label: "阴性", value: 0, color: "red" }
-      ]
-    },
-
     // 入院IHC检查
     {
       label: "有无免疫组化结果",
@@ -1001,16 +936,68 @@ const caseColumns = computed(() => {
         { label: "无", value: 0, color: "red" }
       ]
     },
+
+    {
+      label: "P120",
+      width: 120,
+      prop: "p120",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P120",
+        disabled: isIhcDisabled
+      }
+    },
+    {
+      label: "E-cad",
+      width: 120,
+      prop: "eCad",
+      valueType: "copy",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入E-cad",
+        disabled: isIhcDisabled
+      }
+    },
+    {
+      label: "CK5/6",
+      width: 120,
+      prop: "ck56",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择CK5/6",
+        disabled: isIhcDisabled
+      },
+      options: [
+        { label: "阳性", value: 1, color: "green" },
+        { label: "阴性", value: 0, color: "red" }
+      ]
+    },
+    {
+      label: "GATA3",
+      width: 120,
+      prop: "gata3",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择GATA3",
+        disabled: isIhcDisabled
+      },
+      options: [
+        { label: "阳性", value: 1, color: "green" },
+        { label: "阴性", value: 0, color: "red" }
+      ]
+    },
     {
       label: "IHC ER%",
       width: 120,
       prop: "erPct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入ER%",
-        step: 0.01,
-        precision: 2,
+        clearable: true,
         disabled: isIhcDisabled
       }
     },
@@ -1018,12 +1005,11 @@ const caseColumns = computed(() => {
       label: "IHC PR%",
       width: 120,
       prop: "prPct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入PR%",
-        step: 0.01,
-        precision: 2,
+        clearable: true,
         disabled: isIhcDisabled
       }
     },
@@ -1048,12 +1034,11 @@ const caseColumns = computed(() => {
       label: "Ki-67标志物%",
       width: 120,
       prop: "ki67Pct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入Ki-67%",
-        step: 0.01,
-        precision: 2,
+        clearable: true,
         disabled: isIhcDisabled
       }
     },
@@ -1061,12 +1046,11 @@ const caseColumns = computed(() => {
       label: "AR%",
       width: 120,
       prop: "arPct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入AR百分比",
-        step: 0.01,
-        precision: 2,
+        clearable: true,
         disabled: isIhcDisabled
       }
     },
@@ -1089,16 +1073,11 @@ const caseColumns = computed(() => {
       label: "TNM分期",
       width: 120,
       prop: "tnm",
-      valueType: "select",
+      valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择TNM分期"
-      },
-      options: [
-        { label: "cT", value: "cT" },
-        { label: "N", value: "N" },
-        { label: "M", value: "M" }
-      ]
+        placeholder: "请输入TNM分期"
+      }
     },
     {
       label: "病理分级",
@@ -1137,9 +1116,91 @@ const caseColumns = computed(() => {
 });
 
 // 表单验证规则
+const numberValidationRules = [
+  {
+    validator: (rule, value, callback) => {
+      // 如果值为空，允许通过（除非该字段是必填的）
+      if (!value) {
+        callback();
+        return;
+      }
+
+      // 检查是否包含非数字字符（除了小数点）
+      if (!/^[\d.]+$/.test(value)) {
+        callback(new Error("请输入数字"));
+        return;
+      }
+
+      // 检查小数点的数量
+      if ((value.match(/\./g) || []).length > 1) {
+        callback(new Error("只能包含一个小数点"));
+        return;
+      }
+
+      // 检查是否是有效数字
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        callback(new Error("请输入有效的数字"));
+        return;
+      }
+
+      // 检查是否为负数
+      if (num < 0) {
+        callback(new Error("请输入大于0的数字"));
+        return;
+      }
+
+      // 检查小数位数
+      const decimalParts = value.split(".");
+      if (decimalParts.length > 1 && decimalParts[1].length > 2) {
+        callback(new Error("小数点后最多两位"));
+        return;
+      }
+
+      callback();
+    },
+    trigger: ["blur", "change"]
+  }
+];
+
+// 表单验证规则
 const rules = {
-  name: [{ required: true, message: "请输入名称" }],
-  surgicalNum: [{ required: true, message: "请输入手术编号", trigger: "blur" }]
+  ultrasoundLeftSize: numberValidationRules,
+  ultrasoundRightSize: numberValidationRules,
+  mammographyLeftSize: numberValidationRules,
+  mammographyRightSize: numberValidationRules,
+  mriLeftSize: numberValidationRules,
+  mriRightSize: numberValidationRules,
+  // 血常规检查
+  wbc: numberValidationRules,
+  rbc: numberValidationRules,
+  platelets: numberValidationRules,
+
+  // 肝功能检查
+  alt: numberValidationRules,
+  ast: numberValidationRules,
+  alkalinePhosphatase: numberValidationRules,
+
+  // 肾功能检查
+  creatinine: numberValidationRules,
+  urea: numberValidationRules,
+  uricAcid: numberValidationRules,
+
+  // 其他检查指标
+  triglycerides: numberValidationRules,
+  ldl: numberValidationRules,
+  dimer: numberValidationRules,
+  cea: numberValidationRules,
+  ca153: numberValidationRules,
+  ca125: numberValidationRules,
+
+  menopausalAge: numberValidationRules,
+
+  // IHC检查相关
+  erPct: numberValidationRules,
+  prPct: numberValidationRules,
+  ki67Pct: numberValidationRules,
+  arPct: numberValidationRules
 };
 
 // 处理编辑按钮点击
@@ -1202,10 +1263,90 @@ const handleReset = () => {
   }
   console.log("重置病历资料表单，行ID:", props.rowId);
   localFormData.value = {
-    ultrasoundStatus: "",
-    ultrasoundSize: "",
-    ultrasoundBloodFlow: null,
-    ultrasoundBirads: ""
+    ultrasoundStatus: null,
+    ultrasoundLeftSize: "",
+    ultrasoundLeftBloodFlow: null,
+    ultrasoundLeftBirads: "",
+    ultrasoundRightSize: "",
+    ultrasoundRightBloodFlow: null,
+    ultrasoundRightBirads: "",
+
+    // 钼靶检查
+    mammographyStatus: null,
+    mammographyLeftSize: "",
+    mammographyLeftAggregation: null,
+    mammographyLeftBirads: "",
+    mammographyRightSize: "",
+    mammographyRightAggregation: null,
+    mammographyRightBirads: "",
+
+    // 核磁检查
+    mriStatus: null,
+    mriLeftSize: "",
+    mriLeftBloodFlow: null,
+    mriLeftBirads: "",
+    mriRightSize: "",
+    mriRightBloodFlow: null,
+    mriRightBirads: "",
+
+    // 血常规检查
+    wbc: null,
+    rbc: null,
+    platelets: null,
+
+    // 肝功能检查
+    alt: null,
+    ast: null,
+    alkalinePhosphatase: null,
+
+    // 肾功能检查
+    creatinine: null,
+    urea: null,
+    uricAcid: null,
+    triglycerides: null,
+    ldl: null,
+
+    // 其他检查指标
+    dimer: null,
+    cea: null,
+    ca153: null,
+    ca125: null,
+
+    // 月经状态相关
+    menstrualStatus: null,
+    menopausalAge: null,
+
+    // 病史
+    personalMedicalHistory: "",
+    familyHistory: "",
+
+    // 穿刺检查
+    breastCoreNeedle: null,
+    breastCoreNeedleResult: "",
+    axillaryCoreNeedle: null,
+    axillaryCoreNeedleResult: "",
+    axillaryFineNeedle: null,
+    axillaryFineNeedleResult: "",
+    collarboneLymphNeedle: null,
+    collarboneLymphNeedleResult: "",
+
+    // IHC检查
+    ihcResult: null,
+    p120: "",
+    eCad: "",
+    ck56: "",
+    gata3: null,
+    erPct: "",
+    prPct: null,
+    her2: "",
+    ki67Pct: null,
+    arPct: null,
+    fishTest: "",
+
+    // 分期和分型
+    tnm: "",
+    stage: "",
+    subtype: ""
     // ... 其他字段的重置
   };
   emit("update:formData", { ...localFormData.value });

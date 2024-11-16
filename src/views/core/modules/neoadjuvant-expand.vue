@@ -131,132 +131,110 @@ const neoadjuvantColumns = computed(() => {
       label: "1周期超声示肿物大小",
       width: 120,
       prop: "week1Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入1周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入1周期超声示肿物大小"
       }
     },
     {
       label: "2周期超声示肿物大小",
       width: 120,
       prop: "week2Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入2周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入2周期超声示肿物大小"
       }
     },
     {
       label: "3周期超声示肿物大小",
       width: 120,
       prop: "week3Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入3周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入3周期超声示肿物大小"
       }
     },
     {
       label: "4周期超声示肿物大小",
       width: 120,
       prop: "week4Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入4周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入4周期超声示肿物大小"
       }
     },
     {
       label: "5周期超声示肿物大小",
       width: 120,
       prop: "week5Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入5周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入5周期超声示肿物大小"
       }
     },
     {
       label: "6周期超声示肿物大小",
       width: 120,
       prop: "week6Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入6周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入6周期超声示肿物大小"
       }
     },
     {
       label: "7周期超声示肿物大小",
       width: 120,
       prop: "week7Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入7周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入7周期超声示肿物大小"
       }
     },
     {
       label: "8周期超声示肿物大小",
       width: 120,
       prop: "week8Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入8周期超声示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入8周期超声示肿物大小"
       }
     },
     {
       label: "2/3周期核磁示肿物大小",
       width: 120,
       prop: "week23Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入2/3周期核磁示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入2/3周期核磁示肿物大小"
       }
     },
     {
       label: "4/5周期核磁示肿物大小",
       width: 120,
       prop: "week45Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入4/5周期核磁示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入4/5周期核磁示肿物大小"
       }
     },
     {
       label: "6/7周期核磁示肿物大小",
       width: 120,
       prop: "week67Size",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请输入6/7周期核磁示肿物大小",
-        step: 0.01,
-        precision: 2
+        placeholder: "请输入6/7周期核磁示肿物大小"
       }
     },
     {
@@ -312,7 +290,66 @@ const neoadjuvantColumns = computed(() => {
   ] as PlusColumn[];
 });
 
+// 表单验证规则
+const numberValidationRules = [
+  {
+    validator: (rule, value, callback) => {
+      // 如果值为空，允许通过（除非该字段是必填的）
+      if (!value) {
+        callback();
+        return;
+      }
+
+      // 检查是否包含非数字字符（除了小数点）
+      if (!/^[\d.]+$/.test(value)) {
+        callback(new Error("请输入数字"));
+        return;
+      }
+
+      // 检查小数点的数量
+      if ((value.match(/\./g) || []).length > 1) {
+        callback(new Error("只能包含一个小数点"));
+        return;
+      }
+
+      // 检查是否是有效数字
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        callback(new Error("请输入有效的数字"));
+        return;
+      }
+
+      // 检查是否为负数
+      if (num < 0) {
+        callback(new Error("请输入大于0的数字"));
+        return;
+      }
+
+      // 检查小数位数
+      const decimalParts = value.split(".");
+      if (decimalParts.length > 1 && decimalParts[1].length > 2) {
+        callback(new Error("小数点后最多两位"));
+        return;
+      }
+
+      callback();
+    },
+    trigger: ["blur", "change"]
+  }
+];
+
 const rules = {
+  week1Size: numberValidationRules,
+  week2Size: numberValidationRules,
+  week3Size: numberValidationRules,
+  week4Size: numberValidationRules,
+  week5Size: numberValidationRules,
+  week6Size: numberValidationRules,
+  week7Size: numberValidationRules,
+  week8Size: numberValidationRules,
+  week23Size: numberValidationRules,
+  week45Size: numberValidationRules,
+  week67Size: numberValidationRules
   // 添加必要的验证规则
 };
 

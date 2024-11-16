@@ -201,6 +201,22 @@ const tableColumns: TableColumnList = [
     prop: "contactPhone"
   },
   {
+    label: "更新者",
+    prop: "modifiedBy"
+  },
+  {
+    label: "更新时间",
+    prop: "modified"
+  },
+  {
+    label: "创建者",
+    prop: "createdBy"
+  },
+  {
+    label: "创建时间",
+    prop: "created"
+  },
+  {
     label: "录入状态",
     prop: "inputStatus",
     formatter: row => {

@@ -174,17 +174,33 @@ const tableColumns: TableColumnList = [
     prop: "contactPhone"
   },
   {
-    label: "录入状态",
-    prop: "inputStatus",
-    formatter: row => {
-      const statusMap = {
-        0: "未录入",
-        1: "录入中",
-        2: "已录入"
-      };
-      return statusMap[row.inputStatus] || "未知";
-    }
+    label: "更新者",
+    prop: "modifiedBy"
   },
+  {
+    label: "更新时间",
+    prop: "modified"
+  },
+  {
+    label: "创建者",
+    prop: "createdBy"
+  },
+  {
+    label: "创建时间",
+    prop: "created"
+  },
+  // {
+  //   label: "录入状态",
+  //   prop: "inputStatus",
+  //   formatter: row => {
+  //     const statusMap = {
+  //       0: "未录入",
+  //       1: "录入中",
+  //       2: "已录入"
+  //     };
+  //     return statusMap[row.inputStatus] || "未知";
+  //   }
+  // },
   {
     label: "操作",
     fixed: "right",

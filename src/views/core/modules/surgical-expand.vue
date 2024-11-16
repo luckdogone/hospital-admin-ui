@@ -73,6 +73,28 @@ watch(
     }
   }
 );
+watch(
+  () => localFormData.value.ihcResult,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.p120 = null;
+      localFormData.value.eCad = null;
+      localFormData.value.ck56 = null;
+      localFormData.value.gata3 = null;
+      localFormData.value.p63 = null;
+      localFormData.value.p53 = null;
+      localFormData.value.trps1 = null;
+      localFormData.value.sam = null;
+      localFormData.value.egfr = null;
+      localFormData.value.erPct = "";
+      localFormData.value.prPct = "";
+      localFormData.value.her2 = null;
+      localFormData.value.ki67Pct = null;
+      localFormData.value.arPct = null;
+      localFormData.value.fishTest = null;
+    }
+  }
+);
 const surgicalColumns = computed(() => {
   const isHasSlnBiopsyDisabled =
     !localFormData.value ||
@@ -202,12 +224,11 @@ const surgicalColumns = computed(() => {
       label: "肿瘤大小(cm)",
       width: 120,
       prop: "tumorSizeCm",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入肿瘤大小",
-        step: 0.01,
-        precision: 2
+        clearable: true
       }
     },
     {
@@ -317,12 +338,11 @@ const surgicalColumns = computed(() => {
       label: "前哨淋巴结数量/个",
       width: 120,
       prop: "slnCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isHasSlnBiopsyDisabled
       }
     },
@@ -345,12 +365,11 @@ const surgicalColumns = computed(() => {
       label: "前哨淋巴结转移数量/个",
       width: 120,
       prop: "slnMetaCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isHasSlnBiopsyDisabled
       }
     },
@@ -358,12 +377,11 @@ const surgicalColumns = computed(() => {
       label: "前哨淋巴结微转移数量/个",
       width: 120,
       prop: "slnMicroMetaCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isHasSlnBiopsyDisabled
       }
     },
@@ -371,12 +389,11 @@ const surgicalColumns = computed(() => {
       label: "前哨孤立肿瘤细胞数量/个",
       width: 120,
       prop: "slnItcCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isHasSlnBiopsyDisabled
       }
     },
@@ -414,12 +431,11 @@ const surgicalColumns = computed(() => {
       label: "腋窝清扫淋巴结数量/个",
       width: 120,
       prop: "aldCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isAldDisabled
       }
     },
@@ -427,12 +443,11 @@ const surgicalColumns = computed(() => {
       label: "腋窝淋巴结转移数量/个",
       width: 120,
       prop: "aldMetaCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isAldDisabled
       }
     },
@@ -440,12 +455,11 @@ const surgicalColumns = computed(() => {
       label: "腋窝微转移数量/个",
       width: 120,
       prop: "aldMicroMetaCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isAldDisabled
       }
     },
@@ -453,12 +467,11 @@ const surgicalColumns = computed(() => {
       label: "腋窝孤立肿瘤细胞数量/个",
       width: 120,
       prop: "aldItcCount",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入数量",
-        step: 1,
-        precision: 0,
+        clearable: true,
         disabled: isAldDisabled
       }
     },
@@ -507,17 +520,121 @@ const surgicalColumns = computed(() => {
       ]
     },
     {
+      label: "P120",
+      width: 120,
+      prop: "p120",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P120",
+        disabled: isIhcResultDisabled
+      }
+    },
+    {
+      label: "E-cad",
+      width: 120,
+      prop: "eCad",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入E-cad",
+        disabled: isIhcResultDisabled
+      }
+    },
+    {
+      label: "CK5/6",
+      width: 120,
+      prop: "ck56",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择CK5/6",
+        disabled: isIhcResultDisabled
+      },
+      options: [
+        { label: "阳性", value: 1, color: "green" },
+        { label: "阴性", value: 0, color: "red" }
+      ]
+    },
+    {
+      label: "GATA3",
+      width: 120,
+      prop: "gata3",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择GATA3",
+        disabled: isIhcResultDisabled
+      },
+      options: [
+        { label: "阳性", value: 1, color: "green" },
+        { label: "阴性", value: 0, color: "red" }
+      ]
+    },
+    {
+      label: "P63",
+      width: 120,
+      prop: "p63",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P63",
+        disabled: isIhcResultDisabled
+      }
+    },
+    {
+      label: "P53",
+      width: 120,
+      prop: "p53",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入P53",
+        disabled: isIhcResultDisabled
+      }
+    },
+    {
+      label: "TRPS1",
+      width: 120,
+      prop: "trps1",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入TRPS1",
+        disabled: isIhcResultDisabled
+      }
+    },
+    {
+      label: "SAM",
+      width: 120,
+      prop: "sam",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入SAM",
+        disabled: isIhcResultDisabled
+      }
+    },
+    {
+      label: "EGFR",
+      width: 120,
+      prop: "egfr",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入EGFR",
+        disabled: isIhcResultDisabled
+      }
+    },
+    {
       label: "术后ER%",
       width: 120,
       prop: "erPct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入术后ER%",
-        step: 0.01,
-        precision: 2,
-        min: 0,
-        max: 100,
+        clearable: true,
         disabled: isIhcResultDisabled
       }
     },
@@ -525,14 +642,11 @@ const surgicalColumns = computed(() => {
       label: "术后PR%",
       width: 120,
       prop: "prPct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入术后PR%",
-        step: 0.01,
-        precision: 2,
-        min: 0,
-        max: 100,
+        clearable: true,
         disabled: isIhcResultDisabled
       }
     },
@@ -557,14 +671,11 @@ const surgicalColumns = computed(() => {
       label: "术后ki-67%",
       width: 120,
       prop: "ki67Pct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入术后ki-67%",
-        step: 0.01,
-        precision: 2,
-        min: 0,
-        max: 100,
+        clearable: true,
         disabled: isIhcResultDisabled
       }
     },
@@ -572,14 +683,11 @@ const surgicalColumns = computed(() => {
       label: "术后AR%",
       width: 120,
       prop: "arPct",
-      valueType: "input-number",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入术后AR%",
-        step: 0.01,
-        precision: 2,
-        min: 0,
-        max: 100,
+        clearable: true,
         disabled: isIhcResultDisabled
       }
     },
@@ -619,16 +727,11 @@ const surgicalColumns = computed(() => {
       label: "术后TNM分期",
       width: 120,
       prop: "tnm",
-      valueType: "select",
+      valueType: "input",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择TNM分期"
-      },
-      options: [
-        { label: "cT", value: "cT" },
-        { label: "N", value: "N" },
-        { label: "M", value: "M" }
-      ]
+        placeholder: "请输入TNM分期"
+      }
     },
     {
       label: "术后病理分级",
@@ -694,11 +797,11 @@ const surgicalColumns = computed(() => {
         placeholder: "请选择MP级别"
       },
       options: [
-        { label: "无浸润(MP0)", value: 0 },
-        { label: "微浸润(MP1)", value: 1 },
-        { label: "中度浸润(MP2)", value: 2 },
-        { label: "重度浸润(MP3)", value: 3 },
-        { label: "完全浸润(MP4)", value: 4 }
+        { label: "1", value: 1 },
+        { label: "2", value: 2 },
+        { label: "3", value: 3 },
+        { label: "4", value: 4 },
+        { label: "5", value: 5 }
       ]
     },
     {
@@ -716,106 +819,73 @@ const surgicalColumns = computed(() => {
         { label: "2", value: "2" },
         { label: "3", value: "3" }
       ]
-    },
-    {
-      label: "P120",
-      width: 120,
-      prop: "p120",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入P120"
-      }
-    },
-    {
-      label: "E-cad",
-      width: 120,
-      prop: "eCad",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入E-cad"
-      }
-    },
-    {
-      label: "CK5/6",
-      width: 120,
-      prop: "ck56",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入CK5/6"
-      }
-    },
-    {
-      label: "GATA3",
-      width: 120,
-      prop: "gata3",
-      valueType: "select",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请选择GATA3"
-      },
-      options: [
-        { label: "阳性", value: 1, color: "green" },
-        { label: "阴性", value: 0, color: "red" }
-      ]
-    },
-    {
-      label: "P63",
-      width: 120,
-      prop: "p63",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入P63"
-      }
-    },
-    {
-      label: "P53",
-      width: 120,
-      prop: "p53",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入P53"
-      }
-    },
-    {
-      label: "TRPS1",
-      width: 120,
-      prop: "trps1",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入TRPS1"
-      }
-    },
-    {
-      label: "SAM",
-      width: 120,
-      prop: "sam",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入SAM"
-      }
-    },
-    {
-      label: "EGFR",
-      width: 120,
-      prop: "egfr",
-      valueType: "input",
-      colProps: { span: 12 },
-      fieldProps: {
-        placeholder: "请输入EGFR"
-      }
     }
   ] as PlusColumn[];
 });
 
+// 表单验证规则
+const numberValidationRules = [
+  {
+    validator: (rule, value, callback) => {
+      // 如果值为空，允许通过（除非该字段是必填的）
+      if (!value) {
+        callback();
+        return;
+      }
+
+      // 检查是否包含非数字字符（除了小数点）
+      if (!/^[\d.]+$/.test(value)) {
+        callback(new Error("请输入数字"));
+        return;
+      }
+
+      // 检查小数点的数量
+      if ((value.match(/\./g) || []).length > 1) {
+        callback(new Error("只能包含一个小数点"));
+        return;
+      }
+
+      // 检查是否是有效数字
+      const num = parseFloat(value);
+      if (isNaN(num)) {
+        callback(new Error("请输入有效的数字"));
+        return;
+      }
+
+      // 检查是否为负数
+      if (num < 0) {
+        callback(new Error("请输入大于0的数字"));
+        return;
+      }
+
+      // 检查小数位数
+      const decimalParts = value.split(".");
+      if (decimalParts.length > 1 && decimalParts[1].length > 2) {
+        callback(new Error("小数点后最多两位"));
+        return;
+      }
+
+      callback();
+    },
+    trigger: ["blur", "change"]
+  }
+];
+
 const rules = {
-  surgicalTime: [{ required: true, message: "请选择手术时间" }]
+  surgicalTime: [{ required: true, message: "请选择手术时间" }],
+  tumorSizeCm: numberValidationRules,
+  slnCount: numberValidationRules,
+  slnMetaCount: numberValidationRules,
+  slnMicroMetaCount: numberValidationRules,
+  slnItcCount: numberValidationRules,
+  aldCount: numberValidationRules,
+  aldMetaCount: numberValidationRules,
+  aldMicroMetaCount: numberValidationRules,
+  aldItcCount: numberValidationRules,
+  erPct: numberValidationRules,
+  prPct: numberValidationRules,
+  ki67Pct: numberValidationRules,
+  arPct: numberValidationRules
   // Add more validation rules as needed
 };
 
