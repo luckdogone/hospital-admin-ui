@@ -197,6 +197,15 @@ watch(
   }
 );
 
+watch(
+  () => localFormData.value.menstrualStatus,
+  newVal => {
+    if (!newVal || newVal === 1) {
+      localFormData.value.menopausalAge = null;
+    }
+  }
+);
+
 // 病历资料表单列定义
 const caseColumns = computed(() => {
   const ultrasoundStatus = localFormData.value?.ultrasoundStatus;
@@ -214,6 +223,10 @@ const caseColumns = computed(() => {
   const mriStatus = localFormData.value?.mriStatus;
   const isMriLeftDisabled = !mriStatus || mriStatus === 0 || mriStatus === 2;
   const isMriRightDisabled = !mriStatus || mriStatus === 0 || mriStatus === 1;
+
+  const menstrualStatus = localFormData.value?.menstrualStatus;
+  const isMenstrualStatusDisabled = !menstrualStatus;
+
   // const isUltrasoundDisabled =
   //   !localFormData.value ||
   //   !localFormData.value.ultrasoundStatus ||
@@ -780,8 +793,8 @@ const caseColumns = computed(() => {
         placeholder: "请选择月经状态"
       },
       options: [
-        { label: "绝经", value: 0, color: "red" },
-        { label: "未绝经", value: 1, color: "green" },
+        { label: "未绝经", value: 0, color: "green" },
+        { label: "绝经", value: 1, color: "red" },
         { label: "子宫切除", value: 2, color: "green" }
       ]
     },
@@ -793,7 +806,8 @@ const caseColumns = computed(() => {
       colProps: { span: 12 },
       fieldProps: {
         placeholder: "请输入绝经年龄",
-        clearable: true
+        clearable: true,
+        disabled: isMenstrualStatusDisabled
       }
     },
     {
