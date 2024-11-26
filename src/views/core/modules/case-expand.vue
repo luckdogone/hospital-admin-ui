@@ -977,16 +977,13 @@ const caseColumns = computed(() => {
       label: "CK5/6",
       width: 120,
       prop: "ck56",
-      valueType: "select",
+      valueType: "copy",
       colProps: { span: 12 },
       fieldProps: {
-        placeholder: "请选择CK5/6",
+        placeholder: "请输入CK5/6",
+        clearable: true,
         disabled: isIhcDisabled
-      },
-      options: [
-        { label: "阳性", value: 1, color: "green" },
-        { label: "阴性", value: 0, color: "red" }
-      ]
+      }
     },
     {
       label: "GATA3",
@@ -1080,7 +1077,8 @@ const caseColumns = computed(() => {
       },
       options: [
         { label: "阴性", value: "阴性" },
-        { label: "阳性", value: "阳性" }
+        { label: "阳性", value: "阳性" },
+        { label: "缺失", value: "缺失" }
       ]
     },
     {
