@@ -837,12 +837,6 @@ const numberValidationRules = [
         return;
       }
 
-      // 检查小数点的数量
-      if ((value.match(/\./g) || []).length > 1) {
-        callback(new Error("只能包含一个小数点"));
-        return;
-      }
-
       // 检查是否是有效数字
       const num = parseFloat(value);
       if (isNaN(num)) {
@@ -856,8 +850,14 @@ const numberValidationRules = [
         return;
       }
 
-      // 检查小数位数
-      const decimalParts = value.split(".");
+      const strValue = value.toString(); // 将数值转换为字符串
+
+      if ((strValue.match(/\./g) || []).length > 1) {
+        callback(new Error("只能包含一个小数点"));
+        return;
+      }
+
+      const decimalParts = strValue.split(".");
       if (decimalParts.length > 1 && decimalParts[1].length > 2) {
         callback(new Error("小数点后最多两位"));
         return;

@@ -310,7 +310,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "ultrasoundLeftBirads",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择",
         disabled: isUltrasoundLeftDisabled
@@ -360,7 +360,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "ultrasoundRightBirads",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择",
         disabled: isUltrasoundRightDisabled
@@ -427,7 +427,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "mammographyLeftBirads",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择",
         disabled: isMammographyLeftDisabled
@@ -476,7 +476,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "mammographyRightBirads",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择",
         disabled: isMammographyRightDisabled
@@ -544,7 +544,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "mriLeftBirads",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择",
         disabled: isMriLeftDisabled
@@ -595,7 +595,7 @@ const caseColumns = computed(() => {
       width: 120,
       prop: "mriRightBirads",
       valueType: "select",
-      colProps: { span: 12 },
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请选择",
         disabled: isMriRightDisabled
@@ -1144,10 +1144,10 @@ const numberValidationRules = [
       }
 
       // 检查小数点的数量
-      if ((value.match(/\./g) || []).length > 1) {
-        callback(new Error("只能包含一个小数点"));
-        return;
-      }
+      // if ((value.match(/\./g) || []).length > 1) {
+      //   callback(new Error("只能包含一个小数点"));
+      //   return;
+      // }
 
       // 检查是否是有效数字
       const num = parseFloat(value);
@@ -1162,12 +1162,25 @@ const numberValidationRules = [
         return;
       }
 
-      // 检查小数位数
-      const decimalParts = value.split(".");
+      const strValue = value.toString(); // 将数值转换为字符串
+
+      if ((strValue.match(/\./g) || []).length > 1) {
+        callback(new Error("只能包含一个小数点"));
+        return;
+      }
+
+      const decimalParts = strValue.split(".");
       if (decimalParts.length > 1 && decimalParts[1].length > 2) {
         callback(new Error("小数点后最多两位"));
         return;
       }
+
+      // 检查小数位数
+      // const decimalParts = value.split(".");
+      // if (decimalParts.length > 1 && decimalParts[1].length > 2) {
+      //   callback(new Error("小数点后最多两位"));
+      //   return;
+      // }
 
       callback();
     },

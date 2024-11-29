@@ -98,8 +98,8 @@ const radiationColumns = computed(() => {
       label: "放疗部位",
       width: 120,
       prop: "treatmentLocation",
-      valueType: "input",
-      colProps: { span: 12 },
+      valueType: "textarea",
+      colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入放疗部位"
       }
