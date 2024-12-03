@@ -53,11 +53,27 @@ watch(
   }
 );
 
+watch(
+  () => localFormData.value.radiationRange,
+  newVal => {
+    if (!newVal || newVal === 0) {
+      localFormData.value.chestWall = null;
+      localFormData.value.supraclavicular = null;
+      localFormData.value.armpit = null;
+      localFormData.value.breast = null;
+    }
+  }
+);
+
 const radiationColumns = computed(() => {
   const isClinicalResearchDisabled =
     !localFormData.value ||
     !localFormData.value.clinicalResearch ||
     localFormData.value.clinicalResearch === 0;
+  const isRadiationRangeDisabled =
+    !localFormData.value ||
+    !localFormData.value.radiationRange ||
+    localFormData.value.radiationRange === 0;
   return [
     {
       label: "是否进行放射治疗",
@@ -102,6 +118,130 @@ const radiationColumns = computed(() => {
       colProps: { span: 24 },
       fieldProps: {
         placeholder: "请输入放疗部位"
+      }
+    },
+    {
+      label: "放射范围",
+      width: 120,
+      prop: "radiationRange",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择"
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "胸壁",
+      width: 120,
+      prop: "chestWall",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isRadiationRangeDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "锁骨上",
+      width: 120,
+      prop: "supraclavicular",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isRadiationRangeDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "腋窝",
+      width: 120,
+      prop: "armpit",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isRadiationRangeDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "乳房",
+      width: 120,
+      prop: "breast",
+      valueType: "select",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请选择",
+        disabled: isRadiationRangeDisabled
+      },
+      options: [
+        { label: "有", value: 1, color: "red" },
+        { label: "无", value: 0, color: "blue" }
+      ]
+    },
+    {
+      label: "合并药物",
+      width: 120,
+      prop: "mergeDrugs",
+      valueType: "textarea",
+      colProps: { span: 24 },
+      fieldProps: {
+        placeholder: "请输入合并药物"
+      }
+    },
+    {
+      label: "放疗次数",
+      width: 120,
+      prop: "radiationNumber",
+      valueType: "digit",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入放疗次数"
+      }
+    },
+    {
+      label: "分割剂量",
+      width: 120,
+      prop: "splitDose",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入分割剂量"
+      }
+    },
+    {
+      label: "总剂量",
+      width: 120,
+      prop: "totalDose",
+      valueType: "input",
+      colProps: { span: 12 },
+      fieldProps: {
+        placeholder: "请输入总剂量"
+      }
+    },
+    {
+      label: "急性放射性皮肤反应",
+      width: 120,
+      prop: "radiationInducedReaction",
+      valueType: "textarea",
+      colProps: { span: 24 },
+      fieldProps: {
+        placeholder: "请输入急性放射性皮肤反应"
       }
     }
   ] as PlusColumn[];

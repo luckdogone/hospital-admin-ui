@@ -992,6 +992,16 @@ const loadRadiationData = (id: number) => {
           clinicalResearchDetails: radiationData.clinicalResearchDetails,
           treatmentPlan: radiationData.treatmentPlan,
           treatmentLocation: radiationData.treatmentLocation,
+          radiationRange: radiationData.radiationRange,
+          chestWall: radiationData.chestWall,
+          supraclavicular: radiationData.supraclavicular,
+          armpit: radiationData.armpit,
+          breast: radiationData.breast,
+          mergeDrugs: radiationData.mergeDrugs,
+          radiationNumber: radiationData.radiationNumber,
+          splitDose: radiationData.splitDose,
+          totalDose: radiationData.totalDose,
+          radiationInducedReaction: radiationData.radiationInducedReaction,
           inputStatus: radiationData.inputStatus
         };
 
@@ -1416,6 +1426,16 @@ const radiationSearchForm = reactive({
   clinicalResearchDetails: "",
   treatmentPlan: "",
   treatmentLocation: "",
+  radiationRange: null,
+  chestWall: null,
+  supraclavicular: null,
+  armpit: null,
+  breast: null,
+  mergeDrugs: "",
+  radiationNumber: null,
+  splitDose: "",
+  totalDose: "",
+  radiationInducedReaction: "",
   inputStatus: ""
 });
 
@@ -3822,6 +3842,111 @@ onMounted(() => {
                     </el-select>
                   </el-form-item>
                 </el-col> -->
+              </el-row>
+              <el-row :gutter="20">
+                <el-col :span="8">
+                  <el-form-item label="放射范围">
+                    <el-select
+                      v-model="radiationSearchForm.radiationRange"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="胸壁">
+                    <el-select
+                      v-model="radiationSearchForm.chestWall"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="锁骨上">
+                    <el-select
+                      v-model="radiationSearchForm.supraclavicular"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="腋窝">
+                    <el-select
+                      v-model="radiationSearchForm.armpit"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="乳房">
+                    <el-select
+                      v-model="radiationSearchForm.breast"
+                      placeholder="请选择"
+                      clearable
+                    >
+                      <el-option label="有" value="1" />
+                      <el-option label="无" value="0" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="合并药物">
+                    <el-input
+                      v-model="radiationSearchForm.mergeDrugs"
+                      type="textarea"
+                      placeholder="请输入合并药物"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="放疗次数">
+                    <el-input-number
+                      style="width: 320px"
+                      v-model="radiationSearchForm.radiationNumber"
+                      placeholder="请输入放疗次数"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="分割剂量">
+                    <el-input
+                      v-model="radiationSearchForm.splitDose"
+                      placeholder="请输入分割剂量"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="总剂量">
+                    <el-input
+                      v-model="radiationSearchForm.totalDose"
+                      placeholder="请输入总剂量"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="急性放射性皮肤反应">
+                    <el-input
+                      v-model="radiationSearchForm.radiationInducedReaction"
+                      type="textarea"
+                      placeholder="请输入急性放射性皮肤反应"
+                    />
+                  </el-form-item>
+                </el-col>
               </el-row>
               <el-row :gutter="20">
                 <el-col :span="8">

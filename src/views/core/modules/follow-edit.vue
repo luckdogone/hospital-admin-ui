@@ -33,6 +33,18 @@ const pageData: any = reactive({
     chestCtAbnormal: false,
     headMrAbnormal: false,
     boneScanAbnormal: false,
+    // 新增字段
+    radiationTreatment: 0, // 是否进行放射治疗
+    radiationRange: null, // 放射范围
+    chestWall: null, // 胸壁
+    supraclavicular: null, // 锁骨上
+    armpit: null, // 腋窝
+    breast: null, // 乳房
+    mergeDrugs: "", // 合并药物
+    radiationNumber: null, // 放疗次数
+    splitDose: "", // 分割剂量
+    totalDose: "", // 总剂量
+    radiationInducedReaction: "", // 急性放射性皮肤反应
     scaleRating: null,
     isChangeTreatmentPlan: null,
     currentTreatmentPlan: "",
@@ -75,6 +87,45 @@ const showBoneScanAbnormalResult = computed(
   () => pageData.formData.boneScanAbnormal === 1
 );
 
+const showRadiationFields = computed(
+  () => pageData.formData.radiationTreatment === 1
+);
+
+const showradiationRange = computed(
+  () => pageData.formData.radiationRange === 1
+);
+
+watch(
+  () => pageData.formData.radiationRange,
+  newVal => {
+    if (newVal !== 1) {
+      // 当放射治疗为否时,清空相关字段
+      pageData.formData.chestWall = null;
+      pageData.formData.supraclavicular = null;
+      pageData.formData.armpit = null;
+      pageData.formData.breast = null;
+    }
+  }
+);
+
+watch(
+  () => pageData.formData.radiationTreatment,
+  newVal => {
+    if (newVal !== 1) {
+      // 当放射治疗为否时,清空相关字段
+      pageData.formData.radiationRange = "";
+      pageData.formData.chestWall = null;
+      pageData.formData.supraclavicular = null;
+      pageData.formData.armpit = null;
+      pageData.formData.breast = null;
+      pageData.formData.mergeDrugs = "";
+      pageData.formData.radiationNumber = null;
+      pageData.formData.splitDose = "";
+      pageData.formData.totalDose = "";
+      pageData.formData.radiationInducedReaction = "";
+    }
+  }
+);
 // 监听控制值的变化，当值不为1时清空对应的表单项
 watch(
   () => pageData.formData.ultrasoundAbnormal,
@@ -182,6 +233,18 @@ const open = (
     headMrAbnormalResult: "",
     boneScanAbnormal: 0,
     boneScanAbnormalResult: "",
+    // 新增字段
+    radiationTreatment: 0, // 是否进行放射治疗
+    radiationRange: null, // 放射范围
+    chestWall: null, // 胸壁
+    supraclavicular: null, // 锁骨上
+    armpit: null, // 腋窝
+    breast: null, // 乳房
+    mergeDrugs: "", // 合并药物
+    radiationNumber: null, // 放疗次数
+    splitDose: "", // 分割剂量
+    totalDose: "", // 总剂量
+    radiationInducedReaction: "", // 急性放射性皮肤反应
     scaleRating: null,
     isChangeTreatmentPlan: null,
     currentTreatmentPlan: "",
@@ -201,9 +264,6 @@ const open = (
     pageData.formData.patientId = patientId;
   }
   pageData.dataSource = dataSource;
-  console.log(data);
-  console.log(pageData.dataSource);
-  console.log(flags);
   pageData.title = title || "新增随访记录";
   pageData.isUpdate = true;
   // pageData.isUpdate = !!pageData.formData.id;
@@ -574,6 +634,132 @@ defineOptions({ name: "RoleEdit" });
               v-model="pageData.formData.boneScanAbnormalResult"
               clearable
               placeholder="请输入异常结果"
+              style="width: 70%"
+            />
+          </el-form-item>
+        </template>
+        <el-form-item label="是否进行放射治疗" prop="radiationTreatment">
+          <el-select
+            v-model="pageData.formData.radiationTreatment"
+            clearable
+            placeholder="请选择是否进行放射治疗"
+            style="width: 70%"
+          >
+            <el-option label="是" :value="1" />
+            <el-option label="否" :value="0" />
+          </el-select>
+        </el-form-item>
+
+        <!-- 放射治疗相关字段,仅在选择"是"时显示 -->
+        <template v-if="showRadiationFields">
+          <el-form-item label="放射范围" prop="radiationRange">
+            <el-select
+              v-model="pageData.formData.radiationRange"
+              clearable
+              placeholder="请选择"
+              style="width: 70%"
+            >
+              <el-option label="有" :value="1" />
+              <el-option label="无" :value="0" />
+            </el-select>
+          </el-form-item>
+
+          <template v-if="showradiationRange">
+            <el-form-item label="胸壁" prop="chestWall">
+              <el-select
+                v-model="pageData.formData.chestWall"
+                clearable
+                placeholder="请选择"
+                style="width: 70%"
+              >
+                <el-option label="有" :value="1" />
+                <el-option label="无" :value="0" />
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="锁骨上" prop="supraclavicular">
+              <el-select
+                v-model="pageData.formData.supraclavicular"
+                clearable
+                placeholder="请选择"
+                style="width: 70%"
+              >
+                <el-option label="有" :value="1" />
+                <el-option label="无" :value="0" />
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="腋窝" prop="armpit">
+              <el-select
+                v-model="pageData.formData.armpit"
+                clearable
+                placeholder="请选择"
+                style="width: 70%"
+              >
+                <el-option label="有" :value="1" />
+                <el-option label="无" :value="0" />
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="乳房" prop="breast">
+              <el-select
+                v-model="pageData.formData.breast"
+                clearable
+                placeholder="请选择"
+                style="width: 70%"
+              >
+                <el-option label="有" :value="1" />
+                <el-option label="无" :value="0" />
+              </el-select>
+            </el-form-item>
+          </template>
+
+          <el-form-item label="合并药物" prop="mergeDrugs">
+            <el-input
+              v-model="pageData.formData.mergeDrugs"
+              clearable
+              type="textarea"
+              placeholder="请输入合并药物"
+              style="width: 70%"
+            />
+          </el-form-item>
+
+          <el-form-item label="放疗次数" prop="radiationNumber">
+            <el-input-number
+              v-model="pageData.formData.radiationNumber"
+              :min="0"
+              placeholder="请输入放疗次数"
+              style="width: 70%"
+            />
+          </el-form-item>
+
+          <el-form-item label="分割剂量" prop="splitDose">
+            <el-input
+              v-model="pageData.formData.splitDose"
+              clearable
+              placeholder="请输入分割剂量"
+              style="width: 70%"
+            />
+          </el-form-item>
+
+          <el-form-item label="总剂量" prop="totalDose">
+            <el-input
+              v-model="pageData.formData.totalDose"
+              clearable
+              placeholder="请输入总剂量"
+              style="width: 70%"
+            />
+          </el-form-item>
+
+          <el-form-item
+            label="急性放射性皮肤反应"
+            prop="radiationInducedReaction"
+          >
+            <el-input
+              v-model="pageData.formData.radiationInducedReaction"
+              clearable
+              type="textarea"
+              placeholder="请输入急性放射性皮肤反应"
               style="width: 70%"
             />
           </el-form-item>

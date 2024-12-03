@@ -1009,6 +1009,16 @@ const loadRadiationData = (id: number) => {
           clinicalResearchDetails: radiationData.clinicalResearchDetails,
           treatmentPlan: radiationData.treatmentPlan,
           treatmentLocation: radiationData.treatmentLocation,
+          radiationRange: radiationData.radiationRange,
+          chestWall: radiationData.chestWall,
+          supraclavicular: radiationData.supraclavicular,
+          armpit: radiationData.armpit,
+          breast: radiationData.breast,
+          mergeDrugs: radiationData.mergeDrugs,
+          radiationNumber: radiationData.radiationNumber,
+          splitDose: radiationData.splitDose,
+          totalDose: radiationData.totalDose,
+          radiationInducedReaction: radiationData.radiationInducedReaction,
           inputStatus: radiationData.inputStatus
         };
 
